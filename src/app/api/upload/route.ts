@@ -1,13 +1,15 @@
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 
-const MAX_BYTES = 25 * 1024 * 1024;
+const MAX_BYTES = 10 * 1024 * 1024;
 const ALLOWED = ["image/jpeg", "image/png", "image/webp", "video/mp4", "video/quicktime"];
 
 /**
  * Browsers upload straight to Blob storage — a serverless function body caps
- * out around 4.5MB, so routing a 25MB video through the action would fail.
- * This route only mints a short-lived, constrained token.
+ * out around 4.5MB, so routing a 10MB video through the action would fail.
+ * This route only mints a short-lived, constrained token. The size cap has to
+ * be enforced here as well as in the form: the form's check is a courtesy, this
+ * one is the boundary.
  */
 export async function POST(request: Request) {
   const body = (await request.json()) as HandleUploadBody;

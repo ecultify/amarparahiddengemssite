@@ -3,10 +3,12 @@
 import { useActionState, useState } from "react";
 import { upload } from "@vercel/blob/client";
 import { UploadCloud } from "@/components/ui/icons";
-import { CATEGORIES } from "@/lib/tokens";
+import { SUBMISSION_CATEGORIES } from "@/lib/tokens";
 import { submitGem, type SubmitState } from "@/app/actions/submissions";
 
-const STEPS = ["Your Para", "Your Gem"];
+const STEPS = ["Your Para", "Your Gem", "Photo / Video"];
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 const FIELD =
   "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[15px] text-navy placeholder:text-slate focus:border-pink focus:outline-none";
@@ -17,7 +19,7 @@ function Label({ children }: { children: React.ReactNode }) {
 
 type Upload = { url: string; name: string; type: "image" | "video" };
 
-/** form-card — Figma 95:341. Two steps; uploads go straight to blob storage. */
+/** form-card — Figma 95:341. Three steps; uploads go straight to blob storage. */
 export function SubmissionForm() {
   const [step, setStep] = useState(0);
   const [file, setFile] = useState<Upload | null>(null);
@@ -29,6 +31,11 @@ export function SubmissionForm() {
     const picked = event.target.files?.[0];
     if (!picked) return;
     setUploadError(null);
+    if (picked.size > MAX_UPLOAD_BYTES) {
+      setUploadError("That file is over the 10 MB limit.");
+      event.target.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const blob = await upload(picked.name, picked, {
@@ -41,9 +48,11 @@ export function SubmissionForm() {
         type: picked.type.startsWith("video") ? "video" : "image",
       });
     } catch {
-      setUploadError("That file couldn't be uploaded. JPG, PNG or MP4 up to 25MB.");
+      setUploadError("That file couldn't be uploaded. JPG, PNG or MP4 up to 10 MB.");
     } finally {
       setUploading(false);
+      // Let the same file be re-picked after a remove.
+      event.target.value = "";
     }
   }
 
@@ -88,16 +97,16 @@ export function SubmissionForm() {
         </div>
       </div>
 
-      {/* Step 1 stays mounted so its values still post with the form. */}
+      {/* Every step stays mounted so all values still post with the form. */}
       <div className={step === 0 ? "contents" : "hidden"}>
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Name Your Para</Label>
-          <input name="para" className={FIELD} placeholder="e.g. Bagbazar, Shyambazar, Ballygunge..." />
+          <Label>Para Location</Label>
+          <input name="location" className={FIELD} placeholder="Enter the area or locality" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Location</Label>
-          <input name="location" className={FIELD} placeholder="e.g. Bagbazar, Shyambazar, Ballygunge..." />
+          <Label>Para Name</Label>
+          <input name="para" className={FIELD} placeholder="e.g. Bagbazar, Shyambazar, Ballygunge" />
         </label>
 
         <div className="flex w-full justify-center pt-2">
@@ -113,17 +122,12 @@ export function SubmissionForm() {
 
       <div className={step === 1 ? "contents" : "hidden"}>
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Name Your Hidden Gem</Label>
-          <input name="title" className={FIELD} placeholder="e.g. Paramount Sherbets, Mallick Ghat..." />
-        </label>
-
-        <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Category</Label>
+          <Label>Gem Category</Label>
           <select name="category" className={FIELD} defaultValue="">
             <option value="" disabled>
-              Choose a category...
+              Select a category
             </option>
-            {CATEGORIES.map((category) => (
+            {SUBMISSION_CATEGORIES.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -132,39 +136,97 @@ export function SubmissionForm() {
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
+          <Label>Hidden Gem&apos;s Name</Label>
+          <input name="title" className={FIELD} placeholder="Enter the name of the place" />
+        </label>
+
+        <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
           <Label>Describe Your Hidden Gem</Label>
           <textarea
             name="description"
             rows={5}
             className="h-[140px] w-full resize-none rounded-[8px] border border-line bg-white p-4 font-body text-[15px] leading-[1.5] text-navy placeholder:text-slate focus:border-pink focus:outline-none"
-            placeholder="Share the story of your para — what makes this place special? Tell us about a hidden sweet shop, a forgotten lane, a legendary adda spot, or an unsung local hero..."
+            placeholder="Tell us what makes this gem special, why it matters to your para, and what others in Kolkata should know about it."
           />
         </label>
 
+        <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
+          <button
+            type="button"
+            onClick={() => setStep(0)}
+            className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            onClick={() => setStep(2)}
+            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_var(--color-navy)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-navy)] sm:w-[300px]"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div className={step === 2 ? "contents" : "hidden"}>
+
         <div className="flex w-full max-w-[440px] flex-col items-center gap-3">
           <Label>Upload Photo / Video</Label>
-          <label className="flex w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-[12px] border-2 border-dashed border-pink bg-cream/30 p-6 text-center sm:p-8">
-            <input
-              type="file"
-              accept="image/jpeg,image/png,video/mp4"
-              className="sr-only"
-              onChange={handleFile}
-            />
-            <span className="flex size-12 items-center justify-center rounded-full bg-pink/8 text-pink">
-              <UploadCloud />
-            </span>
-            <span className="font-display text-[18px] font-extrabold text-navy">
-              {uploading ? "Uploading…" : (file?.name ?? "Share Your Memory")}
-            </span>
-            <span className="w-full max-w-[400px] font-body text-[14px] text-slate">
-              {file
-                ? "Uploaded. Pick another file to replace it."
-                : "Drag & drop or click to upload photos or videos (max 25MB)"}
-            </span>
-            <span className="font-ui text-[11px] font-bold uppercase text-slate/60">
-              Supported formats: JPG, PNG, MP4
-            </span>
-          </label>
+          {file ? (
+            /* Not a <label>: wrapping this in one would make the Remove button
+               re-open the file picker on the way back up. */
+            <div className="flex w-full items-center gap-3 rounded-[12px] border-2 border-dashed border-pink bg-cream/30 p-4">
+              {file.type === "video" ? (
+                <video
+                  src={file.url}
+                  muted
+                  playsInline
+                  className="size-16 shrink-0 rounded-[8px] object-cover"
+                />
+              ) : (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={file.url}
+                  alt={file.name}
+                  className="size-16 shrink-0 rounded-[8px] object-cover"
+                />
+              )}
+              <span className="min-w-0 flex-1 truncate text-left font-display text-[15px] font-bold text-navy">
+                {file.name}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setFile(null);
+                  setUploadError(null);
+                }}
+                className="shrink-0 rounded-[6px] border border-line px-3 py-2 font-display text-[13px] font-bold text-navy hover:border-pink hover:text-pink"
+              >
+                Remove
+              </button>
+            </div>
+          ) : (
+            <label className="flex w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-[12px] border-2 border-dashed border-pink bg-cream/30 p-6 text-center sm:p-8">
+              <input
+                type="file"
+                accept="image/jpeg,image/png,video/mp4"
+                className="sr-only"
+                onChange={handleFile}
+              />
+              <span className="flex size-12 items-center justify-center rounded-full bg-pink/8 text-pink">
+                <UploadCloud />
+              </span>
+              <span className="font-display text-[18px] font-extrabold text-navy">
+                {uploading ? "Uploading…" : "Add a Photo or Video"}
+              </span>
+              <span className="w-full max-w-[400px] font-body text-[14px] text-slate">
+                Help us see your hidden gem. Upload an original photo or video, if available.
+              </span>
+              <span className="font-ui text-[11px] font-bold uppercase text-slate/60">
+                Supported formats: JPG, PNG, MP4 | Max file size: 10 MB
+              </span>
+            </label>
+          )}
           {uploadError ? (
             <p className="w-full text-left font-body text-[13px] text-red">{uploadError}</p>
           ) : null}
@@ -181,7 +243,7 @@ export function SubmissionForm() {
         <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
           <button
             type="button"
-            onClick={() => setStep(0)}
+            onClick={() => setStep(1)}
             className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
           >
             Back
