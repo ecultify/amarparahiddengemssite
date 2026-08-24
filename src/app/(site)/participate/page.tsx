@@ -160,15 +160,12 @@ export default async function ParticipatePage() {
               <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
                 Step-by-step Guide
               </p>
-              <p className="font-body text-[16px] leading-[26px] text-white sm:text-[18px] sm:leading-[28px]">
-                Add your para&apos;s hidden gem to TOI&apos;s Amar Para collection and be credited for
-                the discovery.
-              </p>
               <h2 className="font-title text-[42px] leading-tight font-black text-white sm:text-[50px] lg:text-[58px]">
                 How to Participate
               </h2>
               <p className="font-body text-[16px] leading-[26px] text-white sm:text-[18px] sm:leading-[28px]">
-                Put your para&apos;s hidden gem in TOI Kolkata&apos;s in three simple steps.
+                Add your para&apos;s hidden gem to TOI&apos;s Amar Para collection and be credited for
+                the discovery.
               </p>
             </div>
 
