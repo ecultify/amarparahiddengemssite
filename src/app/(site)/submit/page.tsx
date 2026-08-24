@@ -44,7 +44,7 @@ export default async function SubmitPage() {
             form card's right border (card spans 50%-313px .. 50%+313px). */}
         <Asset
           src={IMG.accentKiteCreator}
-          className="pointer-events-none hidden lg:block absolute top-[600px] left-[calc(50%+313px)] h-[153px] w-[119px] object-contain opacity-85"
+          className="pointer-events-none hidden lg:block absolute top-[600px] left-[calc(50%+313px)] h-[153px] w-[119px] scale-x-[-1] object-contain opacity-85"
         />
         <Asset
           src={SUBMIT_ACCENT.golfCart}

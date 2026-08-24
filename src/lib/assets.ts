@@ -59,7 +59,7 @@ export const PARTICIPATE_ACCENT = {
   saxophone: "/images/participate/saxophone.png", // 178:250
   /** Opaque on purpose: the Figma matte is exactly bg-cream, and knocking
    *  it out ate the plate rim. */
-  plate: "/images/participate/plate.png", // 185:3
+  plate: "/participate-mishti-plate.png", // hand-supplied, not from figma sync
   tower: "/images/participate/tower.png", // 178:234
   kingfisher: "/images/participate/kingfisher.png", // 164:42
   /** Green caddie that stands on the headline full stop. */
@@ -85,7 +85,7 @@ export const SUBMIT_ACCENT = {
   flowers: "/images/submit/flowers.png", // 178:258
   saxophone: "/images/submit/sax-s.png", // 178:260
   golfBag: "/images/submit/bluefig.png", // 178:215
-  coffee: "/images/submit/cup.png", // 178:282
+  coffee: "/submit-coffee-cup.png", // hand-supplied, not from figma sync
   fishPlate: "/images/submit/kite-s.png", // 178:271
   golfCart: "/images/submit/cart.png", // 178:142
   kite: "/images/submit/kitetri.png", // 178:210 (rotated 26.59deg in Figma)

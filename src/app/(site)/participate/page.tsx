@@ -132,15 +132,11 @@ export default async function ParticipatePage() {
 
       {/* Section-How-To-Participate — Figma 95:46 */}
       <div className="relative w-full">
-      {/* "Frame 1" — a brutalist pair straddling the section edge. The faint
-          red wash 178:26 (rgba(233,78,119,.73), x=887 y=605, 117x72) starts
-          1px below the green top; the panel 178:17 (x=898 y=583, 115x83) is
-          offset up-right over it and rises 21px into the hero. Both sit
-          outside the clip so that overhang survives. */}
-      <span
-        aria-hidden
-        className="pointer-events-none hidden lg:block absolute top-[1px] left-[calc(50%+167px)] z-10 h-[72px] w-[117px] bg-[rgba(233,78,119,0.73)]"
-      />
+      {/* "Frame 1" 178:17 — a brutalist panel straddling the section edge,
+          rising 21px into the hero. Sits outside the clip so that overhang
+          survives. The PNG already carries its own offset red wash, so the
+          separate 178:26 span that used to sit behind it stacked a third
+          layer and was removed. */}
       <Asset
         src={PARTICIPATE_ACCENT.dancers}
         className="pointer-events-none hidden lg:block absolute top-[-21px] left-[calc(50%+178px)] z-20 h-[83px] w-[115px] object-contain"
