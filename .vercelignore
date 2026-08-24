@@ -1,0 +1,15 @@
+# Build artifacts / deps (Vercel installs and builds these itself)
+node_modules
+.next
+
+# Local tooling scratch
+.figma-tmp
+.oauth-tmp
+_to_delete
+
+# Source design files — not needed by the build (~35 MB)
+*.psd
+amar-para-homepage - final.png
+entry-submission-page.png
+gallery-page-final.png
+submit-your-gem-final.png

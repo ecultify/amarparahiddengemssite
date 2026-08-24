@@ -1,0 +1,18 @@
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*
+!.env.example
+next-env.d.ts
+tsconfig.tsbuildinfo
+# Downloaded from Figma via `npm run assets` — not committed.
+public/images/*
+!public/images/.gitkeep
+.vercel
+.env*.local
+.oauth-tmp/
+.figma-tmp/
