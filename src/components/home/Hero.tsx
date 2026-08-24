@@ -12,7 +12,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
 export function Hero({ gemCount }: { gemCount: { discovered: number; total: number } }) {
   return (
     <section className="relative w-full overflow-hidden bg-cream">
-      <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-5 py-12 md:px-10 lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,580px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
+      <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-5 pt-3 pb-12 md:px-10 lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,580px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
         <div className="flex flex-col">
           <h1 className="font-title text-[44px] leading-[0.88] font-black text-navy uppercase sm:text-[64px] lg:text-[86px]">
             Finding 500 Gems
