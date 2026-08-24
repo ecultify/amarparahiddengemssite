@@ -25,13 +25,13 @@ const SOCIALS = [
 export function SiteFooter() {
   return (
     <>
-      {/* "i am Kolkata" sits on a cream division of its own between the last
-          section and the pink footer. On pages whose last section is already
-          cream this reads as continuous; on the submission page it is the white
-          break the design puts under the cyan, and it is what gives the
-          overhanging playground somewhere to stand. Height is set so that
-          170px-tall overhang clears the footer. */}
-      <div className="relative z-10 w-full bg-cream py-10">
+      {/* "i am Kolkata" sits *inside* the tail of whatever comes last rather
+          than on a band of its own, so no strip of page background opens up
+          between that section and the footer. The submission page's cyan
+          section supplies its own cream division for this to land on. */}
+      {/* The pull-up has to stay inside the preceding section's bottom padding,
+          which is 64px on mobile against 100px+ from lg up. */}
+      <div className="relative z-10 -mt-[56px] w-full lg:-mt-[102px]">
         <div className="mx-auto max-w-[1440px] px-5 pb-2 md:px-10 lg:px-20">
           {/* Figma 49:2160 sets the box at x=100, 20px past the 80px gutter. */}
           <Asset

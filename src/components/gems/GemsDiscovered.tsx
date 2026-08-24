@@ -154,6 +154,10 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
         </div>
       </div>
     </section>
+      {/* The design breaks the cyan with a cream division before the footer.
+          172px is the playground's overhang, and it leaves the footer's
+          102px "i am Kolkata" pull-up sitting on cream rather than on cyan. */}
+      {theme === "cyan" ? <div className="h-[172px] w-full bg-cream" /> : null}
     </div>
   );
 }
