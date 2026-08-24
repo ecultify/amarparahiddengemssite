@@ -57,7 +57,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
       {theme === "cyan" ? (
         <Asset
           src={IMG.gemsPlayground}
-          className="pointer-events-none hidden lg:block absolute right-[24px] bottom-0 z-10 h-[172px] w-[165px] object-contain"
+          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[172px] w-[165px] object-contain"
         />
       ) : null}
     <section className={`relative w-full overflow-hidden ${tone.section} pt-[53px] pb-[80px]`}>
@@ -74,7 +74,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           {/* Heron 95:x — top right, tucked 5px in from the canvas edge. */}
           <Asset
             src={IMG.gemsHeron}
-            className="pointer-events-none hidden lg:block absolute top-[121px] right-[5px] h-[140px] w-[134px] object-contain"
+            className="pointer-events-none hidden lg:block absolute top-[121px] right-0 h-[140px] w-[134px] object-contain"
           />
           {/* Derozio statue standing at the cyan floor, bottom left. */}
           <Asset
