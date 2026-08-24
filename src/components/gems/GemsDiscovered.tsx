@@ -132,7 +132,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
             type="button"
             aria-label="Previous gems"
             onClick={() => scroll(-1)}
-            className={`hidden size-12 shrink-0 items-center justify-center rounded-full border-2 bg-white lg:flex ${tone.arrow}`}
+            className={`icon-btn hidden size-12 shrink-0 items-center justify-center rounded-full border-2 bg-white lg:flex ${tone.arrow}`}
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -147,7 +147,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
             type="button"
             aria-label="Next gems"
             onClick={() => scroll(1)}
-            className={`hidden size-12 shrink-0 items-center justify-center rounded-full border-2 bg-white lg:flex ${tone.arrow}`}
+            className={`icon-btn hidden size-12 shrink-0 items-center justify-center rounded-full border-2 bg-white lg:flex ${tone.arrow}`}
           >
             <ChevronRight className="size-5" />
           </button>

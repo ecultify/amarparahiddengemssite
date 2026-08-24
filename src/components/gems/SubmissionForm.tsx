@@ -11,7 +11,7 @@ const STEPS = ["Your Para", "Your Gem", "Photo / Video"];
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 const FIELD =
-  "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[15px] text-navy placeholder:text-slate focus:border-pink focus:outline-none";
+  "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[16px] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink";
 
 function Label({ children }: { children: React.ReactNode }) {
   return <span className="w-full text-left font-display text-[16px] font-bold text-navy">{children}</span>;
@@ -113,7 +113,7 @@ export function SubmissionForm() {
           <button
             type="button"
             onClick={() => setStep(1)}
-            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_var(--color-navy)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-navy)] sm:w-[300px]"
+            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
           >
             Next
           </button>
@@ -145,7 +145,7 @@ export function SubmissionForm() {
           <textarea
             name="description"
             rows={5}
-            className="h-[140px] w-full resize-none rounded-[8px] border border-line bg-white p-4 font-body text-[15px] leading-[1.5] text-navy placeholder:text-slate focus:border-pink focus:outline-none"
+            className="h-[140px] w-full resize-none rounded-[8px] border border-line bg-white p-4 font-body text-[16px] leading-[1.5] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink"
             placeholder="Tell us what makes this gem special, why it matters to your para, and what others in Kolkata should know about it."
           />
         </label>
@@ -161,7 +161,7 @@ export function SubmissionForm() {
           <button
             type="button"
             onClick={() => setStep(2)}
-            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_var(--color-navy)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-navy)] sm:w-[300px]"
+            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
           >
             Next
           </button>
@@ -200,7 +200,7 @@ export function SubmissionForm() {
                   setFile(null);
                   setUploadError(null);
                 }}
-                className="shrink-0 rounded-[6px] border border-line px-3 py-2 font-display text-[13px] font-bold text-navy hover:border-pink hover:text-pink"
+                className="icon-btn shrink-0 rounded-[6px] border border-line px-3 py-2 font-display text-[13px] font-bold text-navy"
               >
                 Remove
               </button>
@@ -251,7 +251,7 @@ export function SubmissionForm() {
           <button
             type="submit"
             disabled={pending || uploading}
-            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_var(--color-navy)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-navy)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-[300px]"
+            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
           >
             {pending ? "Sending…" : "Submit your gem"}
           </button>

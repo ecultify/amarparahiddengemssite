@@ -38,8 +38,6 @@ export function Button3D({
       className={[
         "inline-flex items-center justify-center rounded-[4px]",
         "font-display font-extrabold uppercase tracking-[0.01em]",
-        "hover:-translate-y-[2px] hover:shadow-[6px_6px_0_0_var(--color-navy)]",
-        "active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-navy)]",
         SIZES[size],
         VARIANTS[variant],
         className,

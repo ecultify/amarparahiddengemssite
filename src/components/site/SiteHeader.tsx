@@ -71,15 +71,19 @@ export function SiteHeader() {
                 className="flex flex-col items-start justify-center gap-1"
               >
                 <span
-                  className={
+                  className={`font-ui text-[15px] transition-colors duration-150 ${
                     active
-                      ? "font-ui text-[15px] font-extrabold text-red"
-                      : "font-ui text-[15px] font-semibold text-navy hover:text-red"
-                  }
+                      ? "font-extrabold text-red"
+                      : "font-semibold text-navy hover:text-red"
+                  }`}
                 >
                   {item.label}
                 </span>
-                {active ? <span className="h-[2px] w-4 rounded-[1px] bg-red" /> : null}
+                <span
+                  className={`h-[2px] w-4 rounded-[1px] transition-colors duration-150 ${
+                    active ? "bg-red" : "bg-transparent"
+                  }`}
+                />
               </Link>
             );
           })}

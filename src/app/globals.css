@@ -98,6 +98,43 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Motion tokens. The built-in `ease` / `ease-in-out` curves are limp; these
+   are the ones with enough bite to read as intentional at short durations.
+   --ease-out for anything the user just triggered, --ease-in-out for something
+   already on screen moving from A to B. */
+@theme {
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Nothing below this line is load-bearing: every transition is decoration on
+   top of a state change that already happened. So when the OS asks for less
+   motion, cut all of it rather than trying to tune each one down. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* A visible keyboard ring, once, for everything. Pointer users never see it —
+   :focus-visible only fires for keyboard and other non-pointer input — so
+   there is no reason for individual components to opt out. */
+:focus-visible {
+  /* No border-radius here — outline already follows the element's own radius,
+     and setting one would square off the round carousel arrows on focus. */
+  outline: 2px solid var(--color-pink);
+  outline-offset: 2px;
+}
+
 body {
   overflow-x: hidden;
   background: var(--color-cream);
@@ -106,11 +143,70 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The 3D press-button used across every CTA in the design:
-   solid yellow fill, hard navy offset shadow, no blur. */
+/* The 3D press-button used across every CTA in the design: solid fill, hard
+   navy offset shadow, no blur.
+
+   Lift and press live here rather than on each caller. They used to be
+   repeated as utility strings on Button3D and again inline on all three form
+   buttons, which is how they drifted. Never `transition: all` — that would
+   sweep up colour and outline too, and a focus ring that fades in is a focus
+   ring that reads as lag. */
 @utility btn-3d {
   box-shadow: 4px 4px 0 0 var(--color-navy);
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition:
+    transform 150ms var(--ease-out-quart),
+    box-shadow 150ms var(--ease-out-quart);
+
+  /* Hover only where a pointer can actually hover. On touch, :hover sticks
+     after the tap and the button stays lifted until you touch elsewhere. */
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 6px 6px 0 0 var(--color-navy);
+    }
+  }
+
+  /* Press wins over hover, and applies to touch too: this is the only
+     feedback a tap gets. 80ms so the button is already down by the time the
+     finger registers it as pressed. */
+  &:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--color-navy);
+    transition-duration: 80ms;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+/* Round icon buttons — the carousel arrows. 44px is the minimum comfortable
+   touch target; below that a thumb misses it. */
+@utility icon-btn {
+  transition:
+    background-color 150ms var(--ease-out-quart),
+    border-color 150ms var(--ease-out-quart),
+    color 150ms var(--ease-out-quart),
+    transform 150ms var(--ease-out-quart);
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      border-color: var(--color-pink);
+      color: var(--color-pink);
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.92);
+    transition-duration: 80ms;
+  }
+
+  /* Not just faded: a disabled arrow should stop looking clickable. */
+  &:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
 }
 
 /* Hide scrollbars on the horizontal carousels while keeping them scrollable. */

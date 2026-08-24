@@ -67,7 +67,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
             type="button"
             aria-label="Previous gems"
             onClick={() => scrollBy(-1)}
-            className="flex size-10 items-center justify-center rounded-full border border-line bg-white text-navy disabled:opacity-40"
+            className="icon-btn flex size-11 items-center justify-center rounded-full border border-line bg-white text-navy"
             disabled={page === 0}
           >
             <ChevronLeft />
@@ -76,7 +76,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
             type="button"
             aria-label="Next gems"
             onClick={() => scrollBy(1)}
-            className="flex size-10 items-center justify-center rounded-full border border-line bg-white text-navy disabled:opacity-40"
+            className="icon-btn flex size-11 items-center justify-center rounded-full border border-line bg-white text-navy"
             disabled={page >= pages - 1}
           >
             <ChevronRight />
