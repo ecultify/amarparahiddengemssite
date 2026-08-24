@@ -9,9 +9,9 @@ npm-debug.log*
 !.env.example
 next-env.d.ts
 tsconfig.tsbuildinfo
-# Downloaded from Figma via `npm run assets` — not committed.
-public/images/*
-!public/images/.gitkeep
+# public/images IS committed. The Figma URLs in figma-assets.json expire, and
+# several assets (logo, hero carousel) never came from Figma at all — leaving
+# these untracked means CI/Vercel builds ship a site with no images.
 .vercel
 .env*.local
 .oauth-tmp/
