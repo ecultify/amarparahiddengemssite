@@ -29,7 +29,7 @@ export function HeroCarousel() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative aspect-square w-full max-w-[680px]">
+      <div className="relative aspect-square w-full max-w-[680px] lg:max-w-[740px]">
         {IMG.heroSlides.map((src, i) => (
           <Asset
             key={src}

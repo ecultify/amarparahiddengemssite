@@ -49,12 +49,14 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
         </div>
 
         {/* Collage leads on mobile, sits in the right column from lg up.
-            self-start pins its top to the section's 100px padding line, which
-            clears the 88px header so it stops just under the nav CTA instead of
-            floating in the middle. Reclaiming the right gutter widens the
-            column, and since the collage is square that is what makes it grow
-            upward rather than just move up. */}
-        <div className="order-first w-full lg:order-none lg:-mr-20 lg:self-start">
+            The header is sticky, so it takes 88px of flow and the section's
+            100px top padding pushed the collage a further 100px down. Pulling
+            that padding back off this one column lands its top on the header's
+            bottom edge, just under the nav CTA. Reclaiming the right gutter
+            then widens the column by about as much as the top gained, and since
+            the collage is square that is what keeps the bottom edge put — it
+            grows upward instead of just sliding up. */}
+        <div className="order-first w-full lg:order-none lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[110px]">
           <HeroCarousel />
         </div>
       </div>
