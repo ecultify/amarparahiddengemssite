@@ -52,13 +52,12 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
 
   return (
     <div className="relative w-full">
-      {/* Figma: the playground stands in the cream division below the cyan,
-          clipping its own top against the section floor. Outside the section
-          so overflow-hidden does not eat the overhang. */}
+      {/* The playground stands in the cream division below the cyan, so it is
+          anchored to the wrapper floor — the division's own bottom edge. */}
       {theme === "cyan" ? (
         <Asset
           src={IMG.gemsPlayground}
-          className="pointer-events-none hidden lg:block absolute right-[5px] bottom-[-172px] z-10 h-[175px] w-[168px] object-contain"
+          className="pointer-events-none hidden lg:block absolute right-[24px] bottom-0 z-10 h-[172px] w-[165px] object-contain"
         />
       ) : null}
     <section className={`relative w-full overflow-hidden ${tone.section} pt-[53px] pb-[80px]`}>
@@ -76,6 +75,11 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           <Asset
             src={IMG.gemsHeron}
             className="pointer-events-none hidden lg:block absolute top-[121px] right-[5px] h-[140px] w-[134px] object-contain"
+          />
+          {/* Derozio statue standing at the cyan floor, bottom left. */}
+          <Asset
+            src={PARTICIPATE_ACCENT.statue}
+            className="pointer-events-none hidden lg:block absolute bottom-[20px] left-[24px] z-10 h-[260px] w-[107px] object-contain"
           />
           {/* Pale streaks sitting in the gap above the first gem card. */}
           <Asset
