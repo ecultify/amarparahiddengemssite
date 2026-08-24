@@ -51,6 +51,16 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
     trackRef.current?.scrollBy({ left: direction * CARD_STRIDE, behavior: "smooth" });
 
   return (
+    <div className="relative w-full">
+      {/* Figma: the playground stands in the cream division below the cyan,
+          clipping its own top against the section floor. Outside the section
+          so overflow-hidden does not eat the overhang. */}
+      {theme === "cyan" ? (
+        <Asset
+          src={IMG.gemsPlayground}
+          className="pointer-events-none hidden lg:block absolute right-[5px] bottom-[-172px] z-10 h-[175px] w-[168px] object-contain"
+        />
+      ) : null}
     <section className={`relative w-full overflow-hidden ${tone.section} pt-[53px] pb-[80px]`}>
       {/* Kite mirrored onto the left wall. The box uses the PNG's own 0.778
           aspect so object-contain adds no letterbox, and the mirror puts the
@@ -60,6 +70,20 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
         src={IMG.accentKiteCreator}
         className={`pointer-events-none hidden lg:block absolute ${tone.kite} left-0 h-[153px] w-[119px] scale-x-[-1] object-contain opacity-85`}
       />
+      {theme === "cyan" ? (
+        <>
+          {/* Heron 95:x — top right, tucked 5px in from the canvas edge. */}
+          <Asset
+            src={IMG.gemsHeron}
+            className="pointer-events-none hidden lg:block absolute top-[121px] right-[5px] h-[140px] w-[134px] object-contain"
+          />
+          {/* Pale streaks sitting in the gap above the first gem card. */}
+          <Asset
+            src={IMG.gemsStreaks}
+            className="pointer-events-none hidden lg:block absolute top-[209px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
+          />
+        </>
+      ) : null}
       {theme === "cream" ? (
         <>
           {/* Figma 178:166 — kite trailing its string, at (472, 83) 682x403. */}
@@ -130,5 +154,6 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
         </div>
       </div>
     </section>
+    </div>
   );
 }

@@ -24,6 +24,11 @@ export const IMG = {
   accentAutoRickshaw: "/images/accent-auto-rickshaw.png",
   accentHeritageWatermark: "/images/accent-heritage-watermark.png",
 
+  /** Gems Already Discovered accents — hand-supplied, not from figma sync. */
+  gemsHeron: "/gems-heron.png",
+  gemsPlayground: "/gems-playground.png",
+  gemsStreaks: "/gems-streaks.png",
+
   logoToi: "/images/logo-toi.png",
   logoIAmKolkata: "/images/logo-i-am-kolkata.png",
   logoMark: "/images/logo-mark.svg",
