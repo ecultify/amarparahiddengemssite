@@ -69,7 +69,7 @@ export const PARTICIPATE_ACCENT = {
   dancers: "/images/participate/dancers.png", // 178:17
   /** Rotation (-29.3deg) is baked into the Figma render, so no CSS rotate. */
   dhol: "/images/participate/dhol.png", // 164:62
-  statue: "/images/participate/statue-p.png", // 178:226
+  statue: "/participate-statue.png", // 178:226 — hand-supplied, not from figma sync
   /** Kite trailing its string across the Gems block. */
   kiteString: "/images/participate/kitestring.png", // 178:166
   playground: "/images/participate/cityscape.png", // 164:68 (mix-blend-multiply)

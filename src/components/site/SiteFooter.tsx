@@ -52,8 +52,9 @@ export function SiteFooter() {
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
-            Amar Para 2.0 is a citizen-driven community initiative celebrating local stories,
-            neighborhoods, food stalls, and the unique, unmatched heritage of Kolkata.
+            Amar Para Hidden Gems is a citizen-led initiative by The Times of India, celebrating
+            the places, people and stories that define Kolkata&apos;s paras (neighbourhoods) and
+            bringing their lesser-known gems to a wider audience.
           </p>
 
           <div className="flex w-full flex-col gap-4 font-body text-[14px] text-white sm:flex-row sm:justify-between lg:w-[634px]">

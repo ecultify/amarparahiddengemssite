@@ -43,10 +43,10 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
           Articles &amp; Features
         </p>
         <h2 className="text-center font-title text-[40px] leading-tight font-black text-white sm:text-[46px] lg:text-[56px]">
-          Deep dives into Kolkata&apos;s most fascinating paras.
+          Deep into the fascinating stories behind the Gems
         </h2>
         <p className="max-w-[788px] text-center font-body text-[16px] text-body-muted">
-          Real people. Real memories. Authentic life snippets that breathe soul into the historic streets.
+          Discover the history, culture and people behind some of Kolkata&apos;s most interesting para finds.
         </p>
       </div>
 

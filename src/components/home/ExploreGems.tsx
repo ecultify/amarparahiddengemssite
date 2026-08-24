@@ -58,7 +58,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
           eyebrowClassName="text-yellow"
           title="Explore the Gems of Kolkata"
           titleClassName="text-white"
-          blurb="Sift through verified hidden spots, iconic sweet shops, legendary characters, and heritage architectural nooks documented by passionate citizens."
+          blurb="Submissions may come in these categories: Food & Mishti, Heritage & History, Culture & Craft, Green & Hidden Corners."
           blurbClassName="text-white"
         />
 

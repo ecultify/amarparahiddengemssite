@@ -30,10 +30,10 @@ export function CreatorTrails({ trails }: { trails: { image: string; caption: st
 
       <div className="relative mx-auto max-w-[1440px] px-5 md:px-10 lg:px-20">
         <SectionHeading
-          eyebrow="Follow the Walk"
+          eyebrow="Creator Discoveries"
           eyebrowClassName="text-pink"
-          title="Creator Trails"
-          blurb="Join celebrated filmmakers, writers, and artists as they explore secret corners and carve custom neighborhood trails."
+          title="Fresh Finds From the Paras"
+          blurb="See creators uncover lesser-known places, people and local favourites from across Kolkata."
         />
 
         <div className="no-scrollbar mt-10 flex h-[380px] gap-4 overflow-x-auto lg:mt-14">

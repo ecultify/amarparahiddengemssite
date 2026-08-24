@@ -14,18 +14,16 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
     <section className="relative w-full overflow-hidden bg-cream">
       <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-5 py-12 md:px-10 lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,660px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
         <div className="flex flex-col">
-          <h1 className="font-title text-[60px] leading-[0.88] font-black text-navy uppercase sm:text-[92px] lg:text-[144px]">
-            500 Gems.
+          <h1 className="font-title text-[44px] leading-[0.88] font-black text-navy uppercase sm:text-[64px] lg:text-[86px]">
+            Finding 500 Gems
             <br />
-            One Kolkata.
+            Across Kolkata&apos;s Paras.
           </h1>
 
           <p className="mt-6 max-w-[420px] font-body text-[16px] leading-[1.55] text-navy">
-            Every para has a story.
+            Every para has a gem only locals know about.
             <br />
-            Every story is a gem.
-            <br />
-            Help us discover 500 hidden gems of Kolkata.
+            Help us uncover 500 hidden gems across Kolkata.
           </p>
 
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-2">
