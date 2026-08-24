@@ -12,7 +12,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
 export function Hero({ gemCount }: { gemCount: { discovered: number; total: number } }) {
   return (
     <section className="relative w-full overflow-hidden bg-cream">
-      <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-5 py-12 md:px-10 lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,660px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
+      <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-5 py-12 md:px-10 lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,580px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
         <div className="flex flex-col">
           <h1 className="font-title text-[44px] leading-[0.88] font-black text-navy uppercase sm:text-[64px] lg:text-[86px]">
             Finding 500 Gems
@@ -55,8 +55,14 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             bottom edge, just under the nav CTA. Reclaiming the right gutter
             then widens the column by about as much as the top gained, and since
             the collage is square that is what keeps the bottom edge put — it
-            grows upward instead of just sliding up. */}
-        <div className="order-first w-full lg:order-none lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[110px]">
+            grows upward instead of just sliding up.
+
+            The left column is 580 rather than 660: the widest headline line
+            measures 515px in Bebas Kai at 86px, so that column was holding
+            145px it never used. Handing most of it over is free width for the
+            collage that does not risk overflowing the viewport, which is all
+            the right bleed can safely take below ~1700px. */}
+        <div className="order-first w-full lg:order-none lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[110px] 2xl:-mr-[130px]">
           <HeroCarousel />
         </div>
       </div>
