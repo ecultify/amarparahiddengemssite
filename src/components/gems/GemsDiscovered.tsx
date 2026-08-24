@@ -103,10 +103,10 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
         <div className="flex flex-col items-center gap-5">
           <div className="flex w-full flex-col items-center gap-3 text-center">
             <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-yellow">
-              Community Directory
+              Community Discoveries
             </p>
             <h2 className={`font-title text-[42px] leading-tight font-black sm:text-[50px] lg:text-[58px] ${tone.title}`}>
-              Gems Already Discovered
+              Hidden Gems Discovered So Far
             </h2>
           </div>
 

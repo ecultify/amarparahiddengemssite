@@ -3,6 +3,8 @@ export type Gem = {
   category: string;
   location: string;
   image: string;
+  /** Directory cards credit the citizen who submitted the gem. */
+  submittedBy?: string;
 };
 
 /** Explore the Gems carousel — homepage (Figma 49:1961). */
@@ -46,24 +48,28 @@ export const DISCOVERED_GEMS: Gem[] = [
     category: "Food",
     location: "College Street",
     image: "/images/gem-paramount.png",
+    submittedBy: "Souvik Banerjee",
   },
   {
     title: "Mallick Ghat Market",
     category: "Places",
     location: "Howrah Bridge",
     image: "/images/gem-mallick-ghat-2.png",
+    submittedBy: "Sagnik D.",
   },
   {
     title: "Kumartuli Idol Makers",
     category: "Traditions",
     location: "North Kolkata",
     image: "/images/gem-kumartuli-2.png",
+    submittedBy: "Rimi Sen",
   },
   {
     title: "Heritage Library",
     category: "Events",
     location: "Shyambazar",
     image: "/images/gem-heritage-library.png",
+    submittedBy: "Arpita B.",
   },
 ];
 

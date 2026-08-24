@@ -11,29 +11,29 @@ const STEPS = [
   {
     n: 1,
     Icon: User,
-    title: "Login",
-    body: "Sign in with SSO securely with your mobile number and one-time OTP verification.",
+    title: "Log in",
+    body: "Enter your mobile number and verify it using the OTP sent to you.",
   },
   {
     n: 2,
     Icon: MapPin,
-    title: "Share Your Gem",
-    body: "Tell us about your neighborhood's sweet shop, old building, custom, or unsung hero.",
+    title: "Share Your Hidden Gem",
+    body: "Tell us about a place, tradition or local favourite from your para that deserves to be known across Kolkata.",
   },
   {
     n: 3,
     Icon: Upload,
     title: "Upload & Submit",
-    body: "Attach a clear, stunning photograph or 30-sec video clip, then submit for TOI's review.",
+    body: "You may add a photo or video of your hidden gem to support your entry.",
   },
 ];
 
 const GUIDELINES = [
-  "Your gem must be a real place, street, food stall, building, or story from Kolkata.",
-  "Upload clear photos - avoid blurry, out-of-focus, or irrelevant stock images.",
-  "All entries are reviewed - only genuine, original citizen-led submissions will be published.",
-  "Be respectful and authentic - celebrate your para with genuine pride and verified local historical context.",
-  "Multiple submissions are welcome - explore and nominate all the cultural diamonds in your neighborhood!",
+  "Your hidden gem must be a real place, street, food stall, or building from Kolkata.",
+  "Upload clear, relevant photos or videos. Avoid blurry, out-of-focus or stock images.",
+  "All entries will be reviewed. Only genuine, original submissions that meet the campaign guidelines will be considered for publication.",
+  "Keep it respectful and authentic. Share accurate local context and celebrate your para with pride.",
+  "Multiple submissions are welcome. Nominate as many deserving hidden gems from your para as you like.",
 ];
 
 function Connector() {
@@ -117,9 +117,8 @@ export default async function ParticipatePage() {
               Share Your Para&apos;s Hidden Gem
             </p>
             <p className="w-full max-w-[937px] font-body text-[15px] leading-[26px] text-slate sm:text-[16px]">
-              Kolkata is a mosaic of untold stories, legendary sweet shops, heritage corners, and local
-              icons. Stand up for your neighborhood and place your para on the map. Log in with your
-              mobile number to begin.
+              You know your para better than anyone. Share a place, tradition or local favourite
+              that deserves to be known beyond your neighbourhood.
             </p>
           </div>
 
@@ -159,13 +158,17 @@ export default async function ParticipatePage() {
           <div className="flex w-full flex-col items-center gap-8">
             <div className="flex w-full max-w-[800px] flex-col items-center gap-3 text-center">
               <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
-                Step-by-step guide
+                Step-by-step Guide
+              </p>
+              <p className="font-body text-[16px] leading-[26px] text-white sm:text-[18px] sm:leading-[28px]">
+                Add your para&apos;s hidden gem to TOI&apos;s Amar Para collection and be credited for
+                the discovery.
               </p>
               <h2 className="font-title text-[42px] leading-tight font-black text-white sm:text-[50px] lg:text-[58px]">
                 How to Participate
               </h2>
               <p className="font-body text-[16px] leading-[26px] text-white sm:text-[18px] sm:leading-[28px]">
-                Put your neighborhood&apos;s legacy on Kolkata&apos;s mapping directory in three simple steps.
+                Put your para&apos;s hidden gem in TOI Kolkata&apos;s in three simple steps.
               </p>
             </div>
 

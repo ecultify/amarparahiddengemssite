@@ -25,9 +25,16 @@ export function GemCard({ gem, titleTone = "teal" }: Props) {
             {gem.title}
           </h3>
         </div>
-        <div className="flex items-center gap-2">
-          <MapPin className="size-4 shrink-0 text-pink" />
-          <span className="truncate font-ui text-[13px] font-semibold text-slate">{gem.location}</span>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <MapPin className="size-4 shrink-0 text-pink" />
+            <span className="truncate font-ui text-[13px] font-semibold text-slate">{gem.location}</span>
+          </div>
+          {gem.submittedBy ? (
+            <span className="truncate font-ui text-[12px] text-slate/80">
+              Uncovered by {gem.submittedBy}
+            </span>
+          ) : null}
         </div>
       </div>
     </article>

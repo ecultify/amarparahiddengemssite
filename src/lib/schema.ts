@@ -85,6 +85,7 @@ export const COLLECTIONS: Collection[] = [
       { key: "title", label: "Title", type: "text" },
       CATEGORY_FIELD,
       { key: "location", label: "Location", type: "text" },
+      { key: "submittedBy", label: "Uncovered by", type: "text" },
       { key: "image", label: "Photo", type: "image" },
     ],
   },
