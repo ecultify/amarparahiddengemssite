@@ -1,12 +1,15 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
 import { UploadCloud } from "@/components/ui/icons";
+import { PhoneVerify } from "@/components/gems/PhoneVerify";
+import { ShipAnimation } from "@/components/gems/ShipAnimation";
 import { SUBMISSION_CATEGORIES } from "@/lib/tokens";
 import { submitGem, type SubmitState } from "@/app/actions/submissions";
 
-const STEPS = ["Your Para", "Your Gem", "Photo / Video"];
+const STEPS = ["Your Para", "Your Gem", "Photo / Video", "Verify"];
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
@@ -19,9 +22,12 @@ function Label({ children }: { children: React.ReactNode }) {
 
 type Upload = { url: string; name: string; type: "image" | "video" };
 
-/** form-card — Figma 95:341. Three steps; uploads go straight to blob storage. */
+/** form-card — Figma 95:341. Four steps; uploads go straight to blob storage,
+ *  and the last step gates submission behind phone verification. */
 export function SubmissionForm() {
+  const router = useRouter();
   const [step, setStep] = useState(0);
+  const [verifiedPhone, setVerifiedPhone] = useState<string | null>(null);
   const [file, setFile] = useState<Upload | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -56,23 +62,11 @@ export function SubmissionForm() {
     }
   }
 
-  if (state.ok) {
-    return (
-      <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-[20px] bg-white p-10 text-center shadow-[0_12px_16px_rgba(27,42,74,0.06)]">
-        <h2 className="font-title text-[38px] font-black text-navy">Thank you — your gem is in.</h2>
-        <p className="max-w-[420px] font-body text-[16px] leading-[1.5] text-slate">
-          Our editors review every entry before it joins the 500. We&apos;ll be in touch if we need
-          anything else.
-        </p>
-        <a
-          href="/500-gems"
-          className="btn-3d mt-2 inline-flex h-14 items-center justify-center rounded-[4px] bg-yellow px-8 font-display text-[16px] font-extrabold uppercase text-navy"
-        >
-          Explore the gallery
-        </a>
-      </div>
-    );
-  }
+  // A successful action lands on the thank-you page rather than swapping the
+  // card out in place, so the confirmation is a URL the visitor can sit on.
+  useEffect(() => {
+    if (state.ok) router.push("/thank-you");
+  }, [state.ok, router]);
 
   return (
     <form
@@ -249,11 +243,55 @@ export function SubmissionForm() {
             Back
           </button>
           <button
-            type="submit"
-            disabled={pending || uploading}
+            type="button"
+            onClick={() => setStep(3)}
+            disabled={uploading}
             className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
           >
-            {pending ? "Sending…" : "Submit your gem"}
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div className={step === 3 ? "contents" : "hidden"}>
+        <div className="flex w-full max-w-[440px] flex-col items-center gap-2 text-center">
+          <Label>Verify your number</Label>
+          <p className="font-body text-[14px] leading-[1.5] text-slate">
+            We verify every submission against a mobile number so each gem can be credited to the
+            person who found it.
+          </p>
+        </div>
+
+        <PhoneVerify verified={Boolean(verifiedPhone)} onVerified={setVerifiedPhone} />
+
+        <input type="hidden" name="phone" value={verifiedPhone ?? ""} />
+
+        {state.error ? (
+          <p className="w-full max-w-[440px] text-left font-body text-[14px] text-red">{state.error}</p>
+        ) : null}
+
+        <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
+          <button
+            type="button"
+            onClick={() => setStep(2)}
+            className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            disabled={pending || uploading || !verifiedPhone}
+            title={verifiedPhone ? undefined : "Verify your number to submit"}
+            className="btn-3d inline-flex h-14 w-full items-center justify-center gap-3 rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
+          >
+            {pending ? (
+              <>
+                <ShipAnimation />
+                <span>Shipping…</span>
+              </>
+            ) : (
+              "Submit your gem"
+            )}
           </button>
         </div>
       </div>

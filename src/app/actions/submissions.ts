@@ -24,6 +24,11 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
     return { ok: false, error: "Please fill in your para, location, gem name and description." };
   }
 
+  const phone = value("phone");
+  if (!phone) {
+    return { ok: false, error: "Verify your mobile number before submitting." };
+  }
+
   const upload = value("upload");
   await createSubmission({
     para,
@@ -31,6 +36,7 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
     title,
     category: value("category") || "Uncategorised",
     description,
+    phone,
     upload: upload || undefined,
     uploadType: upload ? (value("uploadType") as "image" | "video") : undefined,
     uploadName: value("uploadName") || undefined,

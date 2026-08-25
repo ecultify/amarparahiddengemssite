@@ -11,6 +11,8 @@ export type Submission = {
   title: string;
   category: string;
   description: string;
+  /** Verified at submission time; how a published gem gets credited. */
+  phone?: string;
   /** Blob URL of the visitor's upload, if they attached one. */
   upload?: string;
   uploadType?: "image" | "video";
