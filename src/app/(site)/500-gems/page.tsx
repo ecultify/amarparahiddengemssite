@@ -86,6 +86,12 @@ export default async function GalleryPage() {
           Submit your gem
         </Button3D>
       </section>
+
+      {/* The footer tucks "i am Kolkata" up into whatever section comes last —
+          102px at lg, 56px below it. This page ends on green, so without a
+          division of its own the mark would sit on the green. Tall enough to
+          clear that pull-up plus the mark's own height. */}
+      <div className="h-[72px] w-full bg-cream lg:h-[120px]" />
     </>
   );
 }
