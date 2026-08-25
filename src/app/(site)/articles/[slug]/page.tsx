@@ -46,9 +46,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           src={SUBMIT_ACCENT.golfBag}
           className="pointer-events-none absolute top-[8px] left-[14px] h-[70px] w-[36px] lg:top-[35px] lg:left-[calc(50%-588px)] lg:h-[136px] lg:w-[70px] object-contain"
         />
+        {/* fhcfgjm 2 (178:588), sitting just left of "Hidden" on the second
+            line. Its ink is only 194x210 inside a 351x341 canvas, so the box is
+            sized well past the Figma one — at 175px the flowers themselves came
+            out under 100px and read as clipped. */}
         <Asset
-          src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute bottom-[-6px] left-[-18px] h-[92px] w-[95px] lg:top-[244px] lg:bottom-auto lg:left-[calc(50%-436px)] lg:h-[170px] lg:w-[175px] object-contain"
+          src={IMG.blogFlowers}
+          className="pointer-events-none absolute bottom-[-10px] left-[-32px] h-[126px] w-[130px] lg:top-[113px] lg:bottom-auto lg:left-[calc(50%-356px)] lg:h-[233px] lg:w-[240px] object-contain"
         />
         <Asset
           src={IMG.blogSprout}

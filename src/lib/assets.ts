@@ -29,6 +29,7 @@ export const IMG = {
   blogSprout: "/blog-sprout.png",
   blogDhol: "/blog-dhol.png",
   blogKite: "/blog-kite.png",
+  blogFlowers: "/blog-flowers.png",
   blogWalkers: "/blog-walkers.png",
   blogCouple: "/blog-couple.png",
   accentHeritageWatermark: "/images/accent-heritage-watermark.png",
