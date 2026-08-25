@@ -13,14 +13,14 @@ export default async function GalleryPage() {
   return (
     <>
       {/* gallery-hero-section — Figma 106:288 */}
-      <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-white px-5 py-12 md:px-10 lg:gap-10 lg:px-20 lg:py-20">
+      <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-cream px-5 py-12 md:px-10 lg:gap-10 lg:px-20 lg:py-20">
         <Asset
-          src={GALLERY_IMG.accentKite}
-          className="pointer-events-none hidden lg:block absolute top-10 left-[-30px] h-[170px] w-[150px] object-contain opacity-80"
+          src={GALLERY_IMG.kite}
+          className="pointer-events-none hidden lg:block absolute top-[40px] left-[-24px] h-[210px] w-[159px] object-contain"
         />
         <Asset
-          src={GALLERY_IMG.accentHandRickshaw}
-          className="pointer-events-none hidden lg:block absolute top-[60px] right-[-20px] h-[160px] w-[190px] object-contain opacity-85"
+          src={GALLERY_IMG.mishtiPlate}
+          className="pointer-events-none hidden lg:block absolute top-[40px] right-[-20px] h-[200px] w-[183px] object-contain"
         />
 
         <div className="relative flex w-full max-w-[800px] flex-col items-center gap-4">
@@ -51,23 +51,29 @@ export default async function GalleryPage() {
       </section>
 
       {/* bento-gallery-section — Figma 106:316 */}
-      <section className="flex w-full flex-col items-center gap-8 bg-white px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-20 lg:pb-[100px]">
-        <GalleryTabs
-          photoGems={content.photoGems}
-          videoGems={content.videoGems}
-          streetStories={content.streetStories}
+      <div className="relative w-full">
+        <Asset
+          src={GALLERY_IMG.bar}
+          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[90px] w-[201px] object-contain"
         />
-      </section>
+        <section className="flex w-full flex-col items-center gap-8 bg-cream px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-20 lg:pb-[100px]">
+          <GalleryTabs
+            photoGems={content.photoGems}
+            videoGems={content.videoGems}
+            streetStories={content.streetStories}
+          />
+        </section>
+      </div>
 
       {/* cta-submit-section — Figma 106:420 */}
       <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-green-soft px-5 py-16 md:px-10 lg:gap-8 lg:px-20 lg:py-[120px]">
         <Asset
-          src={GALLERY_IMG.accentMonument}
-          className="pointer-events-none hidden lg:block absolute top-[60px] left-[-40px] h-[280px] w-[180px] object-contain opacity-80"
+          src={GALLERY_IMG.picks}
+          className="pointer-events-none hidden lg:block absolute bottom-[48px] left-[56px] h-[115px] w-[102px] object-contain"
         />
         <Asset
-          src={GALLERY_IMG.accentTempleGreen}
-          className="pointer-events-none hidden lg:block absolute top-20 right-[-30px] h-[280px] w-[180px] object-contain opacity-80"
+          src={GALLERY_IMG.saxophone}
+          className="pointer-events-none hidden lg:block absolute top-[50px] right-[-10px] h-[300px] w-[255px] object-contain"
         />
         <h2 className="relative text-center font-title text-[42px] font-black text-black sm:text-[52px] lg:text-[66px]">
           Your Para Has a Story Too

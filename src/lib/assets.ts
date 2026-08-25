@@ -100,9 +100,11 @@ export const SUBMIT_ACCENT = {
 } as const;
 
 /** Gallery page (Figma 106:272) artwork. */
+/** 500 Gems page accents — hand-supplied, not from the figma sync. */
 export const GALLERY_IMG = {
-  accentKite: "/images/accent-kite-gallery.png",
-  accentHandRickshaw: "/images/accent-hand-rickshaw.png",
-  accentMonument: "/images/accent-monument.png",
-  accentTempleGreen: "/images/accent-temple-green.png",
+  kite: "/gallery-kite.png",
+  mishtiPlate: "/gallery-mishti-plate.png",
+  bar: "/gallery-bar.png",
+  saxophone: "/gallery-saxophone.png",
+  picks: "/gallery-picks.png",
 } as const;
