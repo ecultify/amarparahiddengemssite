@@ -18,11 +18,11 @@ export default async function SubmitPage() {
             them past the floor where overflow-hidden clips them away. */}
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[120px] left-[-56px] h-[120px] w-[96px] lg:top-[188px] lg:left-[-60px] lg:h-[237px] lg:w-[190px] object-contain"
+          className="pointer-events-none absolute top-[120px] left-[-20px] h-[130px] w-[104px] lg:top-[188px] lg:left-[-60px] lg:h-[237px] lg:w-[190px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[70px] right-[-58px] h-[190px] w-[119px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
+          className="pointer-events-none absolute top-[70px] right-[-22px] h-[200px] w-[125px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.golfBag}
@@ -51,7 +51,7 @@ export default async function SubmitPage() {
           className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-448px)] h-[144px] w-[172px] object-contain"
         />
 
-        <div className="relative mx-auto flex max-w-[1200px] flex-col items-center gap-8 lg:gap-12">
+        <div className="relative z-30 mx-auto flex max-w-[1200px] flex-col items-center gap-8 lg:gap-12">
           <div className="flex w-full max-w-[840px] flex-col items-center gap-4">
             <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[14px] font-extrabold uppercase tracking-[0.06em] text-pink">
               Submit your entry

@@ -128,7 +128,7 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
     <div className="flex w-full max-w-[1280px] flex-col items-center gap-8">
       <div
         role="tablist"
-        className="flex w-full max-w-full flex-wrap justify-center gap-1.5 rounded-[24px] border border-line bg-white p-1.5 sm:w-auto sm:gap-3 sm:rounded-full"
+        className="flex w-full max-w-full flex-wrap justify-center gap-1.5 rounded-[12px] border border-line bg-white p-1.5 sm:w-auto sm:gap-3"
       >
         {TABS.map((name) => (
           <button
@@ -137,7 +137,7 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
             type="button"
             aria-selected={tab === name}
             onClick={() => setTab(name)}
-            className={`flex-1 rounded-full px-4 py-2.5 font-display text-[14px] font-extrabold uppercase tracking-[0.04em] transition sm:flex-none sm:px-7 sm:text-[15px] ${
+            className={`flex-1 rounded-[8px] px-4 py-2.5 font-display text-[14px] font-extrabold uppercase tracking-[0.04em] transition sm:flex-none sm:px-7 sm:text-[15px] ${
               tab === name ? "bg-navy text-white" : "text-slate hover:text-navy"
             }`}
           >

@@ -75,7 +75,7 @@ export default async function ParticipatePage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[36px] left-[-52px] h-[150px] w-[101px] lg:top-[111px] lg:left-[calc(50%-637px)] lg:h-[317px] lg:w-[213px] object-contain"
+          className="pointer-events-none absolute top-[36px] left-[-16px] h-[168px] w-[113px] lg:top-[111px] lg:left-[calc(50%-637px)] lg:h-[317px] lg:w-[213px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.plate}
@@ -83,7 +83,7 @@ export default async function ParticipatePage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.tower}
-          className="pointer-events-none absolute top-[150px] right-[-34px] h-[150px] w-[82px] lg:top-[227px] lg:right-[-26px] lg:h-[291px] lg:w-[159px] object-contain"
+          className="pointer-events-none absolute right-0 bottom-0 h-[200px] w-[109px] lg:top-[227px] lg:bottom-auto lg:right-[-26px] lg:h-[291px] lg:w-[159px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
@@ -104,7 +104,7 @@ export default async function ParticipatePage() {
           className="pointer-events-none hidden lg:block absolute top-[212px] right-[calc(50%-493px)] h-[120px] w-[161px] opacity-90 object-contain"
         />
 
-        <div className="relative mx-auto flex w-full max-w-[1315px] flex-col items-center gap-8">
+        <div className="relative z-30 mx-auto flex w-full max-w-[1315px] flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-4 text-center">
             {/* Figma 95:40 — the two lines carry different colours (#81429e /
                 #e36418), with the pink wash 178:28 (x=491 y=194, 152x34)
@@ -161,7 +161,7 @@ export default async function ParticipatePage() {
           className="pointer-events-none absolute bottom-[8px] left-[-44px] h-[100px] w-[84px] lg:bottom-[8px] lg:left-[calc(50%-548px)] lg:h-[204px] lg:w-[172px] object-contain"
         />
 
-        <div className="relative mx-auto flex max-w-[1280px] flex-col items-center gap-12 lg:gap-[59px]">
+        <div className="relative z-30 mx-auto flex max-w-[1280px] flex-col items-center gap-12 lg:gap-[59px]">
           <div className="flex w-full flex-col items-center gap-8">
             <div className="flex w-full max-w-[800px] flex-col items-center gap-3 text-center">
               <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">

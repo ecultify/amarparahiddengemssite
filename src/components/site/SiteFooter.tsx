@@ -47,7 +47,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1440px] px-5 pt-[6px] md:px-10 lg:px-20">
         {/* Figma 49:2195 sets the box at x=39, so the masthead artwork lines up
             with the body copy below rather than with the 80px gutter. */}
-        <Asset src={IMG.logoToi} alt="The Times of India" className="h-[56px] w-[220px] object-contain sm:h-[74px] sm:w-[290px] lg:-ml-[41px]" />
+        <Asset src={IMG.logoToi} alt="The Times of India" className="-ml-[26px] h-[56px] w-[220px] object-contain sm:-ml-[36px] sm:h-[74px] sm:w-[290px] lg:-ml-[41px]" />
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
