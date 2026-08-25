@@ -8,13 +8,8 @@ import { Asset } from "@/components/ui/Asset";
 import { IMG } from "@/lib/assets";
 
 const NAV = [
-  { label: "Home", href: "/" },
-  { label: "500 Gems", href: "/500-gems" },
-  { label: "Stories", href: "/#stories" },
-  { label: "Creator Trails", href: "/#creator-trails" },
+  { label: "Explore the Gems", href: "/500-gems" },
   { label: "Participate", href: "/participate" },
-  { label: "About", href: "/about" },
-  { label: "FAQs", href: "/faqs" },
 ];
 
 export function SiteHeader() {
@@ -61,7 +56,7 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-5 xl:flex xl:gap-8">
+        <nav className="hidden items-center gap-5 sm:flex lg:gap-8">
           {NAV.map((item) => {
             const active = isActive(item.href);
             return (

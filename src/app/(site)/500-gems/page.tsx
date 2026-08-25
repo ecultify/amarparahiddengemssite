@@ -1,7 +1,7 @@
 import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
 import { GalleryTabs } from "@/components/gems/GalleryTabs";
-import { GALLERY_IMG } from "@/lib/assets";
+import { GALLERY_IMG, IMG } from "@/lib/assets";
 import { getContent } from "@/lib/content";
 
 /** 500 Gems of Kolkata — Figma node 106:272 (gallery-page-final). */
@@ -15,12 +15,12 @@ export default async function GalleryPage() {
       {/* gallery-hero-section — Figma 106:288 */}
       <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-cream px-5 py-12 md:px-10 lg:gap-10 lg:px-20 lg:py-20">
         <Asset
-          src={GALLERY_IMG.kite}
-          className="pointer-events-none hidden lg:block absolute top-[40px] left-[-24px] h-[210px] w-[159px] object-contain"
+          src={IMG.accentKiteRainbow}
+          className="pointer-events-none absolute top-[8px] left-[-34px] h-[110px] w-[83px] lg:top-[40px] lg:left-[-24px] lg:h-[210px] lg:w-[159px] object-contain"
         />
         <Asset
           src={GALLERY_IMG.mishtiPlate}
-          className="pointer-events-none hidden lg:block absolute top-[40px] right-[-20px] h-[200px] w-[183px] object-contain"
+          className="pointer-events-none absolute top-[8px] right-[-40px] h-[100px] w-[91px] lg:top-[40px] lg:right-[-20px] lg:h-[200px] lg:w-[183px] object-contain"
         />
 
         <div className="relative flex w-full max-w-[800px] flex-col items-center gap-4">
@@ -73,7 +73,7 @@ export default async function GalleryPage() {
         />
         <Asset
           src={GALLERY_IMG.saxophone}
-          className="pointer-events-none hidden lg:block absolute top-[50px] right-[-10px] h-[300px] w-[255px] object-contain"
+          className="pointer-events-none absolute top-[16px] right-[-56px] h-[150px] w-[128px] lg:top-[50px] lg:right-[-10px] lg:h-[300px] lg:w-[255px] object-contain"
         />
         <h2 className="relative text-center font-title text-[42px] font-black text-black sm:text-[52px] lg:text-[66px]">
           Your Para Has a Story Too

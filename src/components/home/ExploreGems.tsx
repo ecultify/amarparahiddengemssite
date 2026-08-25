@@ -33,7 +33,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
       <section id="explore" className="relative w-full overflow-hidden bg-green">
         <Asset
           src={IMG.accentKites}
-          className="pointer-events-none hidden lg:block absolute top-[19px] left-[-46px] h-[199px] w-[174px] object-contain opacity-90"
+          className="pointer-events-none absolute top-[10px] left-[-56px] h-[110px] w-[96px] lg:top-[19px] lg:left-[-46px] lg:h-[199px] lg:w-[174px] object-contain opacity-90"
         />
 
         {/* Yellow bleed tab on the right edge — Figma 178:29 (x=1286, y=908,

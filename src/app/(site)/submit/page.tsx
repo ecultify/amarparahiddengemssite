@@ -18,11 +18,11 @@ export default async function SubmitPage() {
             them past the floor where overflow-hidden clips them away. */}
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none hidden lg:block absolute top-[188px] left-[-60px] h-[237px] w-[190px] object-contain"
+          className="pointer-events-none absolute top-[120px] left-[-56px] h-[120px] w-[96px] lg:top-[188px] lg:left-[-60px] lg:h-[237px] lg:w-[190px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
-          className="pointer-events-none hidden lg:block absolute top-[100px] right-[-66px] h-[377px] w-[236px] object-contain"
+          className="pointer-events-none absolute top-[70px] right-[-58px] h-[190px] w-[119px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.golfBag}

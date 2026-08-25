@@ -98,7 +98,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           {/* Figma 164:68 — pink playground on the section floor, right. */}
           <Asset
             src={PARTICIPATE_ACCENT.playground}
-            className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[161px] w-[235px] object-contain mix-blend-multiply"
+            className="pointer-events-none absolute right-0 bottom-0 h-[80px] w-[117px] lg:right-0 lg:bottom-0 lg:h-[161px] lg:w-[235px] object-contain mix-blend-multiply"
           />
         </>
       ) : null}

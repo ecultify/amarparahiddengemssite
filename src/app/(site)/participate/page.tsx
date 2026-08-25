@@ -62,13 +62,20 @@ export default async function ParticipatePage() {
             every y below is the Figma value minus 88. Edge pieces that bleed
             past the 1440 canvas stay viewport-anchored; the rest are pinned
             to the centred canvas so they hold on wide screens. */}
+        {/* Rainbow kite over the top of "500 Gems." — Figma has it at 131x148
+            starting level with the hero's top edge, so y is the Figma value
+            minus the 88px navbar the frame includes, same as the rest here. */}
+        <Asset
+          src={IMG.accentKiteRainbow}
+          className="pointer-events-none hidden lg:block absolute top-[2px] left-[calc(50%-353px)] z-10 h-[148px] w-[131px] object-contain"
+        />
         <Asset
           src={PARTICIPATE_ACCENT.golfPouch}
           className="pointer-events-none hidden lg:block absolute top-[28px] left-[-17px] h-[111px] w-[100px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.saxophone}
-          className="pointer-events-none hidden lg:block absolute top-[111px] left-[calc(50%-637px)] h-[317px] w-[213px] object-contain"
+          className="pointer-events-none absolute top-[36px] left-[-52px] h-[150px] w-[101px] lg:top-[111px] lg:left-[calc(50%-637px)] lg:h-[317px] lg:w-[213px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.plate}
@@ -76,7 +83,7 @@ export default async function ParticipatePage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.tower}
-          className="pointer-events-none hidden lg:block absolute top-[227px] right-[-26px] h-[291px] w-[159px] object-contain"
+          className="pointer-events-none absolute top-[150px] right-[-34px] h-[150px] w-[82px] lg:top-[227px] lg:right-[-26px] lg:h-[291px] lg:w-[159px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
@@ -151,7 +158,7 @@ export default async function ParticipatePage() {
         {/* Dhol 164:62 (x=172 y=1219, 172x204) at the section floor. */}
         <Asset
           src={PARTICIPATE_ACCENT.dhol}
-          className="pointer-events-none hidden lg:block absolute bottom-[8px] left-[calc(50%-548px)] h-[204px] w-[172px] object-contain"
+          className="pointer-events-none absolute bottom-[8px] left-[-44px] h-[100px] w-[84px] lg:bottom-[8px] lg:left-[calc(50%-548px)] lg:h-[204px] lg:w-[172px] object-contain"
         />
 
         <div className="relative mx-auto flex max-w-[1280px] flex-col items-center gap-12 lg:gap-[59px]">

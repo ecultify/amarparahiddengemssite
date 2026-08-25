@@ -35,7 +35,7 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
           at x=1330 y=2502 (130x155); it bleeds past the 1440 canvas. */}
       <Asset
         src={HOME_ACCENT.kebab}
-        className="pointer-events-none hidden lg:block absolute top-[58px] right-[-28px] h-[155px] w-[110px] object-contain"
+        className="pointer-events-none absolute top-[16px] right-[-30px] h-[90px] w-[64px] lg:top-[58px] lg:right-[-28px] lg:h-[155px] lg:w-[110px] object-contain"
       />
 
       <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-3 px-5 md:px-10 lg:px-20">

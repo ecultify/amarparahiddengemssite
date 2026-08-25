@@ -22,6 +22,8 @@ export const IMG = {
   accentKiteCreator: "/images/accent-kite-creator.png",
   accentAuto: "/images/accent-auto.png",
   accentAutoRickshaw: "/images/accent-auto-rickshaw.png",
+  /** Rainbow kite — hand-supplied; gallery hero and participate hero. */
+  accentKiteRainbow: "/accent-kite-rainbow.png",
   accentHeritageWatermark: "/images/accent-heritage-watermark.png",
 
   /** Gems Already Discovered accents — hand-supplied, not from figma sync. */
@@ -102,7 +104,6 @@ export const SUBMIT_ACCENT = {
 /** Gallery page (Figma 106:272) artwork. */
 /** 500 Gems page accents — hand-supplied, not from the figma sync. */
 export const GALLERY_IMG = {
-  kite: "/gallery-kite.png",
   mishtiPlate: "/gallery-mishti-plate.png",
   bar: "/gallery-bar.png",
   saxophone: "/gallery-saxophone.png",
