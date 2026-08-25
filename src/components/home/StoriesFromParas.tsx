@@ -68,12 +68,12 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           blurb="Real people. Real memories. Authentic life snippets that breathe soul into the historic streets."
         />
 
-        <div className="mt-[29px] flex w-full items-center justify-center gap-3 sm:gap-6">
+        <div className="relative mt-[29px] flex w-full items-center justify-center gap-3 sm:gap-6">
           <button
             type="button"
             aria-label="Previous story"
             onClick={() => step(-1)}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink sm:size-12"
+            className="icon-btn absolute left-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)] sm:static sm:size-12 sm:shadow-none"
           >
             <ArrowLeft />
           </button>
@@ -125,7 +125,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
             type="button"
             aria-label="Next story"
             onClick={() => step(1)}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink sm:size-12"
+            className="icon-btn absolute right-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)] sm:static sm:size-12 sm:shadow-none"
           >
             <ArrowRight />
           </button>

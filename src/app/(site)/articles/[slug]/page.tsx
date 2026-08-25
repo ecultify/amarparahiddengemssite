@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Asset } from "@/components/ui/Asset";
-import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
-import { HOME_ACCENT, IMG, PARTICIPATE_ACCENT, SUBMIT_ACCENT } from "@/lib/assets";
+import { ArticleCarousel } from "@/components/home/ArticleCarousel";
+import { IMG, SUBMIT_ACCENT } from "@/lib/assets";
 import { articleSlug } from "@/data/site";
 import { getContent } from "@/lib/content";
 
@@ -28,35 +28,42 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (index === -1) notFound();
 
   const article = articles[index];
-  // Wrap around, so the chevrons are never dead ends on the first or last piece.
-  const prev = articles[(index - 1 + articles.length) % articles.length];
-  const next = articles[(index + 1) % articles.length];
+  // Everything else, starting from the next one, so the rail always leads with
+  // what follows this piece rather than restarting at the top of the list.
+  const others = [...articles.slice(index + 1), ...articles.slice(0, index)];
 
   return (
     <>
-      {/* Campaign banner over the article — Figma 178:296 keeps the submission
-          hero here, accents and all, so the piece opens on the same cream
-          before dropping into the yellow. */}
+      {/* Campaign banner — Figma 178:296 opens the piece on the submission
+          hero, accents and all, before dropping into the yellow plate. */}
       <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 py-14 md:px-10 lg:px-20 lg:py-[72px]">
         <Asset
+          src={IMG.blogKite}
+          className="pointer-events-none absolute top-[104px] left-[-44px] h-[120px] w-[75px] lg:top-[226px] lg:left-[-19px] lg:h-[296px] lg:w-[185px] object-contain"
+        />
+        <Asset
+          src={SUBMIT_ACCENT.golfBag}
+          className="pointer-events-none absolute top-[10px] left-[16px] h-[74px] w-[38px] lg:top-[35px] lg:left-[calc(50%-588px)] lg:h-[136px] lg:w-[70px] object-contain"
+        />
+        <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[96px] left-[-52px] h-[110px] w-[88px] lg:top-[150px] lg:left-[-46px] lg:h-[190px] lg:w-[152px] object-contain"
+          className="pointer-events-none absolute top-[92px] left-[calc(50%-168px)] h-[86px] w-[89px] lg:top-[244px] lg:left-[calc(50%-436px)] lg:h-[170px] lg:w-[175px] object-contain"
         />
         <Asset
-          src={IMG.accentKiteRainbow}
-          className="pointer-events-none absolute top-[8px] left-[-40px] h-[104px] w-[79px] lg:top-[120px] lg:left-[calc(50%-700px)] lg:h-[180px] lg:w-[136px] object-contain"
+          src={IMG.blogSprout}
+          className="pointer-events-none absolute top-[-4px] left-[calc(50%+92px)] h-[62px] w-[35px] lg:top-[14px] lg:left-[calc(50%-96px)] lg:h-[120px] lg:w-[67px] object-contain"
         />
         <Asset
-          src={SUBMIT_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[70px] right-[-56px] h-[170px] w-[106px] lg:top-[40px] lg:right-[-40px] lg:h-[290px] lg:w-[181px] object-contain"
+          src={IMG.blogDhol}
+          className="pointer-events-none absolute top-[76px] right-[-30px] h-[150px] w-[102px] lg:top-[159px] lg:right-[-20px] lg:h-[315px] lg:w-[214px] object-contain"
         />
         <Asset
-          src={HOME_ACCENT.golfer}
-          className="pointer-events-none hidden lg:block absolute top-[210px] left-[calc(50%+180px)] h-[109px] w-[55px] object-contain"
+          src={IMG.blogWalkers}
+          className="pointer-events-none absolute right-[10px] bottom-[-12px] h-[62px] w-[86px] lg:right-[calc(50%-620px)] lg:bottom-[24px] lg:h-[113px] lg:w-[158px] object-contain"
         />
 
-        <div className="relative flex w-full max-w-[840px] flex-col items-center gap-4 text-center">
-          <h2 className="font-title text-[44px] leading-[0.92] font-black uppercase sm:text-[62px] lg:text-[76px]">
+        <div className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-4 text-center">
+          <h2 className="font-title text-[42px] leading-[0.92] font-black uppercase sm:text-[62px] lg:text-[76px]">
             <span className="text-cyan">Share Your Para&apos;s </span>
             <span className="text-pink">Hidden Gem</span>
           </h2>
@@ -70,65 +77,50 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* The article itself — Figma 178:625, a full-bleed yellow plate. */}
       <article className="relative w-full overflow-hidden bg-yellow px-5 py-12 md:px-10 lg:px-20 lg:py-16">
-        <Asset
-          src={HOME_ACCENT.kebab}
-          className="pointer-events-none hidden lg:block absolute top-[40px] right-[-28px] h-[155px] w-[110px] object-contain"
-        />
-
-        <div className="relative mx-auto flex w-full max-w-[1216px] flex-col items-center gap-6">
-          <p className="font-ui text-[13px] font-extrabold uppercase tracking-[0.08em] text-pink">
+        <div className="relative mx-auto flex w-full max-w-[1216px] flex-col items-center gap-5">
+          <p className="font-ui text-[12px] font-extrabold uppercase tracking-[0.1em] text-pink sm:text-[13px]">
             {article.date ?? "Amar Para Hidden Gems"}
           </p>
-          <h1 className="text-center font-title text-[38px] leading-tight font-black text-pink uppercase sm:text-[48px] lg:text-[56px]">
+          <h1 className="text-center font-title text-[34px] leading-tight font-black text-pink uppercase sm:text-[46px] lg:text-[56px]">
             {article.title}
           </h1>
 
           <Asset
             src={article.image}
             alt={article.title}
-            className="mt-2 h-[220px] w-full rounded-[12px] object-cover sm:h-[320px] lg:h-[402px]"
+            className="mt-1 h-[210px] w-full rounded-[10px] object-cover sm:h-[320px] lg:h-[402px]"
           />
 
-          <div className="mt-2 flex w-full max-w-[720px] flex-col gap-5">
+          <div className="mt-2 flex w-full max-w-[700px] flex-col gap-4">
             {(article.body ?? []).map((paragraph) => (
-              <p key={paragraph.slice(0, 40)} className="text-center font-body text-[15px] leading-[1.7] text-white sm:text-[16px]">
+              <p
+                key={paragraph.slice(0, 40)}
+                className="text-center font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
+              >
                 {paragraph}
               </p>
             ))}
           </div>
 
-          <p className="mt-6 text-center font-display text-[26px] leading-tight font-extrabold text-white sm:text-[32px] lg:text-[40px]">
-            Deep dives into Kolkata&apos;s most fascinating paras.
-          </p>
-
-          {/* Figma 178:663 — chevrons pinned to the plate's outer edges. */}
-          <nav className="mt-4 flex w-full items-center justify-between gap-4">
-            <Link
-              href={`/articles/${articleSlug(prev.title)}`}
-              aria-label={`Previous article: ${prev.title}`}
-              className="icon-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white bg-white text-navy lg:size-12"
-            >
-              <ChevronLeft className="size-5" />
-            </Link>
-            <Link
-              href={`/articles/${articleSlug(next.title)}`}
-              aria-label={`Next article: ${next.title}`}
-              className="icon-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white bg-white text-navy lg:size-12"
-            >
-              <ChevronRight className="size-5" />
-            </Link>
-          </nav>
+          {/* Figma 178:664 + 178:663 — the rail of other pieces, chevrons on
+              either side of it. */}
+          <div className="mt-10 flex w-full flex-col items-center gap-6 lg:mt-16">
+            <h2 className="text-center font-display text-[24px] leading-tight font-extrabold text-white sm:text-[32px] lg:text-[40px]">
+              Deep dives into Kolkata&apos;s most fascinating paras.
+            </h2>
+            <ArticleCarousel articles={others} />
+          </div>
         </div>
       </article>
 
       {/* The footer tucks "i am Kolkata" into whatever comes last; this page
-          ends on yellow, so give the mark a cream division to land on. */}
+          ends on yellow, so the mark needs a cream division to land on. */}
       <div className="relative w-full">
         <Asset
-          src={PARTICIPATE_ACCENT.dancers}
-          className="pointer-events-none hidden lg:block absolute right-[64px] bottom-[18px] h-[83px] w-[115px] object-contain"
+          src={IMG.blogCouple}
+          className="pointer-events-none absolute right-[8px] bottom-[6px] h-[58px] w-[83px] lg:right-[80px] lg:bottom-[10px] lg:h-[115px] lg:w-[165px] object-contain"
         />
-        <div className="h-[72px] w-full bg-cream lg:h-[120px]" />
+        <div className="h-[86px] w-full bg-cream lg:h-[128px]" />
       </div>
     </>
   );

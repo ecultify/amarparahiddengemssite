@@ -24,6 +24,13 @@ export const IMG = {
   accentAutoRickshaw: "/images/accent-auto-rickshaw.png",
   /** Rainbow kite — hand-supplied; gallery hero and participate hero. */
   accentKiteRainbow: "/accent-kite-rainbow.png",
+
+  /** Article page — Figma 178:296. Hand-supplied plus a few node exports. */
+  blogSprout: "/blog-sprout.png",
+  blogDhol: "/blog-dhol.png",
+  blogKite: "/blog-kite.png",
+  blogWalkers: "/blog-walkers.png",
+  blogCouple: "/blog-couple.png",
   accentHeritageWatermark: "/images/accent-heritage-watermark.png",
 
   /** Gems Already Discovered accents — hand-supplied, not from figma sync. */
