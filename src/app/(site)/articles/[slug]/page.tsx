@@ -35,37 +35,40 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   return (
     <>
       {/* Campaign banner — Figma 178:296 opens the piece on the submission
-          hero, accents and all, before dropping into the yellow plate. */}
-      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 py-14 md:px-10 lg:px-20 lg:py-[72px]">
+          hero. The frame runs y=88..609, so the section is 521px on lg and
+          every accent below is its Figma y minus the 88px navbar. */}
+      <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-cream px-5 py-14 md:px-10 lg:h-[521px] lg:px-20 lg:py-0">
         <Asset
           src={IMG.blogKite}
-          className="pointer-events-none absolute top-[104px] left-[-44px] h-[120px] w-[75px] lg:top-[226px] lg:left-[-19px] lg:h-[296px] lg:w-[185px] object-contain"
+          className="pointer-events-none absolute top-[112px] left-[-42px] h-[124px] w-[78px] lg:top-[226px] lg:left-[-19px] lg:h-[295px] lg:w-[184px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.golfBag}
-          className="pointer-events-none absolute top-[10px] left-[16px] h-[74px] w-[38px] lg:top-[35px] lg:left-[calc(50%-588px)] lg:h-[136px] lg:w-[70px] object-contain"
+          className="pointer-events-none absolute top-[8px] left-[14px] h-[70px] w-[36px] lg:top-[35px] lg:left-[calc(50%-588px)] lg:h-[136px] lg:w-[70px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[92px] left-[calc(50%-168px)] h-[86px] w-[89px] lg:top-[244px] lg:left-[calc(50%-436px)] lg:h-[170px] lg:w-[175px] object-contain"
+          className="pointer-events-none absolute bottom-[-6px] left-[-18px] h-[92px] w-[95px] lg:top-[244px] lg:bottom-auto lg:left-[calc(50%-436px)] lg:h-[170px] lg:w-[175px] object-contain"
         />
         <Asset
           src={IMG.blogSprout}
-          className="pointer-events-none absolute top-[-4px] left-[calc(50%+92px)] h-[62px] w-[35px] lg:top-[14px] lg:left-[calc(50%-96px)] lg:h-[120px] lg:w-[67px] object-contain"
+          className="pointer-events-none absolute top-[-2px] left-[calc(50%+104px)] h-[58px] w-[33px] lg:top-[14px] lg:left-[calc(50%-96px)] lg:h-[120px] lg:w-[74px] object-contain"
         />
         <Asset
           src={IMG.blogDhol}
-          className="pointer-events-none absolute top-[76px] right-[-30px] h-[150px] w-[102px] lg:top-[159px] lg:right-[-20px] lg:h-[315px] lg:w-[214px] object-contain"
+          className="pointer-events-none absolute top-[84px] right-[-34px] h-[148px] w-[110px] lg:top-[159px] lg:right-[-20px] lg:h-[314px] lg:w-[234px] object-contain"
         />
         <Asset
           src={IMG.blogWalkers}
-          className="pointer-events-none absolute right-[10px] bottom-[-12px] h-[62px] w-[86px] lg:right-[calc(50%-620px)] lg:bottom-[24px] lg:h-[113px] lg:w-[158px] object-contain"
+          className="pointer-events-none absolute right-[8px] bottom-[8px] h-[60px] w-[84px] lg:top-[411px] lg:right-[182px] lg:bottom-auto lg:h-[113px] lg:w-[158px] object-contain"
         />
 
-        <div className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-4 text-center">
+        <div className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-5 text-center lg:gap-[44px]">
+          {/* Two lines, as the frame sets it — on one line the headline runs
+              straight through the sprout and the dhol. */}
           <h2 className="font-title text-[42px] leading-[0.92] font-black uppercase sm:text-[62px] lg:text-[76px]">
-            <span className="text-cyan">Share Your Para&apos;s </span>
-            <span className="text-pink">Hidden Gem</span>
+            <span className="block text-cyan">Share Your Para&apos;s</span>
+            <span className="block text-pink">Hidden Gem</span>
           </h2>
           <p className="max-w-[720px] font-body text-[15px] leading-[1.6] text-slate sm:text-[16px]">
             Tell us about the special places, stories, and memories that make your neighborhood

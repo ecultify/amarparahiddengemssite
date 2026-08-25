@@ -33,11 +33,14 @@ export function SiteFooter() {
           which is 64px on mobile against 100px+ from lg up. */}
       <div className="relative z-10 -mt-[56px] w-full lg:-mt-[102px]">
         <div className="mx-auto max-w-[1440px] px-5 pb-2 md:px-10 lg:px-20">
-          {/* Figma 49:2160 sets the box at x=100, 20px past the 80px gutter. */}
+          {/* Both marks carry transparent padding inside their own files —
+              9/157 here, 54/387 on the masthead — so each needs its own pull to
+              put the visible artwork on the same left edge as the body copy
+              below. Aligning the boxes instead would leave them staggered. */}
           <Asset
             src={IMG.logoIAmKolkata}
             alt="I am Kolkata"
-            className="h-[48px] w-[77px] object-contain lg:ml-5 lg:h-[94px] lg:w-[150px]"
+            className="-ml-[4px] h-[48px] w-[77px] object-contain lg:-ml-[9px] lg:h-[94px] lg:w-[150px]"
           />
         </div>
       </div>
@@ -45,9 +48,7 @@ export function SiteFooter() {
       <footer className="relative w-full">
       <div className="w-full bg-pink">
       <div className="mx-auto max-w-[1440px] px-5 pt-[6px] md:px-10 lg:px-20">
-        {/* Figma 49:2195 sets the box at x=39, so the masthead artwork lines up
-            with the body copy below rather than with the 80px gutter. */}
-        <Asset src={IMG.logoToi} alt="The Times of India" className="-ml-[26px] h-[56px] w-[220px] object-contain sm:-ml-[36px] sm:h-[74px] sm:w-[290px] lg:-ml-[41px]" />
+        <Asset src={IMG.logoToi} alt="The Times of India" className="-ml-[31px] h-[56px] w-[220px] object-contain sm:-ml-[40px] sm:h-[74px] sm:w-[290px] lg:-ml-[41px]" />
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
