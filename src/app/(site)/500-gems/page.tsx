@@ -23,11 +23,11 @@ export default async function GalleryPage() {
           className="pointer-events-none absolute top-[8px] right-[-40px] h-[100px] w-[91px] lg:top-[40px] lg:right-[-20px] lg:h-[200px] lg:w-[183px] object-contain"
         />
 
-        <div className="relative flex w-full max-w-[800px] flex-col items-center gap-4">
+        <div className="relative flex w-full max-w-[960px] flex-col items-center gap-4">
           <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
             Community Gallery
           </p>
-          <h1 className="text-center font-title text-[48px] leading-tight font-black text-navy sm:text-[60px] lg:text-[78px]">
+          <h1 className="text-center font-title text-[48px] leading-[0.92] font-black text-navy sm:text-[60px] lg:text-[128px]">
             500 Gems of Kolkata
           </h1>
           <p className="text-center font-body text-[16px] leading-[1.6] text-slate sm:text-[18px]">

@@ -37,12 +37,12 @@ export default function ThankYouPage() {
           className="pointer-events-none hidden lg:block absolute top-[190px] left-[calc(50%+300px)] h-[38px] w-[36px] object-contain"
         />
 
-        <div className="relative flex w-full max-w-[820px] flex-col items-center gap-5 text-center">
+        <div className="relative flex w-full max-w-[1000px] flex-col items-center gap-5 text-center">
           <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[13px] font-extrabold uppercase tracking-[0.06em] text-pink">
             Submission received
           </span>
 
-          <h1 className="font-title text-[40px] leading-[0.94] font-black text-navy uppercase sm:text-[56px] lg:text-[68px]">
+          <h1 className="font-title text-[40px] leading-[0.94] font-black text-navy uppercase sm:text-[56px] lg:text-[128px]">
             Thank You for Sharing Your Hidden Gem
           </h1>
 

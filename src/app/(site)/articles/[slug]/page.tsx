@@ -52,7 +52,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             out under 100px and read as clipped. */}
         <Asset
           src={IMG.blogFlowers}
-          className="pointer-events-none absolute bottom-[-10px] left-[-32px] h-[126px] w-[130px] lg:top-[113px] lg:bottom-auto lg:left-[calc(50%-356px)] lg:h-[233px] lg:w-[240px] object-contain"
+          className="pointer-events-none absolute bottom-[-10px] left-[-32px] h-[126px] w-[130px] lg:top-[153px] lg:bottom-auto lg:left-[calc(50%-458px)] lg:h-[233px] lg:w-[240px] object-contain"
         />
         <Asset
           src={IMG.blogSprout}
@@ -70,7 +70,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-5 text-center lg:gap-[44px]">
           {/* Two lines, as the frame sets it — on one line the headline runs
               straight through the sprout and the dhol. */}
-          <h2 className="font-title text-[42px] leading-[0.92] font-black uppercase sm:text-[62px] lg:text-[76px]">
+          <h2 className="font-title text-[42px] leading-[0.92] font-black uppercase sm:text-[62px] lg:text-[128px]">
             <span className="block text-cyan">Share Your Para&apos;s</span>
             <span className="block text-pink">Hidden Gem</span>
           </h2>
