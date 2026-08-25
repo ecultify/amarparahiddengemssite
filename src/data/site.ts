@@ -125,24 +125,119 @@ export const STORIES: Story[] = [
   },
 ];
 
-export type Article = { title: string; image: string };
+export type Article = {
+  title: string;
+  image: string;
+  /** Dateline shown above the headline on the article page. */
+  date?: string;
+  /** Body copy, one string per paragraph. */
+  body?: string[];
+};
+
+/** URL segment for an article. Derived from the headline so an editor adding a
+ *  row in the admin gets a working link without having to invent a slug. */
+export function articleSlug(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/['\u2019]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 /** Articles & Features staggered rows — homepage (Figma 49:2096). */
 export const ARTICLES_ROW_ONE: Article[] = [
-  { title: "The Royal Sweets of Bowbazar", image: "/images/article-1.png" },
-  { title: "British Era Architecture in Dalhousie", image: "/images/article-2.png" },
-  { title: "Evolution of Bengali Rock Music", image: "/images/article-3.png" },
-  { title: "Tram Routes of North Kolkata", image: "/images/article-4.png" },
-  { title: "The Handloom Weavers of Bengal", image: "/images/article-5.png" },
-];
+  {
+    title: "The Royal Sweets of Bowbazar",
+    image: "/images/article-1.png",
+    date: "March 4, 2024",
+    body: [
+      "Bowbazar keeps its sweetest secrets behind marble counters that have not moved in a century. The shops here still work to the rhythm of the milk cart, and the men at the karai still judge a batch by the way it catches the light rather than by a thermometer.",
+      "Ask for the sandesh and you will be handed something that tastes of restraint: less sugar than you expect, more chhena than you thought possible. It is a recipe that survived Partition, three generations of family argument, and the arrival of the refrigerator.",
+    ],
+  },
+  {
+    title: "British Era Architecture in Dalhousie",
+    image: "/images/article-2.png",
+    date: "January 22, 2024",
+    body: [
+      "Dalhousie Square was built to look like somewhere else, and failed in the most interesting way. The porticos and pediments came from a pattern book, but the shutters, the courtyards and the deep verandahs are pure Bengal, added by builders who knew what the monsoon does to a facade.",
+      "Walk it early, before the offices fill. The light comes off the wet stone and for a moment you can see the whole argument the city has been having with itself for two hundred years.",
+    ],
+  },
+  {
+    title: "Evolution of Bengali Rock Music",
+    image: "/images/article-3.png",
+    date: "November 11, 2023",
+    body: [
+      "It began in living rooms in the eighties, with borrowed guitars and lyrics that refused to be polite. Jibonmukhi took the Bengali song off the concert stage and put it on the street, where it argued with the traffic and usually won.",
+      "The paras were the circuit. A band could play a puja pandal in October and a college social in February, and somewhere between the two it would find the song that made it.",
+    ],
+  },
+  {
+    title: "Tram Routes of North Kolkata",
+    image: "/images/article-4.png",
+    date: "August 30, 2023",
+    body: [
+      "The tram does not hurry, which is the point. It moves at the speed of a conversation, and North Kolkata built itself around that pace: the tea stall at the stop, the bookshop that knows the timetable, the queue that forms without anyone organising it.",
+      "Routes have closed and the network is a fraction of what it was, but the rails are still there under the tar. On a quiet morning you can hear one coming three streets away.",
+    ],
+  },
+  {
+    title: "The Handloom Weavers of Bengal",
+    image: "/images/article-5.png",
+    date: "June 18, 2023",
+    body: [
+      "A Bengal handloom is a machine made almost entirely of judgement. The weaver counts in threads and thinks in weeks, and the loom itself is tuned by ear, tightened and slackened until the shuttle sounds right.",
+      "The saris that come off it carry the weaver's hand in the selvedge, which is how the old buyers used to tell one village from another without being told.",
+    ],
+  },];
 
 export const ARTICLES_ROW_TWO: Article[] = [
-  { title: "Durga Puja Artisan Chronicles", image: "/images/article-6.png" },
-  { title: "Cabins of College Street", image: "/images/article-7.png" },
-  { title: "Legacy of Satyajit Ray in South Calcutta", image: "/images/article-8.png" },
-  { title: "Ghats of Hooghly River at Dawn", image: "/images/article-9.png" },
-  { title: "Hidden Art Deco Mansions of Ballygunge", image: "/images/article-10.png" },
-];
+  {
+    title: "Durga Puja Artisan Chronicles",
+    image: "/images/article-6.png",
+    date: "September 10, 2023",
+    body: [
+      "In Kumartuli the year is measured backwards from Mahalaya. The straw comes first, then the clay from the river, then the long patient weeks of drying that no one can hurry and every artisan complains about.",
+      "The faces are painted last and always in one sitting. The eyes go on at dawn, in a room that has gone very quiet, and the figure stops being an object somewhere in the middle of that stroke.",
+    ],
+  },
+  {
+    title: "Cabins of College Street",
+    image: "/images/article-7.png",
+    date: "May 2, 2023",
+    body: [
+      "The cabin is an institution disguised as a restaurant. Wooden partitions, a curtain that does not quite close, and a waiter who has heard every argument that Presidency and Scottish Church have ever had over a plate of kabiraji.",
+      "Nobody comes for the food alone. They come because a cabin is the only place in the city where you can occupy a table for four hours on the strength of one order of coffee.",
+    ],
+  },
+  {
+    title: "Legacy of Satyajit Ray in South Calcutta",
+    image: "/images/article-8.png",
+    date: "February 14, 2024",
+    body: [
+      "Ray wrote, drew, scored and storyboarded from a flat in Bishop Lefroy Road, and South Calcutta has never entirely stopped behaving like one of his sets. The wrought iron, the shuttered light, the particular silence of an afternoon staircase — all of it is still there to be walked through.",
+      "His notebooks are the real monument: every frame drawn before it was shot, in a hand that never seems to hesitate.",
+    ],
+  },
+  {
+    title: "Ghats of Hooghly River at Dawn",
+    image: "/images/article-9.png",
+    date: "July 7, 2023",
+    body: [
+      "The river gets its own hour before the city claims the day. Wrestlers at Mallick Ghat, priests at Nimtala, and the flower market already three hours into its work, unloading marigold by the sackful onto wet stone.",
+      "By eight it is over. The light hardens, the crowds arrive, and the ghats go back to being a place people pass through rather than a place people are.",
+    ],
+  },
+  {
+    title: "Hidden Art Deco Mansions of Ballygunge",
+    image: "/images/article-10.png",
+    date: "December 5, 2023",
+    body: [
+      "Between the war years Ballygunge went modern, and it did so in curves. Rounded balconies, porthole windows, stair towers with vertical glazing that lit the landing like a lantern — Deco arrived in Kolkata as a statement about the future.",
+      "Most are subdivided now, and the terrazzo is patched. But look above the first floor, where nobody has had a reason to renovate, and the original building is still making its case.",
+    ],
+  },];
 
 /** Creator Trails mosaic — homepage (Figma 49:2147). */
 export const CREATOR_TRAILS = [

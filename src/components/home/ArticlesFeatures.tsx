@@ -1,19 +1,27 @@
+import Link from "next/link";
 import { Asset } from "@/components/ui/Asset";
 import { HOME_ACCENT } from "@/lib/assets";
-import type { Article } from "@/data/site";
+import { articleSlug, type Article } from "@/data/site";
 
 /** article-card — Figma 49:2098. 320x200, 50% black scrim, title bottom-left. */
 function ArticleCard({ article }: { article: Article }) {
   return (
-    <article className="relative h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] sm:h-[200px] sm:w-[320px]">
-      <Asset src={article.image} alt={article.title} className="absolute inset-0 size-full object-cover" />
-      <div className="absolute inset-0 bg-black/50" />
+    <Link
+      href={`/articles/${articleSlug(article.title)}`}
+      className="group relative block h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[200px] sm:w-[320px] hover:-translate-y-[3px] active:translate-y-0"
+    >
+      <Asset
+        src={article.image}
+        alt={article.title}
+        className="absolute inset-0 size-full object-cover transition-transform duration-300 ease-[var(--ease-out-quart)] group-hover:scale-[1.04]"
+      />
+      <div className="absolute inset-0 bg-black/50 transition-colors duration-150 group-hover:bg-black/40" />
       <div className="relative flex h-full flex-col justify-end p-5">
         <h3 className="font-display text-[18px] leading-tight font-extrabold text-white">
           {article.title}
         </h3>
       </div>
-    </article>
+    </Link>
   );
 }
 
