@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { Asset } from "@/components/ui/Asset";
 import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
-import { articleSlug, type Article } from "@/data/site";
+import { slugOf, type Article } from "@/data/site";
 
 /** One card stride: 320px card + 20px gap, matching the homepage rows. */
 const STRIDE = 340;
@@ -38,7 +38,7 @@ export function ArticleCarousel({ articles }: { articles: Article[] }) {
         {articles.map((article) => (
           <Link
             key={article.title}
-            href={`/articles/${articleSlug(article.title)}`}
+            href={`/articles/${slugOf(article)}`}
             className="group relative block h-[150px] w-[240px] shrink-0 overflow-hidden rounded-[10px] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[180px] sm:w-[300px] hover:-translate-y-[3px] active:translate-y-0"
           >
             <Asset

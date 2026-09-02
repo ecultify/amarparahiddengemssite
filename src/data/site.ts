@@ -127,9 +127,19 @@ export const STORIES: Story[] = [
 
 export type Article = {
   title: string;
+  /** URL segment. Editable in the admin; older entries without one fall back
+   *  to a slug derived from the headline. */
+  slug?: string;
+  /** Featured image — the cover on the article page and every card. */
   image: string;
   /** Dateline shown above the headline on the article page. */
   date?: string;
+  /** Rich body HTML from the admin editor (admin-only input). Wins over
+   *  the legacy `body` paragraphs when set. */
+  html?: string;
+  /** SEO overrides — fall back to the headline / nothing. */
+  seoTitle?: string;
+  seoDescription?: string;
   /** Body copy — one string per paragraph, or (from the admin editor) a
    *  single string with blank lines between paragraphs. */
   body?: string[] | string;
@@ -144,6 +154,10 @@ export function articleSlug(title: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+/** The URL segment an article actually lives at. */
+export const slugOf = (article: Pick<Article, "title" | "slug">) =>
+  article.slug || articleSlug(article.title);
 
 /** Articles & Features staggered rows — homepage (Figma 49:2096). */
 export const ARTICLES_ROW_ONE: Article[] = [

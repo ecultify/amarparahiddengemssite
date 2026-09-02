@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { Asset } from "@/components/ui/Asset";
 import { HOME_ACCENT } from "@/lib/assets";
-import { articleSlug, type Article } from "@/data/site";
+import { slugOf, type Article } from "@/data/site";
 
 /** article-card — Figma 49:2098. 320x200, 50% black scrim, title bottom-left. */
 function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
-      href={`/articles/${articleSlug(article.title)}`}
+      href={`/articles/${slugOf(article)}`}
       className="group relative block h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[200px] sm:w-[320px] hover:-translate-y-[3px] active:translate-y-0"
     >
       <Asset

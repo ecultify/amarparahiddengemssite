@@ -2,28 +2,32 @@ import { notFound } from "next/navigation";
 import { Asset } from "@/components/ui/Asset";
 import { ArticleCarousel } from "@/components/home/ArticleCarousel";
 import { IMG, SUBMIT_ACCENT } from "@/lib/assets";
-import { articleSlug } from "@/data/site";
+import { slugOf } from "@/data/site";
 import { getContent } from "@/lib/content";
 
 /** Article page — Figma 178:296 (Blogs). */
 
 export async function generateStaticParams() {
   const { articles } = await getContent();
-  return articles.map((article) => ({ slug: articleSlug(article.title) }));
+  return articles.map((article) => ({ slug: slugOf(article) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { articles } = await getContent();
-  const article = articles.find((a) => articleSlug(a.title) === slug);
-  return article ? { title: `${article.title} — Amar Para Hidden Gems` } : {};
+  const article = articles.find((a) => slugOf(a) === slug);
+  if (!article) return {};
+  return {
+    title: article.seoTitle || `${article.title} — Amar Para Hidden Gems`,
+    description: article.seoDescription || undefined,
+  };
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { articles } = await getContent();
 
-  const index = articles.findIndex((a) => articleSlug(a.title) === slug);
+  const index = articles.findIndex((a) => slugOf(a) === slug);
   if (index === -1) notFound();
 
   const article = articles[index];
@@ -102,16 +106,25 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             className="mt-1 h-[210px] w-full rounded-[10px] object-cover sm:h-[320px] lg:h-[402px]"
           />
 
-          <div className="mt-2 flex w-full max-w-[700px] flex-col gap-4">
-            {paragraphs.map((paragraph) => (
-              <p
-                key={paragraph.slice(0, 40)}
-                className="text-center font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
-              >
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {article.html ? (
+            /* Admin-authored rich body. Admin-only input, so rendering it
+               directly is safe enough; sanitise here if authorship ever widens. */
+            <div
+              className="article-prose mt-2 w-full max-w-[700px] font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
+              dangerouslySetInnerHTML={{ __html: article.html }}
+            />
+          ) : (
+            <div className="mt-2 flex w-full max-w-[700px] flex-col gap-4">
+              {paragraphs.map((paragraph) => (
+                <p
+                  key={paragraph.slice(0, 40)}
+                  className="text-center font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
 
           {/* Figma 178:664 + 178:663 — the rail of other pieces, chevrons on
               either side of it. */}

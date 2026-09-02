@@ -374,3 +374,61 @@ body {
     @apply font-sans;
   }
 }
+/* Rich article body — shared by the admin editor and the public article page.
+   Colour comes from the surrounding context (navy-on-white in the admin,
+   white-on-yellow on the site), so everything here uses currentColor. */
+.article-prose {
+  text-align: left;
+}
+.article-prose > * + * {
+  margin-top: 0.9em;
+}
+.article-prose h2 {
+  font-size: 1.5em;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-top: 1.4em;
+}
+.article-prose h3 {
+  font-size: 1.2em;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1.2em;
+}
+.article-prose ul,
+.article-prose ol {
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+.article-prose ul {
+  list-style: disc;
+}
+.article-prose ol {
+  list-style: decimal;
+}
+.article-prose blockquote {
+  border-left: 3px solid currentColor;
+  padding-left: 1em;
+  font-style: italic;
+  opacity: 0.9;
+}
+.article-prose a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.article-prose img,
+.article-prose .article-image {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 1.2em auto;
+  display: block;
+}
+.article-prose strong {
+  font-weight: 700;
+}
+/* Tiptap's selected-node outline inside the admin editor. */
+.article-prose img.ProseMirror-selectednode {
+  outline: 2px solid var(--color-pink);
+}

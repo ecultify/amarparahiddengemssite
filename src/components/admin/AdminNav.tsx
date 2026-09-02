@@ -123,7 +123,7 @@ function NavBody({
             href={`/admin/content/${collection.key}`}
             label={collection.label}
             icon={COLLECTION_ICONS[collection.key] ?? Images}
-            active={pathname === `/admin/content/${collection.key}`}
+            active={pathname.startsWith(`/admin/content/${collection.key}`)}
             onNavigate={onNavigate}
           />
         ))}

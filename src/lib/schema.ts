@@ -53,18 +53,15 @@ export const COLLECTIONS: Collection[] = [
     ],
   },
   {
+    // Articles get their own list + rich-text editor at /admin/content/articles
+    // (a static route that shadows the generic one) — this entry only feeds
+    // the admin nav, so it carries no fields.
     key: "articles",
     label: "Articles",
     where: "Home — “Articles & Features” rows",
     singular: "Article",
     titleKey: "title",
-    fields: [
-      { key: "title", label: "Headline", type: "text", help: "Also becomes the article's URL." },
-      { key: "date", label: "Dateline", type: "text", help: "Shown above the headline, e.g. “March 4, 2024”." },
-      { key: "image", label: "Cover", type: "image" },
-      { key: "body", label: "Body", type: "textarea", help: "The full article. Leave a blank line between paragraphs." },
-      { key: "row", label: "Row", type: "select", options: ["1", "2"] },
-    ],
+    fields: [],
   },
   {
     key: "creatorTrails",

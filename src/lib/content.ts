@@ -13,6 +13,7 @@ import {
   type Article,
   type GalleryGem,
   type Gem,
+  slugOf,
   type QuoteCard,
   type Story,
 } from "@/data/site";
@@ -107,7 +108,16 @@ export const DEFAULT_CONTENT: SiteContent = {
 
 export async function getContent(): Promise<SiteContent> {
   const stored = await readJson<Partial<SiteContent>>(CONTENT_PATH);
-  return { ...DEFAULT_CONTENT, ...(stored ?? {}) };
+  const content = { ...DEFAULT_CONTENT, ...(stored ?? {}) };
+  // The old articles editor only knew title/image/row, so its saves stripped
+  // body and date. Backfill those from the shipped copy (matched by slug)
+  // until the article is re-published from the rich editor.
+  content.articles = content.articles.map((article) => {
+    if (article.html || article.body) return article;
+    const shipped = DEFAULT_CONTENT.articles.find((d) => slugOf(d) === slugOf(article));
+    return shipped ? { ...shipped, ...article } : article;
+  });
+  return content;
 }
 
 export async function saveContent(content: SiteContent) {
