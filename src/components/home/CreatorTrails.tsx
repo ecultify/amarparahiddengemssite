@@ -12,12 +12,12 @@ export function CreatorTrails({ trails }: { trails: { image: string; caption: st
         src={IMG.accentKiteCreator}
         className="pointer-events-none hidden lg:block absolute top-[-30px] right-[-15px] z-10 h-[183px] w-[163px] object-contain opacity-85"
       />
-    <section id="creator-trails" className="relative w-full overflow-hidden bg-cream pt-10 pb-12 lg:pt-[44px] lg:pb-[64px]">
+    <section id="creator-trails" className="relative w-full overflow-hidden bg-cream pt-10 pb-16 lg:pt-[44px] lg:pb-[100px]">
       {/* Figma 49:2139 — caddie 178:287, kite 49:2141, golfer 178:33 and its
           flag 178:31 (page-level in Figma, anchored to this section's floor). */}
       <Asset
         src={HOME_ACCENT.caddie}
-        className="pointer-events-none hidden lg:block absolute top-[168px] left-[calc(50%-651px)] h-[136px] w-[89px] object-contain"
+        className="pointer-events-none hidden lg:block absolute top-[97px] left-[calc(50%-651px)] h-[136px] w-[89px] object-contain"
       />
       <Asset
         src={HOME_ACCENT.flag}
@@ -33,10 +33,10 @@ export function CreatorTrails({ trails }: { trails: { image: string; caption: st
           eyebrow="Creator Discoveries"
           eyebrowClassName="text-pink"
           title="Fresh Finds From the Paras"
-          blurb="See creators uncover lesser-known places, people and local favourites from across Kolkata."
+          blurb="See creators uncover lesser-known places, people and local favourites from across Kolkata."
         />
 
-        <div className="no-scrollbar mt-8 flex h-[380px] gap-4 overflow-x-auto lg:mt-10">
+        <div className="no-scrollbar mt-10 flex h-[380px] gap-4 overflow-x-auto lg:mt-14">
           {trails.map((trail, index) => (
             <Asset
               key={index}
@@ -47,7 +47,7 @@ export function CreatorTrails({ trails }: { trails: { image: string; caption: st
           ))}
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-2">
+        <div className="mt-10 flex items-center justify-center gap-2 lg:mt-14">
           {trails.map((_, index) => (
             <span
               key={index}
