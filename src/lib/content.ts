@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { readJson, writeJson } from "@/lib/blob-store";
 import {
   ARTICLES_ROW_ONE,
@@ -106,7 +107,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   ],
 };
 
-export async function getContent(): Promise<SiteContent> {
+async function fetchContent(): Promise<SiteContent> {
   const stored = await readJson<Partial<SiteContent>>(CONTENT_PATH);
   const content = { ...DEFAULT_CONTENT, ...(stored ?? {}) };
   // The old articles editor only knew title/image/row, so its saves stripped
@@ -119,6 +120,9 @@ export async function getContent(): Promise<SiteContent> {
   });
   return content;
 }
+
+/** cache() dedupes the read when several components ask during one render. */
+export const getContent = cache(fetchContent);
 
 export async function saveContent(content: SiteContent) {
   await writeJson(CONTENT_PATH, content);

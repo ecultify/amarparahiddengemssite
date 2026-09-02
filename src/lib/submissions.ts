@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { readJson, readJsonCollection, removeBlob, writeJson } from "@/lib/blob-store";
 
 /** "counted" means the gem was pushed into the public 500 counter. */
@@ -23,8 +24,9 @@ export type Submission = {
 const PREFIX = "submissions/";
 const pathFor = (id: string) => `${PREFIX}${id}.json`;
 
-/** Sorts newest-first because ids are timestamp-prefixed. */
-export const listSubmissions = () => readJsonCollection<Submission>(PREFIX);
+/** Sorts newest-first because ids are timestamp-prefixed. cache() dedupes the
+ *  blob list() when the layout and a page both ask during one render. */
+export const listSubmissions = cache(() => readJsonCollection<Submission>(PREFIX));
 
 export const getSubmission = (id: string) => readJson<Submission>(pathFor(id));
 
