@@ -32,15 +32,50 @@ const blobUrlFor = (pathname: string) => {
   return base ? `${base}/${pathname}` : null;
 };
 
+/* ---- Command-saving memo ----
+ * A 30s per-instance cache so bursts of requests (an admin clicking through
+ * pages, quiz visitors) don't each spend Redis commands on identical reads.
+ * Writes bust their own path immediately, so the editor always sees its own
+ * save; another warm instance can serve up to 30s stale, which nothing here
+ * is sensitive to. ponytail: per-lambda memo, add a shared cache layer only
+ * if command usage ever actually approaches the free tier. */
+const MEMO_TTL_MS = 30_000;
+const memo = new Map<string, { at: number; value: unknown }>();
+
+function remember<T>(key: string, value: T): T {
+  memo.set(key, { at: Date.now(), value });
+  return value;
+}
+
+function recall<T>(key: string): { value: T } | null {
+  const hit = memo.get(key);
+  if (!hit) return null;
+  if (Date.now() - hit.at > MEMO_TTL_MS) {
+    memo.delete(key);
+    return null;
+  }
+  return { value: hit.value as T };
+}
+
+/** Drop the path's own entry and any collection listing that contains it. */
+function bust(pathname: string) {
+  memo.delete(pathname);
+  for (const key of memo.keys()) {
+    if (key.startsWith("col:") && pathname.startsWith(key.slice(4))) memo.delete(key);
+  }
+}
+
 /* ---- The storage API ---- */
 
 export async function readJson<T>(pathname: string): Promise<T | null> {
   try {
-    if (redis) return await redis.get<T>(pathname);
+    const cached = recall<T | null>(pathname);
+    if (cached) return cached.value;
+    if (redis) return remember(pathname, await redis.get<T>(pathname));
     const url = blobUrlFor(pathname);
     if (!url) return null;
     const res = await fetch(url, { cache: "no-store" });
-    return res.ok ? ((await res.json()) as T) : null;
+    return res.ok ? remember(pathname, (await res.json()) as T) : null;
   } catch {
     // Store unreachable: callers fall back to their defaults.
     return null;
@@ -48,8 +83,11 @@ export async function readJson<T>(pathname: string): Promise<T | null> {
 }
 
 export async function writeJson(pathname: string, value: unknown) {
+  bust(pathname);
   if (redis) {
     await redis.set(pathname, value);
+    // Serve the fresh value from memory instead of re-reading it.
+    remember(pathname, value);
     return;
   }
   await put(pathname, JSON.stringify(value, null, 2), {
@@ -66,12 +104,14 @@ export async function writeJson(pathname: string, value: unknown) {
  *  submissions; move to an index set if the inbox ever gets huge. */
 export async function readJsonCollection<T>(prefix: string): Promise<T[]> {
   try {
+    const cached = recall<T[]>(`col:${prefix}`);
+    if (cached) return cached.value;
     if (redis) {
       const keys = await redis.keys(`${prefix}*`);
-      if (keys.length === 0) return [];
+      if (keys.length === 0) return remember(`col:${prefix}`, []);
       keys.sort((a, b) => b.localeCompare(a));
       const items = await redis.mget<(T | null)[]>(...keys);
-      return items.filter((item): item is T => item !== null);
+      return remember(`col:${prefix}`, items.filter((item): item is T => item !== null));
     }
     const { blobs } = await list({ prefix });
     const ordered = blobs.sort((a, b) => b.pathname.localeCompare(a.pathname));
@@ -88,6 +128,7 @@ export async function readJsonCollection<T>(prefix: string): Promise<T[]> {
 }
 
 export async function removeBlob(pathname: string) {
+  bust(pathname);
   if (redis) {
     await redis.del(pathname);
     return;
