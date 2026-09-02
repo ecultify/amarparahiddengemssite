@@ -7,11 +7,12 @@ import { isDraft } from "@/data/site";
 import { getContent } from "@/lib/content";
 import { COLLECTIONS } from "@/lib/schema";
 import { listSubmissions } from "@/lib/submissions";
-import { formatDate, STATUS_TONE } from "@/components/admin/format";
+import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
 
 export default async function AdminHome() {
   const [content, submissions] = await Promise.all([getContent(), listSubmissions()]);
   const pending = submissions.filter((entry) => entry.status === "new");
+  const counted = submissions.filter((entry) => entry.status === "counted").length;
   const recent = submissions.slice(0, 5);
 
   return (
@@ -21,6 +22,7 @@ export default async function AdminHome() {
         <p className="text-sm text-muted-foreground">
           {content.gemCount.discovered} of {content.gemCount.total} gems mapped ·{" "}
           {submissions.length} {submissions.length === 1 ? "submission" : "submissions"} received
+          {counted > 0 ? ` · ${counted} pushed into the 500` : ""}
         </p>
       </header>
 
@@ -58,7 +60,7 @@ export default async function AdminHome() {
                     </p>
                   </div>
                   <Badge variant="outline" className={STATUS_TONE[entry.status]}>
-                    {entry.status}
+                    {STATUS_LABEL[entry.status]}
                   </Badge>
                 </Link>
               </li>

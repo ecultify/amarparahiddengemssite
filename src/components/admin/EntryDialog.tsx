@@ -53,8 +53,9 @@ export function EntryDialog({
 
   return (
     <Dialog open={open} onOpenChange={(next) => (!next && !saving ? onClose() : undefined)}>
-      <DialogContent className="max-h-[85vh] gap-0 overflow-x-hidden overflow-y-auto p-0 sm:max-w-xl">
-        <DialogHeader className="border-b px-6 py-4">
+      {/* Header and footer stay put; only the fields in between scroll. */}
+      <DialogContent className="flex max-h-[85vh] flex-col gap-0 p-0 sm:max-w-xl">
+        <DialogHeader className="shrink-0 border-b px-6 py-4">
           <DialogTitle>
             {isNew
               ? `New ${collection.singular.toLowerCase()}`
@@ -63,7 +64,7 @@ export function EntryDialog({
           <DialogDescription>{collection.where}</DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 px-6 py-5 sm:grid-cols-2">
+        <div className="grid min-h-0 flex-1 auto-rows-min gap-4 overflow-x-hidden overflow-y-auto px-6 py-5 sm:grid-cols-2">
           {collection.fields.map((field) => {
             const id = `entry-${field.key}`;
             const value = draft[field.key] ?? "";
@@ -115,7 +116,7 @@ export function EntryDialog({
           })}
         </div>
 
-        <DialogFooter className="border-t px-6 py-4">
+        <DialogFooter className="shrink-0 border-t px-6 py-4">
           <Button type="button" variant="outline" disabled={saving} onClick={onClose}>
             Cancel
           </Button>

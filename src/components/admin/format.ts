@@ -14,4 +14,12 @@ export const STATUS_TONE: Record<SubmissionStatus, string> = {
   new: "border-pink/30 bg-pink/10 text-pink",
   approved: "border-grass/30 bg-grass/10 text-grass",
   rejected: "border-muted-foreground/30 bg-muted text-muted-foreground",
+  counted: "border-cyan/30 bg-cyan/10 text-cyan",
+};
+
+export const STATUS_LABEL: Record<SubmissionStatus, string> = {
+  new: "new",
+  approved: "approved",
+  rejected: "rejected",
+  counted: "in the 500",
 };

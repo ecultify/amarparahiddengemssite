@@ -11,12 +11,13 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listSubmissions, type SubmissionStatus } from "@/lib/submissions";
-import { formatDate, STATUS_TONE } from "@/components/admin/format";
+import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
 
 const FILTERS: { key: string; label: string }[] = [
   { key: "all", label: "All" },
   { key: "new", label: "New" },
   { key: "approved", label: "Approved" },
+  { key: "counted", label: "In the 500" },
   { key: "rejected", label: "Rejected" },
 ];
 
@@ -103,7 +104,7 @@ export default async function SubmissionsPage({
                   </TableCell>
                   <TableCell className="text-right">
                     <Badge variant="outline" className={STATUS_TONE[entry.status]}>
-                      {entry.status}
+                      {STATUS_LABEL[entry.status]}
                     </Badge>
                   </TableCell>
                 </TableRow>

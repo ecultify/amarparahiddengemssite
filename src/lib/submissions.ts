@@ -1,6 +1,7 @@
 import { readJson, readJsonCollection, removeBlob, writeJson } from "@/lib/blob-store";
 
-export type SubmissionStatus = "new" | "approved" | "rejected";
+/** "counted" means the gem was pushed into the public 500 counter. */
+export type SubmissionStatus = "new" | "approved" | "rejected" | "counted";
 
 export type Submission = {
   id: string;

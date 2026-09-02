@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SubmissionActions } from "@/components/admin/SubmissionActions";
-import { formatDate, STATUS_TONE } from "@/components/admin/format";
+import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
 import { getSubmission } from "@/lib/submissions";
 
 function Row({ label, value }: { label: string; value: string }) {
@@ -38,7 +38,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
           </p>
         </div>
         <Badge variant="outline" className={STATUS_TONE[entry.status]}>
-          {entry.status}
+          {STATUS_LABEL[entry.status]}
         </Badge>
       </header>
 

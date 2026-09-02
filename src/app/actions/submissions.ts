@@ -2,9 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
+import { getContent, saveContent } from "@/lib/content";
 import {
   createSubmission,
   deleteSubmission,
+  getSubmission,
   updateSubmission,
   type SubmissionStatus,
 } from "@/lib/submissions";
@@ -49,7 +51,25 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
 
 export async function setSubmissionStatus(id: string, status: SubmissionStatus) {
   await requireAdmin();
+  const current = await getSubmission(id);
+  if (!current) return;
   await updateSubmission(id, { status });
+
+  // Crossing the "counted" line moves the public 500 counter with it, so
+  // pushing a gem in (or pulling one out) needs no trip to Settings.
+  const delta = (status === "counted" ? 1 : 0) - (current.status === "counted" ? 1 : 0);
+  if (delta !== 0) {
+    const content = await getContent();
+    await saveContent({
+      ...content,
+      gemCount: {
+        ...content.gemCount,
+        discovered: Math.max(0, content.gemCount.discovered + delta),
+      },
+    });
+    for (const path of ["/", "/500-gems", "/participate", "/submit"]) revalidatePath(path);
+  }
+
   revalidatePath("/admin");
   revalidatePath("/admin/submissions");
   revalidatePath(`/admin/submissions/${id}`);

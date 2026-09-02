@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Check, Loader2, Trash2, Undo2, X } from "lucide-react";
+import { Check, Gem, Loader2, Trash2, Undo2, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,23 +31,44 @@ export function SubmissionActions({
   const [pending, startTransition] = useTransition();
   const router = useRouter();
 
+  const MESSAGES: Record<SubmissionStatus, string> = {
+    approved: "Marked approved",
+    rejected: "Marked rejected",
+    new: "Moved back to new",
+    counted: "Pushed into the 500. The public counter moved up by one.",
+  };
+
   const set = (next: SubmissionStatus) =>
     startTransition(async () => {
       await setSubmissionStatus(id, next);
-      toast.success(next === "approved" ? "Marked approved" : next === "rejected" ? "Marked rejected" : "Moved back to new");
+      toast.success(
+        status === "counted" && next !== "counted"
+          ? "Pulled out of the 500. The public counter moved down by one."
+          : MESSAGES[next],
+      );
     });
 
   return (
     <div className="flex flex-wrap items-center gap-2">
       {pending ? <Loader2 className="size-4 animate-spin text-muted-foreground" /> : null}
 
-      {status !== "approved" ? (
-        <Button size="sm" onClick={() => set("approved")} disabled={pending}>
+      {status !== "counted" ? (
+        <Button size="sm" onClick={() => set("counted")} disabled={pending}>
+          <Gem className="size-3.5" /> Push into the 500
+        </Button>
+      ) : (
+        <Button size="sm" variant="outline" onClick={() => set("approved")} disabled={pending}>
+          <Undo2 className="size-3.5" /> Pull out of the 500
+        </Button>
+      )}
+
+      {status !== "approved" && status !== "counted" ? (
+        <Button size="sm" variant="outline" onClick={() => set("approved")} disabled={pending}>
           <Check className="size-3.5" /> Approve
         </Button>
       ) : null}
 
-      {status !== "rejected" ? (
+      {status !== "rejected" && status !== "counted" ? (
         <Button size="sm" variant="outline" onClick={() => set("rejected")} disabled={pending}>
           <X className="size-3.5" /> Reject
         </Button>
