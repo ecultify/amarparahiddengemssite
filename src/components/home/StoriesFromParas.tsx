@@ -59,11 +59,11 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
         src={HOME_ACCENT.statue}
         className="pointer-events-none hidden lg:block absolute bottom-0 left-[-13px] h-[262px] w-[128px] object-contain object-bottom"
       />
-      {/* Auto rickshaw beside the story cards, brought down from the green
-          section's edge per the design feedback. */}
+      {/* Auto rickshaw in the section's top-left corner, as the Figma places
+          it — just inside the cream, under the green band above. */}
       <Asset
         src={IMG.accentAutoRickshaw}
-        className="pointer-events-none hidden 2xl:block absolute top-[236px] left-[calc(50%-742px)] z-10 h-[110px] w-[147px] scale-x-[-1] object-contain opacity-90"
+        className="pointer-events-none hidden lg:block absolute top-[18px] left-[30px] z-10 h-[104px] w-[150px] scale-x-[-1] object-contain opacity-90"
       />
 
       <div className="relative mx-auto max-w-[1440px] px-5 pt-12 pb-12 md:px-10 lg:px-20 lg:pt-[56px] lg:pb-[64px]">
