@@ -69,7 +69,7 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             between the 780px headline column and the viewport's right edge
             (width caps at the height, since the art is square). right-0 is the
             viewport edge below 1440px; past that the calc eats the gutter. */}
-        <div className="w-full lg:absolute lg:top-0 lg:right-0 lg:h-[692px] lg:w-[calc(100vw-884px)] lg:max-w-[692px] min-[1440px]:right-[calc(720px-50vw)] min-[1440px]:w-[calc(50vw-164px)]">
+        <div className="w-full lg:absolute lg:top-[52px] lg:right-0 lg:h-[640px] lg:w-[calc(100vw-884px)] lg:max-w-[640px] min-[1440px]:right-[calc(720px-50vw)] min-[1440px]:w-[calc(50vw-164px)]">
           <HeroCarousel />
         </div>
       </div>
