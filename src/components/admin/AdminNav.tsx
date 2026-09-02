@@ -3,35 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import {
-  FileImage,
-  Images,
-  Inbox,
-  LayoutDashboard,
-  Menu,
-  MessageSquareQuote,
-  Newspaper,
-  Puzzle,
-  Settings,
-  Sparkles,
-  Video,
-  Footprints,
-} from "lucide-react";
+import { Inbox, LayoutDashboard, Menu, Settings } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { collectionIcon } from "@/components/admin/collectionIcons";
 import { logout } from "@/app/actions/auth";
-
-const COLLECTION_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  gems: Sparkles,
-  stories: MessageSquareQuote,
-  articles: Newspaper,
-  creatorTrails: Footprints,
-  discoveredGems: Images,
-  photoGems: FileImage,
-  videoGems: Video,
-  streetStories: MessageSquareQuote,
-  quiz: Puzzle,
-};
 
 export type NavCollection = { key: string; label: string };
 
@@ -122,7 +98,7 @@ function NavBody({
             key={collection.key}
             href={`/admin/content/${collection.key}`}
             label={collection.label}
-            icon={COLLECTION_ICONS[collection.key] ?? Images}
+            icon={collectionIcon(collection.key)}
             active={pathname.startsWith(`/admin/content/${collection.key}`)}
             onNavigate={onNavigate}
           />

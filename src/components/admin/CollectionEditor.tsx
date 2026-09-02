@@ -1,19 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ArrowDown, ArrowUp, GripVertical, Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ImageIcon, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,12 +15,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { MediaField } from "@/components/admin/MediaField";
+import { EntryDialog } from "@/components/admin/EntryDialog";
 import { saveCollection } from "@/app/actions/content";
 import { emptyItem, type Collection } from "@/lib/schema";
 
 type Item = Record<string, string>;
 
+/** Collection manager: one compact row per entry, click to edit in a modal.
+ *  Every change (save, reorder, delete) publishes to the live site at once —
+ *  the same immediate model as the articles editor. */
 export function CollectionEditor({
   collection,
   initialItems,
@@ -39,184 +32,163 @@ export function CollectionEditor({
   initialItems: Item[];
 }) {
   const [items, setItems] = useState<Item[]>(initialItems);
-  const [dirty, setDirty] = useState(false);
+  // Index being edited; -1 = a new entry; null = dialog closed.
+  const [editing, setEditing] = useState<number | null>(null);
   const [pending, startTransition] = useTransition();
 
-  const update = (next: Item[]) => {
-    setItems(next);
-    setDirty(true);
-  };
+  const imageKey = collection.fields.find((f) => f.type === "image")?.key;
+  const subtitleFields = collection.fields
+    .filter((f) => (f.type === "text" || f.type === "select") && f.key !== collection.titleKey)
+    .slice(0, 2);
 
-  const patch = (index: number, key: string, value: string) =>
-    update(items.map((item, i) => (i === index ? { ...item, [key]: value } : item)));
+  const persist = (next: Item[], done?: () => void) =>
+    startTransition(async () => {
+      try {
+        await saveCollection(collection.key, next);
+        setItems(next);
+        done?.();
+        toast.success("Published", { description: "The live site is updated." });
+      } catch {
+        toast.error("Couldn't save", { description: "Check your connection and try again." });
+      }
+    });
 
   const move = (index: number, direction: -1 | 1) => {
     const target = index + direction;
     if (target < 0 || target >= items.length) return;
     const next = [...items];
     [next[index], next[target]] = [next[target], next[index]];
-    update(next);
+    persist(next);
   };
 
-  const save = () =>
-    startTransition(async () => {
-      try {
-        await saveCollection(collection.key, items);
-        setDirty(false);
-        toast.success(`${collection.label} published`, { description: "The live site is updated." });
-      } catch {
-        toast.error("Couldn't save", { description: "Check your connection and try again." });
-      }
-    });
+  const saveEntry = (draft: Item) => {
+    const next =
+      editing === -1 ? [...items, draft] : items.map((item, i) => (i === editing ? draft : item));
+    persist(next, () => setEditing(null));
+  };
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="sticky top-0 z-30 -mx-5 flex items-center justify-between gap-3 border-b bg-background/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:-mt-4">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-muted-foreground">
-          {items.length} {items.length === 1 ? "entry" : "entries"}
-          {dirty ? <span className="ml-2 font-medium text-foreground">• unsaved changes</span> : null}
+          {items.length} {items.length === 1 ? "entry" : "entries"} · every change publishes straight to the live site
         </p>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => update([...items, emptyItem(collection)])}
-          >
-            <Plus className="size-3.5" /> Add {collection.singular.toLowerCase()}
-          </Button>
-          <Button size="sm" onClick={save} disabled={!dirty || pending}>
-            {pending ? <Loader2 className="size-3.5 animate-spin" /> : null}
-            {pending ? "Publishing…" : "Publish changes"}
-          </Button>
-        </div>
+        <Button size="sm" onClick={() => setEditing(-1)}>
+          <Plus className="size-3.5" /> Add {collection.singular.toLowerCase()}
+        </Button>
       </div>
 
       {items.length === 0 ? (
         <div className="rounded-lg border border-dashed p-10 text-center">
           <p className="text-sm font-medium">No entries yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            This section is hidden on the site until you add one.
+            This section stays hidden on the site until you add one.
           </p>
-          <Button
-            className="mt-4"
-            variant="outline"
-            size="sm"
-            onClick={() => update([emptyItem(collection)])}
-          >
+          <Button className="mt-4" variant="outline" size="sm" onClick={() => setEditing(-1)}>
             <Plus className="size-3.5" /> Add {collection.singular.toLowerCase()}
           </Button>
         </div>
-      ) : null}
+      ) : (
+        <div className="flex flex-col divide-y rounded-lg border bg-card">
+          {items.map((item, index) => {
+            const subtitle = subtitleFields
+              .map((f) => item[f.key])
+              .filter(Boolean)
+              .join(" · ");
+            return (
+              <div key={index} className="flex items-center gap-3 px-4 py-3">
+                {imageKey && item[imageKey] ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={item[imageKey]}
+                    alt=""
+                    className="size-12 shrink-0 rounded-md border object-cover"
+                  />
+                ) : (
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-md border bg-muted">
+                    <ImageIcon className="size-4 text-muted-foreground" />
+                  </div>
+                )}
 
-      {items.map((item, index) => (
-        <article key={index} className="rounded-lg border bg-card">
-          <header className="flex items-center gap-2 border-b px-4 py-2.5">
-            <GripVertical className="size-4 text-muted-foreground" aria-hidden />
-            <h2 className="truncate text-sm font-semibold">
-              {item[collection.titleKey] || `Untitled ${collection.singular.toLowerCase()}`}
-            </h2>
-            <div className="ml-auto flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Move up"
-                disabled={index === 0}
-                onClick={() => move(index, -1)}
-              >
-                <ArrowUp className="size-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Move down"
-                disabled={index === items.length - 1}
-                onClick={() => move(index, 1)}
-              >
-                <ArrowDown className="size-4" />
-              </Button>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Delete entry">
-                    <Trash2 className="size-4 text-destructive" />
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Delete “{item[collection.titleKey] || "this entry"}”?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      It disappears from the site the next time you publish. Uploaded files stay in
-                      storage.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Keep it</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => update(items.filter((_, i) => i !== index))}
-                    >
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </header>
-
-          <div className="grid gap-4 p-4 sm:grid-cols-2">
-            {collection.fields.map((field) => {
-              const id = `${collection.key}-${index}-${field.key}`;
-              const value = item[field.key] ?? "";
-              const wide = field.type === "textarea" || field.type === "image" || field.type === "video";
-
-              return (
-                <div key={field.key} className={`flex flex-col gap-2 ${wide ? "sm:col-span-2" : ""}`}>
-                  <Label htmlFor={id}>{field.label}</Label>
-
-                  {field.type === "textarea" ? (
-                    <Textarea
-                      id={id}
-                      rows={4}
-                      value={value}
-                      onChange={(event) => patch(index, field.key, event.target.value)}
-                    />
-                  ) : field.type === "select" ? (
-                    <Select value={value} onValueChange={(next) => patch(index, field.key, next)}>
-                      <SelectTrigger id={id}>
-                        <SelectValue placeholder="Choose…" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {field.options?.map((option) => (
-                          <SelectItem key={option} value={option}>
-                            {option}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  ) : field.type === "image" || field.type === "video" ? (
-                    <MediaField
-                      id={id}
-                      value={value}
-                      kind={field.type}
-                      onChange={(next) => patch(index, field.key, next)}
-                    />
-                  ) : (
-                    <Input
-                      id={id}
-                      value={value}
-                      onChange={(event) => patch(index, field.key, event.target.value)}
-                    />
-                  )}
-
-                  {field.help ? (
-                    <p className="text-xs text-muted-foreground">{field.help}</p>
+                <button
+                  type="button"
+                  onClick={() => setEditing(index)}
+                  className="flex min-w-0 flex-1 flex-col gap-0.5 rounded-sm text-left outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <span className="truncate text-sm font-semibold">
+                    {item[collection.titleKey] || `Untitled ${collection.singular.toLowerCase()}`}
+                  </span>
+                  {subtitle ? (
+                    <span className="truncate text-xs text-muted-foreground">{subtitle}</span>
                   ) : null}
+                </button>
+
+                <div className="flex shrink-0 items-center">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Move up"
+                    disabled={index === 0 || pending}
+                    onClick={() => move(index, -1)}
+                  >
+                    <ArrowUp className="size-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Move down"
+                    disabled={index === items.length - 1 || pending}
+                    onClick={() => move(index, 1)}
+                  >
+                    <ArrowDown className="size-4" />
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Delete entry"
+                        disabled={pending}
+                      >
+                        <Trash2 className="size-4 text-destructive" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Delete “{item[collection.titleKey] || "this entry"}”?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          It disappears from the live site immediately. Uploaded files stay in
+                          storage.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Keep it</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => persist(items.filter((_, i) => i !== index))}
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
-              );
-            })}
-          </div>
-        </article>
-      ))}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <EntryDialog
+        key={editing ?? "closed"}
+        collection={collection}
+        item={editing === null ? null : editing === -1 ? emptyItem(collection) : items[editing]}
+        open={editing !== null}
+        saving={pending}
+        onSave={saveEntry}
+        onClose={() => setEditing(null)}
+      />
     </div>
   );
 }

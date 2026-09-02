@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Inbox } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { collectionIcon } from "@/components/admin/collectionIcons";
 import { getContent } from "@/lib/content";
 import { COLLECTIONS } from "@/lib/schema";
 import { listSubmissions } from "@/lib/submissions";
@@ -13,7 +14,7 @@ export default async function AdminHome() {
   const recent = submissions.slice(0, 5);
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8">
       <header className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
         <p className="text-sm text-muted-foreground">
@@ -22,6 +23,7 @@ export default async function AdminHome() {
         </p>
       </header>
 
+      <div className="grid items-start gap-8 xl:grid-cols-2">
       <section className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between">
           <h2 className="text-sm font-semibold">Latest submissions</h2>
@@ -75,12 +77,16 @@ export default async function AdminHome() {
         <ul className="divide-y rounded-lg border bg-card">
           {COLLECTIONS.map((collection) => {
             const count = (content[collection.key] as unknown[]).length;
+            const Icon = collectionIcon(collection.key);
             return (
               <li key={collection.key}>
                 <Link
                   href={`/admin/content/${collection.key}`}
                   className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/60"
                 >
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-md border bg-muted/60">
+                    <Icon className="size-4 text-muted-foreground" />
+                  </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium">{collection.label}</p>
                     <p className="truncate text-xs text-muted-foreground">{collection.where}</p>
@@ -93,6 +99,7 @@ export default async function AdminHome() {
           })}
         </ul>
       </section>
+      </div>
     </div>
   );
 }

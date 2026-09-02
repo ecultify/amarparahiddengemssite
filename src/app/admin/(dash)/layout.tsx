@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <AdminSidebar collections={collections} newCount={newCount} />
       <AdminMobileBar collections={collections} newCount={newCount} />
       <div className="lg:pl-64">
-        <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 lg:py-12">{children}</div>
+        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8 lg:py-10">{children}</div>
       </div>
       <Toaster position="top-right" />
     </div>
