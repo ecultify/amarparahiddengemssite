@@ -62,7 +62,11 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             145px it never used. Handing most of it over is free width for the
             collage that does not risk overflowing the viewport, which is all
             the right bleed can safely take below ~1700px. */}
-        <div className="w-full lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[130px] 2xl:-mr-[200px]">
+        {/* The left column is fixed at 780px, so the only real size the
+            collage can gain on wide screens is the right-hand gutter: the
+            container caps at 1440px, which leaves (vw - 1440) / 2 + 80px of
+            slack at 2xl. -320px consumes nearly all of it on a 1920 screen. */}
+        <div className="w-full lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[130px] 2xl:-mr-[320px]">
           <HeroCarousel />
         </div>
       </div>
