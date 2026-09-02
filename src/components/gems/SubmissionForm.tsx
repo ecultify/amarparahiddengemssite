@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { upload } from "@vercel/blob/client";
+import { uploadMedia, MAX_VIDEO_BYTES } from "@/lib/upload-media";
 import { UploadCloud } from "@/components/ui/icons";
 import { PhoneVerify } from "@/components/gems/PhoneVerify";
 import { ShipAnimation } from "@/components/gems/ShipAnimation";
@@ -11,7 +11,8 @@ import { submitGem, type SubmitState } from "@/app/actions/submissions";
 
 const STEPS = ["Your Para", "Your Gem", "Photo / Video", "Verify"];
 
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+// Photos are compressed before upload; videos have a hard cap in storage.
+const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
 const FIELD =
   "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[16px] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink";
@@ -37,24 +38,26 @@ export function SubmissionForm() {
     const picked = event.target.files?.[0];
     if (!picked) return;
     setUploadError(null);
+    if (picked.type.startsWith("video") && picked.size > MAX_VIDEO_BYTES) {
+      setUploadError("Videos can be up to 7 MB. Trim it or upload a photo instead.");
+      event.target.value = "";
+      return;
+    }
     if (picked.size > MAX_UPLOAD_BYTES) {
-      setUploadError("That file is over the 10 MB limit.");
+      setUploadError("That file is too large.");
       event.target.value = "";
       return;
     }
     setUploading(true);
     try {
-      const blob = await upload(picked.name, picked, {
-        access: "public",
-        handleUploadUrl: "/api/upload",
-      });
-      setFile({
-        url: blob.url,
-        name: picked.name,
-        type: picked.type.startsWith("video") ? "video" : "image",
-      });
-    } catch {
-      setUploadError("That file couldn't be uploaded. JPG, PNG or MP4 up to 10 MB.");
+      const uploaded = await uploadMedia(picked);
+      setFile({ url: uploaded.url, name: picked.name, type: uploaded.type });
+    } catch (error) {
+      setUploadError(
+        error instanceof Error && error.message
+          ? error.message
+          : "That file couldn't be uploaded. JPG, PNG or MP4.",
+      );
     } finally {
       setUploading(false);
       // Let the same file be re-picked after a remove.
@@ -217,7 +220,7 @@ export function SubmissionForm() {
                 Help us see your hidden gem. Upload an original photo or video, if available.
               </span>
               <span className="font-ui text-[11px] font-bold uppercase text-slate/60">
-                Supported formats: JPG, PNG, MP4 | Max file size: 10 MB
+                Supported formats: JPG, PNG, MP4 | Videos up to 7 MB
               </span>
             </label>
           )}

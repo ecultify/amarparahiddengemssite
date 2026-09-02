@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { upload } from "@vercel/blob/client";
-import { downscaleImage } from "@/lib/resize-image";
+import { uploadMedia } from "@/lib/upload-media";
 import { Loader2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,11 +24,14 @@ export function MediaField({ id, value, kind, onChange }: Props) {
     setError(null);
     setBusy(true);
     try {
-      const scaled = await downscaleImage(file);
-      const blob = await upload(scaled.name, scaled, { access: "public", handleUploadUrl: "/api/upload" });
-      onChange(blob.url);
-    } catch {
-      setError("Upload failed. JPG, PNG, WEBP or MP4 up to 10 MB.");
+      const uploaded = await uploadMedia(file);
+      onChange(uploaded.url);
+    } catch (uploadError) {
+      setError(
+        uploadError instanceof Error && uploadError.message
+          ? uploadError.message
+          : "Upload failed. JPG, PNG, WEBP or MP4 (videos up to 7 MB).",
+      );
     } finally {
       setBusy(false);
       event.target.value = "";

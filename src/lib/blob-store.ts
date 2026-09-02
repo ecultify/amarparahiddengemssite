@@ -7,8 +7,8 @@ import { del, list, put } from "@vercel/blob";
  * free tier), keyed by the same pathnames the blob store used, so the rest of
  * the app never changed. When the Redis env vars are absent (a fresh clone
  * without `vercel env pull`), everything falls back to the old Vercel Blob
- * JSON storage. Media files (photo/video uploads) still live in Vercel Blob
- * either way — that part is /api/upload's job, not this file's.
+ * JSON storage. Media files live in Redis too, as base64 strings, through
+ * the raw helpers at the bottom of this file.
  */
 
 const redis =
@@ -136,3 +136,26 @@ export async function removeBlob(pathname: string) {
   const url = blobUrlFor(pathname);
   if (url) await del(url);
 }
+
+/* ---- Raw string storage for media ----
+ * Media files live in Redis as base64 strings, built up with APPEND so a
+ * video arrives in chunks that each stay under the 10MB request cap. These
+ * bypass the JSON layer and the memo on purpose: a 9MB base64 string has no
+ * business sitting in a lambda's memo map.
+ * ponytail: the whole store is 256MB, roughly 25 full-size videos. Move
+ * media to real file storage before campaign-scale traffic. */
+
+function requireRedis() {
+  if (!redis) throw new Error("Media storage needs the database (KV env vars missing).");
+  return redis;
+}
+
+/** Overwrites the key with the first chunk. */
+export const setRaw = (key: string, chunk: string) => requireRedis().set(key, chunk);
+
+/** Appends a chunk; resolves to the new total length. */
+export const appendRaw = (key: string, chunk: string) => requireRedis().append(key, chunk);
+
+export const getRaw = (key: string) => requireRedis().get<string>(key);
+
+export const delRaw = (key: string) => requireRedis().del(key);
