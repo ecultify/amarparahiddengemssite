@@ -55,7 +55,7 @@ export function AdminSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1.5">
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/admin"} tooltip="Overview">
                   <Link href="/admin">
@@ -88,7 +88,7 @@ export function AdminSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Site content</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1.5">
               {collections.map((collection) => {
                 const Icon = collectionIcon(collection.key);
                 const href = `/admin/content/${collection.key}`;
@@ -113,7 +113,7 @@ export function AdminSidebar({
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarMenu>
+        <SidebarMenu className="gap-1.5">
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
