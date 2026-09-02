@@ -1,39 +1,57 @@
+import { Redis } from "@upstash/redis";
 import { del, list, put } from "@vercel/blob";
 
 /**
- * Thin wrapper over Vercel Blob — the only place that knows where bytes live.
- * Swapping in a database later means reimplementing these five functions.
- *
- * Reads go straight to the blob's public URL instead of calling list() first:
- * everything is written with addRandomSuffix: false, so the URL is
- * deterministic, and list() is a metered "advanced operation" that burned
- * through the free tier's monthly quota when it ran on every page view.
+ * The only place that knows where JSON documents live. Content and
+ * submissions are stored in Upstash Redis (sub-ms reads and writes, generous
+ * free tier), keyed by the same pathnames the blob store used, so the rest of
+ * the app never changed. When the Redis env vars are absent (a fresh clone
+ * without `vercel env pull`), everything falls back to the old Vercel Blob
+ * JSON storage. Media files (photo/video uploads) still live in Vercel Blob
+ * either way — that part is /api/upload's job, not this file's.
  */
 
+const redis =
+  process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+    ? new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN,
+      })
+    : null;
+
+/* ---- Blob fallback plumbing ---- */
+
 /** vercel_blob_rw_<storeId>_<secret> -> https://<storeid>.public.blob... */
-function baseUrl() {
+function blobBaseUrl() {
   const storeId = (process.env.BLOB_READ_WRITE_TOKEN ?? "").split("_")[3];
   return storeId ? `https://${storeId.toLowerCase()}.public.blob.vercel-storage.com` : null;
 }
 
-const urlFor = (pathname: string) => {
-  const base = baseUrl();
+const blobUrlFor = (pathname: string) => {
+  const base = blobBaseUrl();
   return base ? `${base}/${pathname}` : null;
 };
 
+/* ---- The storage API ---- */
+
 export async function readJson<T>(pathname: string): Promise<T | null> {
   try {
-    const url = urlFor(pathname);
+    if (redis) return await redis.get<T>(pathname);
+    const url = blobUrlFor(pathname);
     if (!url) return null;
     const res = await fetch(url, { cache: "no-store" });
     return res.ok ? ((await res.json()) as T) : null;
   } catch {
-    // No token / store not reachable: callers fall back to their defaults.
+    // Store unreachable: callers fall back to their defaults.
     return null;
   }
 }
 
 export async function writeJson(pathname: string, value: unknown) {
+  if (redis) {
+    await redis.set(pathname, value);
+    return;
+  }
   await put(pathname, JSON.stringify(value, null, 2), {
     access: "public",
     contentType: "application/json",
@@ -43,10 +61,18 @@ export async function writeJson(pathname: string, value: unknown) {
   });
 }
 
-/** Every JSON blob under a prefix, newest pathname first. The one reader that
- *  still needs list() — ids under the prefix aren't known in advance. */
+/** Every JSON document under a prefix, newest pathname first.
+ *  ponytail: KEYS is an O(keyspace) scan — fine for a few hundred
+ *  submissions; move to an index set if the inbox ever gets huge. */
 export async function readJsonCollection<T>(prefix: string): Promise<T[]> {
   try {
+    if (redis) {
+      const keys = await redis.keys(`${prefix}*`);
+      if (keys.length === 0) return [];
+      keys.sort((a, b) => b.localeCompare(a));
+      const items = await redis.mget<(T | null)[]>(...keys);
+      return items.filter((item): item is T => item !== null);
+    }
     const { blobs } = await list({ prefix });
     const ordered = blobs.sort((a, b) => b.pathname.localeCompare(a.pathname));
     const items = await Promise.all(
@@ -62,6 +88,10 @@ export async function readJsonCollection<T>(prefix: string): Promise<T[]> {
 }
 
 export async function removeBlob(pathname: string) {
-  const url = urlFor(pathname);
+  if (redis) {
+    await redis.del(pathname);
+    return;
+  }
+  const url = blobUrlFor(pathname);
   if (url) await del(url);
 }
