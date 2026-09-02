@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Asset } from "@/components/ui/Asset";
 import { ArticleCarousel } from "@/components/home/ArticleCarousel";
@@ -28,6 +27,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (index === -1) notFound();
 
   const article = articles[index];
+  // Shipped articles carry body as string[]; admin-edited ones as one string
+  // with blank lines between paragraphs.
+  const paragraphs = Array.isArray(article.body)
+    ? article.body
+    : (article.body ?? "").split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   // Everything else, starting from the next one, so the rail always leads with
   // what follows this piece rather than restarting at the top of the list.
   const others = [...articles.slice(index + 1), ...articles.slice(0, index)];
@@ -99,7 +103,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           />
 
           <div className="mt-2 flex w-full max-w-[700px] flex-col gap-4">
-            {(article.body ?? []).map((paragraph) => (
+            {paragraphs.map((paragraph) => (
               <p
                 key={paragraph.slice(0, 40)}
                 className="text-center font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"

@@ -57,3 +57,36 @@ export async function isAuthed() {
 export async function requireAdmin() {
   if (!(await isAuthed())) throw new Error("Unauthorized");
 }
+
+/* ---- Visitor session, started by OTP verification on the gem form. Shared
+ * with Guess the Para. Token: `<phone>.<expiry>.<hmac>`. ---- */
+
+export const GEM_COOKIE = "amarpara_gem";
+const GEM_MAX_AGE = 60 * 60 * 24 * 30; // 30d — a daily quiz needs a sticky login
+
+const gemMac = (phone: string, expiry: string) =>
+  createHmac("sha256", secret()).update(`gem.${phone}.${expiry}`).digest("hex");
+
+export async function startGemSession(phone: string) {
+  const clean = phone.replace(/\D/g, "");
+  const expiresAt = String(Date.now() + GEM_MAX_AGE * 1000);
+  (await cookies()).set(GEM_COOKIE, `${clean}.${expiresAt}.${gemMac(clean, expiresAt)}`, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: GEM_MAX_AGE,
+  });
+}
+
+/** The verified phone number, or null when there is no valid session. */
+export async function getGemPhone(): Promise<string | null> {
+  const token = (await cookies()).get(GEM_COOKIE)?.value;
+  if (!token) return null;
+  const [phone, expiry, mac] = token.split(".");
+  if (!phone || !expiry || !mac) return null;
+  if (Number(expiry) < Date.now()) return null;
+  const a = Buffer.from(mac);
+  const b = Buffer.from(gemMac(phone, expiry));
+  return a.length === b.length && timingSafeEqual(a, b) ? phone : null;
+}

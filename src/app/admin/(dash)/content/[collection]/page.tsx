@@ -13,7 +13,16 @@ export default async function CollectionPage({
   if (!collection) notFound();
 
   const content = await getContent();
-  const items = content[collection.key] as unknown as Record<string, string>[];
+  // The editor works on flat strings; shipped content keeps some fields as
+  // arrays (article bodies), so join those with blank lines for the textarea.
+  const items = (content[collection.key] as unknown as Record<string, unknown>[]).map((item) =>
+    Object.fromEntries(
+      Object.entries(item).map(([key, value]) => [
+        key,
+        Array.isArray(value) ? value.join("\n\n") : String(value ?? ""),
+      ]),
+    ),
+  );
 
   return (
     <div className="flex flex-col gap-6">

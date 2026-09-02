@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { verifyPhone } from "@/app/actions/auth";
 
 const OTP_LENGTH = 6;
 const FIELD =
@@ -25,6 +26,7 @@ export function PhoneVerify({
   const [sent, setSent] = useState(false);
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [error, setError] = useState<string | null>(null);
+  const [checking, setChecking] = useState(false);
   const slots = useRef<Array<HTMLInputElement | null>>([]);
 
   const phoneOk = phone.replace(/\D/g, "").length >= 10;
@@ -67,13 +69,27 @@ export function PhoneVerify({
     if (event.key === "ArrowRight" && index < OTP_LENGTH - 1) slots.current[index + 1]?.focus();
   }
 
-  function verify() {
+  // Server-side so the verification also starts the visitor session cookie
+  // that Guess the Para shares.
+  async function verify() {
     if (code.length !== OTP_LENGTH) {
       setError(`Enter all ${OTP_LENGTH} digits.`);
       return;
     }
     setError(null);
-    onVerified(phone);
+    setChecking(true);
+    try {
+      const result = await verifyPhone(phone, code);
+      if (!result.ok) {
+        setError(result.error ?? "That code didn't match. Try again.");
+        return;
+      }
+      onVerified(phone);
+    } catch {
+      setError("Couldn't verify right now. Check your connection and try again.");
+    } finally {
+      setChecking(false);
+    }
   }
 
   if (verified) {
@@ -151,9 +167,10 @@ export function PhoneVerify({
             <button
               type="button"
               onClick={verify}
-              className="btn-3d inline-flex h-12 items-center justify-center rounded-[4px] bg-yellow px-6 font-display text-[14px] font-extrabold uppercase text-navy"
+              disabled={checking}
+              className="btn-3d inline-flex h-12 items-center justify-center rounded-[4px] bg-yellow px-6 font-display text-[14px] font-extrabold uppercase text-navy disabled:opacity-60"
             >
-              Verify
+              {checking ? "Verifying…" : "Verify"}
             </button>
           </div>
           <p className="font-body text-[12px] text-slate/70">

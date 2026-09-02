@@ -130,8 +130,9 @@ export type Article = {
   image: string;
   /** Dateline shown above the headline on the article page. */
   date?: string;
-  /** Body copy, one string per paragraph. */
-  body?: string[];
+  /** Body copy — one string per paragraph, or (from the admin editor) a
+   *  single string with blank lines between paragraphs. */
+  body?: string[] | string;
 };
 
 /** URL segment for an article. Derived from the headline so an editor adding a

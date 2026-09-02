@@ -11,6 +11,7 @@ import {
   Menu,
   MessageSquareQuote,
   Newspaper,
+  Puzzle,
   Settings,
   Sparkles,
   Video,
@@ -29,6 +30,7 @@ const COLLECTION_ICONS: Record<string, React.ComponentType<{ className?: string 
   photoGems: FileImage,
   videoGems: Video,
   streetStories: MessageSquareQuote,
+  quiz: Puzzle,
 };
 
 export type NavCollection = { key: string; label: string };

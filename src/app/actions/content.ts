@@ -5,11 +5,12 @@ import { requireAdmin } from "@/lib/auth";
 import { getContent, saveContent, type SiteContent } from "@/lib/content";
 import type { CollectionKey } from "@/lib/schema";
 
-const PUBLIC_PATHS = ["/", "/500-gems", "/participate", "/submit"];
+const PUBLIC_PATHS = ["/", "/500-gems", "/participate", "/submit", "/guess-the-para"];
 
 async function commit(next: SiteContent) {
   await saveContent(next);
   for (const path of PUBLIC_PATHS) revalidatePath(path);
+  revalidatePath("/articles/[slug]", "page");
 }
 
 // ponytail: last write wins between two editors saving the same collection at
