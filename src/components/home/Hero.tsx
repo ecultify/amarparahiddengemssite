@@ -62,11 +62,14 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             145px it never used. Handing most of it over is free width for the
             collage that does not risk overflowing the viewport, which is all
             the right bleed can safely take below ~1700px. */}
-        {/* The left column is fixed at 780px, so the only real size the
-            collage can gain on wide screens is the right-hand gutter: the
-            container caps at 1440px, which leaves (vw - 1440) / 2 + 80px of
-            slack at 2xl. -320px consumes nearly all of it on a 1920 screen. */}
-        <div className="w-full lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[130px] 2xl:-mr-[320px]">
+        {/* From lg up the collage leaves the grid entirely (its cell was only
+            476px wide, and negative margins on grid items do nothing): it is
+            pinned to the section's top-right, 692px tall so its bottom edge
+            lands level with the gem-counter row, and as wide as the space
+            between the 780px headline column and the viewport's right edge
+            (width caps at the height, since the art is square). right-0 is the
+            viewport edge below 1440px; past that the calc eats the gutter. */}
+        <div className="w-full lg:absolute lg:top-0 lg:right-0 lg:h-[692px] lg:w-[calc(100vw-884px)] lg:max-w-[692px] min-[1440px]:right-[calc(720px-50vw)] min-[1440px]:w-[calc(50vw-164px)]">
           <HeroCarousel />
         </div>
       </div>

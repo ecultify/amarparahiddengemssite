@@ -25,17 +25,17 @@ export function HeroCarousel() {
 
   return (
     <div
-      className="flex w-full flex-col items-center"
+      className="flex w-full flex-col items-center lg:h-full"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative aspect-square w-full max-w-[680px] lg:max-w-[820px] 2xl:max-w-[960px]">
+      <div className="relative aspect-square w-full max-w-[680px] lg:aspect-auto lg:h-full lg:max-w-none">
         {IMG.heroSlides.map((src, i) => (
           <Asset
             key={src}
             src={src}
             alt={i === index ? CAPTIONS[i] : ""}
-            className={`absolute inset-0 size-full object-contain transition-opacity duration-700 ${
+            className={`absolute inset-0 size-full object-contain transition-opacity duration-700 lg:object-right-bottom ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
           />
