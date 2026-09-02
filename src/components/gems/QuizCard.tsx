@@ -1,28 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useTransition } from "react";
 import { Asset } from "@/components/ui/Asset";
+import { submitGuess } from "@/app/actions/quiz";
 import type { QuizEntry } from "@/lib/content";
+import type { Guess } from "@/lib/users";
 
 /**
- * The day's question. One guess per day, remembered in localStorage — the
- * result screen survives a reload but a new IST day brings a fresh question.
+ * The day's question. The guess is recorded server-side against the verified
+ * number — one per day, and it survives any amount of browser clearing.
  */
-export function QuizCard({ question, dayKey }: { question: QuizEntry; dayKey: string }) {
-  const storageKey = `guess-the-para:${dayKey}`;
-  const [picked, setPicked] = useState<string | null>(null);
-
-  // Hydration-safe restore: the server renders the unanswered state, then the
-  // stored guess (if any) is applied after mount.
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing from localStorage, unavailable during SSR
-      if (stored) setPicked(stored);
-    } catch {
-      /* private mode — the quiz just allows re-guessing after reload */
-    }
-  }, [storageKey]);
+export function QuizCard({
+  question,
+  initialGuess,
+}: {
+  question: QuizEntry;
+  initialGuess: Guess | null;
+}) {
+  const [picked, setPicked] = useState<string | null>(initialGuess?.choice ?? null);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
   const options = [
     { key: "1", label: question.option1 },
@@ -36,13 +33,17 @@ export function QuizCard({ question, dayKey }: { question: QuizEntry; dayKey: st
   const answerLabel = options.find((option) => option.key === question.answer)?.label;
 
   function guess(key: string) {
-    if (answered) return;
-    setPicked(key);
-    try {
-      localStorage.setItem(storageKey, key);
-    } catch {
-      /* ignore */
-    }
+    if (answered || pending) return;
+    setError(null);
+    startTransition(async () => {
+      const result = await submitGuess(key as "1" | "2" | "3" | "4");
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      // The server's answer wins — a repeat play shows the original guess.
+      setPicked(result.guess.choice);
+    });
   }
 
   return (
@@ -75,8 +76,8 @@ export function QuizCard({ question, dayKey }: { question: QuizEntry; dayKey: st
               key={option.key}
               type="button"
               onClick={() => guess(option.key)}
-              disabled={answered}
-              className={`min-h-[52px] rounded-[8px] border-2 px-4 py-3 text-center font-display text-[16px] font-bold transition-colors duration-150 ${state}`}
+              disabled={answered || pending}
+              className={`min-h-[52px] rounded-[8px] border-2 px-4 py-3 text-center font-display text-[16px] font-bold transition-colors duration-150 disabled:cursor-default ${state} ${pending && !answered ? "opacity-60" : ""}`}
             >
               {option.label}
             </button>
@@ -84,17 +85,21 @@ export function QuizCard({ question, dayKey }: { question: QuizEntry; dayKey: st
         })}
       </div>
 
+      {error ? <p className="font-body text-[13px] text-red">{error}</p> : null}
+
       {answered ? (
         <div className="flex flex-col items-center gap-1 text-center">
           <p className={`font-display text-[18px] font-extrabold ${correct ? "text-grass" : "text-red"}`}>
-            {correct ? "Spot on! You know your paras." : `Not quite — it's ${answerLabel}.`}
+            {correct ? "Spot on! You know your paras." : `Not quite. It's ${answerLabel}.`}
           </p>
           <p className="font-body text-[14px] text-slate">
             Come back tomorrow for a new para to guess.
           </p>
         </div>
       ) : (
-        <p className="font-body text-[13px] text-slate/70">One guess per day — choose carefully.</p>
+        <p className="font-body text-[13px] text-slate/70">
+          {pending ? "Locking in your guess…" : "One guess per day — choose carefully."}
+        </p>
       )}
     </div>
   );

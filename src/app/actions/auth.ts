@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { checkPassword, endSession, startGemSession, startSession } from "@/lib/auth";
+import { touchUser } from "@/lib/users";
 
 export type LoginState = { error?: string };
 
@@ -31,5 +32,7 @@ export async function verifyPhone(phone: string, code: string): Promise<VerifyPh
   if (phone.replace(/\D/g, "").length < 10) return { ok: false, error: "Enter a 10-digit mobile number." };
   if (!/^\d{6}$/.test(code)) return { ok: false, error: "Enter all 6 digits." };
   await startGemSession(phone);
+  // Every verified number becomes a row on the admin's Users page.
+  await touchUser(phone);
   return { ok: true };
 }

@@ -4,6 +4,8 @@ import { QuizGate } from "@/components/gems/QuizGate";
 import { HOME_ACCENT, IMG, PARTICIPATE_ACCENT, SUBMIT_ACCENT } from "@/lib/assets";
 import { getGemPhone } from "@/lib/auth";
 import { getContent } from "@/lib/content";
+import { istDayIndex } from "@/lib/quiz";
+import { getUser } from "@/lib/users";
 
 /** Unlisted daily quiz — reached only from the thank-you page, never linked
  *  in the site nav, and kept out of search indexes. */
@@ -12,18 +14,15 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-const DAY_MS = 86_400_000;
-const IST_OFFSET_MS = 5.5 * 3_600_000;
-
-/** The IST calendar-day number — the quiz rotates on it. */
-const istDayIndex = () => Math.floor((Date.now() + IST_OFFSET_MS) / DAY_MS);
-
 export default async function GuessTheParaPage() {
   const [phone, content] = await Promise.all([getGemPhone(), getContent()]);
   const quiz = content.quiz;
 
   const dayIndex = istDayIndex();
   const question = quiz.length ? quiz[dayIndex % quiz.length] : null;
+  // Today's guess, if this number already played — the server remembers, so
+  // clearing the browser doesn't earn a second try.
+  const todaysGuess = phone ? ((await getUser(phone))?.guesses[String(dayIndex)] ?? null) : null;
 
   return (
     <>
@@ -74,7 +73,7 @@ export default async function GuessTheParaPage() {
               Today&apos;s question is being prepared — check back soon.
             </p>
           ) : phone ? (
-            <QuizCard question={question} dayKey={String(dayIndex)} />
+            <QuizCard question={question} initialGuess={todaysGuess} />
           ) : (
             <QuizGate />
           )}

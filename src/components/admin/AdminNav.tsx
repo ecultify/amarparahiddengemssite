@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Inbox, LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { Inbox, LayoutDashboard, LogOut, Settings, UsersRound } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -80,6 +80,18 @@ export function AdminSidebar({
                     {newCount}
                   </SidebarMenuBadge>
                 ) : null}
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith("/admin/users")}
+                  tooltip="Users"
+                >
+                  <Link href="/admin/users">
+                    <UsersRound />
+                    <span>Users</span>
+                  </Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
