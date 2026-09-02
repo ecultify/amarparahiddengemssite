@@ -17,7 +17,7 @@ export function CreatorTrails({ trails }: { trails: { image: string; caption: st
           flag 178:31 (page-level in Figma, anchored to this section's floor). */}
       <Asset
         src={HOME_ACCENT.caddie}
-        className="pointer-events-none hidden lg:block absolute top-[97px] left-[calc(50%-651px)] h-[136px] w-[89px] object-contain"
+        className="pointer-events-none hidden lg:block absolute top-[110px] left-[calc(50%-651px)] h-[136px] w-[89px] object-contain"
       />
       <Asset
         src={HOME_ACCENT.flag}
