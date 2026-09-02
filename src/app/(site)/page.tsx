@@ -4,6 +4,7 @@ import { StoriesFromParas } from "@/components/home/StoriesFromParas";
 import { ArticlesFeatures } from "@/components/home/ArticlesFeatures";
 import { CreatorTrails } from "@/components/home/CreatorTrails";
 import { getContent } from "@/lib/content";
+import { isDraft } from "@/data/site";
 
 /** Homepage — Figma node 49:1939 (amar-para-homepage - final). */
 export default async function HomePage() {
@@ -15,8 +16,8 @@ export default async function HomePage() {
       <ExploreGems gems={content.gems} />
       <StoriesFromParas stories={content.stories} />
       <ArticlesFeatures
-        rowOne={content.articles.filter((article) => article.row !== "2")}
-        rowTwo={content.articles.filter((article) => article.row === "2")}
+        rowOne={content.articles.filter((article) => !isDraft(article) && article.row !== "2")}
+        rowTwo={content.articles.filter((article) => !isDraft(article) && article.row === "2")}
       />
       <CreatorTrails trails={content.creatorTrails} />
     </>

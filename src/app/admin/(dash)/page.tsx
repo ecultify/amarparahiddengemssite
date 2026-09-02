@@ -3,6 +3,7 @@ import { ArrowRight, Inbox } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { collectionIcon } from "@/components/admin/collectionIcons";
+import { isDraft } from "@/data/site";
 import { getContent } from "@/lib/content";
 import { COLLECTIONS } from "@/lib/schema";
 import { listSubmissions } from "@/lib/submissions";
@@ -76,7 +77,14 @@ export default async function AdminHome() {
         <h2 className="text-sm font-semibold">Site content</h2>
         <ul className="divide-y rounded-lg border bg-card">
           {COLLECTIONS.map((collection) => {
-            const count = (content[collection.key] as unknown[]).length;
+            const entries = content[collection.key] as unknown[];
+            // Articles get a live/draft split; every other collection is a count.
+            const drafts =
+              collection.key === "articles" ? content.articles.filter(isDraft).length : 0;
+            const count =
+              collection.key === "articles"
+                ? `${entries.length - drafts} live${drafts > 0 ? ` · ${drafts} draft${drafts === 1 ? "" : "s"}` : ""}`
+                : String(entries.length);
             const Icon = collectionIcon(collection.key);
             return (
               <li key={collection.key}>

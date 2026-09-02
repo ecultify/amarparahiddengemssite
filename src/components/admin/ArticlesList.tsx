@@ -60,6 +60,16 @@ export function ArticlesList({ initialArticles }: { initialArticles: Row[] }) {
               {article.date ? ` · ${article.date}` : ""}
             </span>
           </Link>
+          <Badge
+            variant="outline"
+            className={`shrink-0 ${
+              article.status === "draft"
+                ? "border-yellow/60 bg-yellow/15 text-navy"
+                : "border-grass/30 bg-grass/10 text-grass"
+            }`}
+          >
+            {article.status === "draft" ? "Draft" : "Live"}
+          </Badge>
           <Badge variant="outline" className="shrink-0">
             Row {article.row}
           </Badge>

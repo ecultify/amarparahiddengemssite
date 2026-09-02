@@ -58,28 +58,33 @@ export function ArticleEditor({
     setDirty(true);
   };
 
-  const save = () =>
+  // Articles from before the draft workflow carry no status but are live.
+  const isLive = savedSlug !== null && article.status !== "draft";
+
+  const save = (status: "draft" | "published") =>
     startTransition(async () => {
       try {
-        const result = await saveArticle(savedSlug, article);
+        const result = await saveArticle(savedSlug, { ...article, status });
         if (!result.ok) {
           toast.error("Couldn't save", { description: result.error });
           return;
         }
         setDirty(false);
         setSavedSlug(result.slug);
-        patchSilently(result.slug);
-        toast.success("Article published", { description: `Live at /articles/${result.slug}` });
+        // Sync the form with what the server settled on (the slug may have
+        // been cleaned up or de-duplicated) without marking it dirty again.
+        setArticle((a) => ({ ...a, slug: result.slug, status }));
+        if (status === "draft") {
+          toast.success("Draft saved", { description: "It is not on the live site." });
+        } else {
+          toast.success("Article published", { description: `Live at /articles/${result.slug}` });
+        }
         // A new article (or a renamed slug) gets its real edit URL.
         router.replace(`${LIST}/${result.slug}`);
       } catch {
         toast.error("Couldn't save", { description: "Check your connection and try again." });
       }
     });
-
-  // Keep the form's slug in sync with what the server settled on (it may have
-  // been normalised or de-duplicated) without marking the form dirty.
-  const patchSilently = (slug: string) => setArticle((a) => ({ ...a, slug }));
 
   const remove = () =>
     startTransition(async () => {
@@ -120,9 +125,17 @@ export function ArticleEditor({
               </AlertDialogContent>
             </AlertDialog>
           ) : null}
-          <Button size="sm" onClick={save} disabled={pending || (!dirty && Boolean(savedSlug))}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => save("draft")}
+            disabled={pending}
+          >
+            {isLive ? "Unpublish to draft" : "Save draft"}
+          </Button>
+          <Button size="sm" onClick={() => save("published")} disabled={pending}>
             {pending ? <Loader2 className="size-3.5 animate-spin" /> : null}
-            {pending ? "Publishing…" : "Publish"}
+            {pending ? "Saving…" : "Publish"}
           </Button>
         </div>
       </div>

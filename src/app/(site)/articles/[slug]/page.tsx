@@ -2,20 +2,20 @@ import { notFound } from "next/navigation";
 import { Asset } from "@/components/ui/Asset";
 import { ArticleCarousel } from "@/components/home/ArticleCarousel";
 import { IMG, SUBMIT_ACCENT } from "@/lib/assets";
-import { slugOf } from "@/data/site";
+import { isDraft, slugOf } from "@/data/site";
 import { getContent } from "@/lib/content";
 
-/** Article page — Figma 178:296 (Blogs). */
+/** Article page — Figma 178:296 (Blogs). Drafts 404 like any missing page. */
 
 export async function generateStaticParams() {
   const { articles } = await getContent();
-  return articles.map((article) => ({ slug: slugOf(article) }));
+  return articles.filter((a) => !isDraft(a)).map((article) => ({ slug: slugOf(article) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { articles } = await getContent();
-  const article = articles.find((a) => slugOf(a) === slug);
+  const article = articles.find((a) => slugOf(a) === slug && !isDraft(a));
   if (!article) return {};
   return {
     title: article.seoTitle || `${article.title} — Amar Para Hidden Gems`,
@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { articles } = await getContent();
+  const content = await getContent();
+  const articles = content.articles.filter((a) => !isDraft(a));
 
   const index = articles.findIndex((a) => slugOf(a) === slug);
   if (index === -1) notFound();

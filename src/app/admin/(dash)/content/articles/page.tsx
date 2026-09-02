@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArticlesList } from "@/components/admin/ArticlesList";
-import { slugOf } from "@/data/site";
+import { isDraft, slugOf } from "@/data/site";
 import { getContent } from "@/lib/content";
 
 /** Articles list. A static segment, so it shadows the generic
@@ -10,6 +10,8 @@ import { getContent } from "@/lib/content";
 export default async function ArticlesPage() {
   const { articles } = await getContent();
   const rows = articles.map((article) => ({ ...article, slug: slugOf(article) }));
+  const drafts = rows.filter(isDraft).length;
+  const live = rows.length - drafts;
 
   return (
     <div className="flex flex-col gap-6">
@@ -17,7 +19,8 @@ export default async function ArticlesPage() {
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold tracking-tight">Articles</h1>
           <p className="text-sm text-muted-foreground">
-            These show on the homepage, in the Articles and Features rows. Click a piece to edit it.
+            {live} live on the site{drafts > 0 ? `, ${drafts} saved as ${drafts === 1 ? "a draft" : "drafts"}` : ""}.
+            Click a piece to edit it.
           </p>
         </div>
         <Button asChild size="sm">

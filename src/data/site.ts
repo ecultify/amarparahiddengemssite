@@ -140,6 +140,9 @@ export type Article = {
   /** SEO overrides — fall back to the headline / nothing. */
   seoTitle?: string;
   seoDescription?: string;
+  /** Draft articles stay off the live site. Absent means published, so the
+   *  shipped articles need no migration. */
+  status?: "draft" | "published";
   /** Body copy — one string per paragraph, or (from the admin editor) a
    *  single string with blank lines between paragraphs. */
   body?: string[] | string;
@@ -158,6 +161,8 @@ export function articleSlug(title: string) {
 /** The URL segment an article actually lives at. */
 export const slugOf = (article: Pick<Article, "title" | "slug">) =>
   article.slug || articleSlug(article.title);
+
+export const isDraft = (article: Pick<Article, "status">) => article.status === "draft";
 
 /** Articles & Features staggered rows — homepage (Figma 49:2096). */
 export const ARTICLES_ROW_ONE: Article[] = [

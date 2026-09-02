@@ -5,6 +5,7 @@ import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { upload } from "@vercel/blob/client";
+import { downscaleImage } from "@/lib/resize-image";
 import {
   Bold,
   Heading2,
@@ -53,7 +54,8 @@ export function RichText({ value, onChange }: { value: string; onChange: (html: 
     if (!file || !editor) return;
     setUploading(true);
     try {
-      const blob = await upload(file.name, file, { access: "public", handleUploadUrl: "/api/upload" });
+      const scaled = await downscaleImage(file);
+      const blob = await upload(scaled.name, scaled, { access: "public", handleUploadUrl: "/api/upload" });
       editor.chain().focus().setImage({ src: blob.url, alt: file.name }).run();
     } catch {
       /* the toolbar button just stops spinning; the field's own error state
