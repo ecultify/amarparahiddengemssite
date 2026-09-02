@@ -56,40 +56,42 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-5 sm:flex lg:gap-8">
-          {NAV.map((item) => {
-            const active = isActive(item.href);
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="flex flex-col items-start justify-center gap-1"
-              >
-                <span
-                  className={`font-ui text-[15px] transition-colors duration-150 ${
-                    active
-                      ? "font-extrabold text-red"
-                      : "font-semibold text-navy hover:text-red"
-                  }`}
+        {/* Nav sits right beside the CTA, per the design feedback. */}
+        <div className="flex items-center gap-5 sm:gap-8 lg:gap-10">
+          <nav className="hidden items-center gap-5 sm:flex lg:gap-8">
+            {NAV.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex flex-col items-start justify-center gap-1"
                 >
-                  {item.label}
-                </span>
-                <span
-                  className={`h-[2px] w-4 rounded-[1px] transition-colors duration-150 ${
-                    active ? "bg-red" : "bg-transparent"
-                  }`}
-                />
-              </Link>
-            );
-          })}
-        </nav>
+                  <span
+                    className={`font-ui text-[15px] transition-colors duration-150 ${
+                      active
+                        ? "font-extrabold text-red"
+                        : "font-semibold text-navy hover:text-red"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                  <span
+                    className={`h-[2px] w-4 rounded-[1px] transition-colors duration-150 ${
+                      active ? "bg-red" : "bg-transparent"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
 
-        <div className="hidden lg:block">
-          <Button3D href="/submit" size="sm">
-            Submit your gem
-          </Button3D>
+          <div className="hidden lg:block">
+            <Button3D href="/submit" size="sm">
+              Submit your gem
+            </Button3D>
+          </div>
         </div>
-
       </div>
     </header>
   );

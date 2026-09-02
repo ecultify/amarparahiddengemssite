@@ -24,12 +24,6 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
 
   return (
     <div className="relative w-full">
-      {/* Sits outside the clipped section so it can overhang into the section
-          below, the way Figma 49:2159 straddles the green edge. */}
-      <Asset
-        src={IMG.accentAutoRickshaw}
-        className="pointer-events-none hidden lg:block absolute bottom-[-60px] left-[max(0px,50%_-_443px)] z-10 h-[139px] w-[185px] scale-x-[-1] object-contain opacity-90"
-      />
       <section id="explore" className="relative w-full overflow-hidden bg-green">
         <Asset
           src={IMG.accentKites}
@@ -52,7 +46,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
           className="pointer-events-none hidden lg:block absolute top-[79px] right-[68px] h-[132px] w-[102px] object-contain"
         />
 
-        <div className="mx-auto max-w-[1440px] px-5 pt-10 pb-[60px] md:px-10 lg:px-20 lg:pt-[50px]">
+        <div className="mx-auto max-w-[1440px] px-5 pt-8 pb-10 md:px-10 lg:px-20 lg:pt-10 lg:pb-12">
         <SectionHeading
           eyebrow="Community Submissions"
           eyebrowClassName="text-yellow"
@@ -62,34 +56,34 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
           blurbClassName="text-white"
         />
 
-        <div className="mt-8 flex items-center gap-2">
+        {/* Arrows flank the cards on both sides, matching every other rail. */}
+        <div className="relative mt-6">
           <button
             type="button"
             aria-label="Previous gems"
             onClick={() => scrollBy(-1)}
-            className="icon-btn flex size-11 items-center justify-center rounded-full border border-line bg-white text-navy"
+            className="icon-btn absolute top-1/2 left-0 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white text-navy shadow-[0_4px_10px_rgba(27,42,74,0.2)]"
             disabled={page === 0}
           >
             <ChevronLeft />
           </button>
+          <div ref={trackRef} className="no-scrollbar flex gap-6 overflow-x-auto lg:mx-16">
+            {gems.map((gem) => (
+              <GemCard key={gem.title} gem={gem} />
+            ))}
+          </div>
           <button
             type="button"
             aria-label="Next gems"
             onClick={() => scrollBy(1)}
-            className="icon-btn flex size-11 items-center justify-center rounded-full border border-line bg-white text-navy"
+            className="icon-btn absolute top-1/2 right-0 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white text-navy shadow-[0_4px_10px_rgba(27,42,74,0.2)]"
             disabled={page >= pages - 1}
           >
             <ChevronRight />
           </button>
         </div>
 
-        <div ref={trackRef} className="no-scrollbar mt-8 flex gap-6 overflow-x-auto">
-          {gems.map((gem) => (
-            <GemCard key={gem.title} gem={gem} />
-          ))}
-        </div>
-
-        <div className="mt-8 flex items-center justify-center gap-2">
+        <div className="mt-6 flex items-center justify-center gap-2">
           {Array.from({ length: 4 }).map((_, index) => (
             <span
               key={index}

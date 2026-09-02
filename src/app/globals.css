@@ -435,3 +435,37 @@ body {
 .article-prose img.ProseMirror-selectednode {
   outline: 2px solid var(--color-pink);
 }
+
+/* Articles & Features counter-scrolling rows. Content is rendered twice, so
+   sliding half the track's width loops seamlessly. */
+.marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding-right: 20px;
+  animation: marquee-left 70s linear infinite;
+}
+.marquee-reverse {
+  animation-name: marquee-right;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee-left {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}

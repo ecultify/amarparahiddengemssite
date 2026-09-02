@@ -21,7 +21,7 @@ export function ArticleCarousel({ articles }: { articles: Article[] }) {
   return (
     // Arrows overlay the rail's edges rather than sitting beside it: at 375px
     // a card plus two arrows plus gaps does not fit, and they would be clipped.
-    <div className="relative flex w-full items-center">
+    <div className="relative flex w-full items-center lg:gap-5">
       <button
         type="button"
         aria-label="Previous articles"
@@ -33,7 +33,7 @@ export function ArticleCarousel({ articles }: { articles: Article[] }) {
 
       <div
         ref={track}
-        className="no-scrollbar flex w-full flex-1 gap-5 overflow-x-auto scroll-smooth px-12 lg:px-6"
+        className="no-scrollbar flex w-full flex-1 gap-5 overflow-x-auto scroll-smooth px-12 lg:px-0"
       >
         {articles.map((article) => (
           <Link

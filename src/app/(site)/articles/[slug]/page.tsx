@@ -141,9 +141,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {/* The footer tucks "i am Kolkata" into whatever comes last; this page
           ends on yellow, so the mark needs a cream division to land on. */}
       <div className="relative w-full">
+        {/* Flush with the footer edge, per the design feedback. */}
         <Asset
           src={IMG.blogCouple}
-          className="pointer-events-none absolute right-[8px] bottom-[6px] h-[58px] w-[83px] lg:right-[80px] lg:bottom-[10px] lg:h-[115px] lg:w-[165px] object-contain"
+          className="pointer-events-none absolute right-[8px] bottom-0 h-[58px] w-[83px] lg:right-[80px] lg:h-[115px] lg:w-[165px] object-contain object-bottom"
         />
         <div className="h-[86px] w-full bg-cream lg:h-[128px]" />
       </div>

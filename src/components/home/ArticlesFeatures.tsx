@@ -8,7 +8,7 @@ function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
       href={`/articles/${slugOf(article)}`}
-      className="group relative block h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[200px] sm:w-[320px] hover:-translate-y-[3px] active:translate-y-0"
+      className="group relative block h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] shadow-[0_10px_20px_rgba(27,42,74,0.18)] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[200px] sm:w-[320px] hover:-translate-y-[3px] active:translate-y-0"
     >
       <Asset
         src={article.image}
@@ -37,7 +37,7 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
         src={HOME_ACCENT.horn}
         className="pointer-events-none hidden lg:block absolute bottom-0 left-0 z-10 h-[240px] w-[133px] object-contain object-left-bottom"
       />
-    <section id="articles" className="relative w-full overflow-hidden bg-yellow pt-10 pb-16 lg:pt-[38px] lg:pb-[100px]">
+    <section id="articles" className="relative w-full overflow-hidden bg-yellow pt-10 pb-14 lg:pt-[38px] lg:pb-[72px]">
       {/* Figma 49:2090 — Group 36 (178:245) is the horn at bottom-left.
           Group_23 (178:549) is page-level in Figma, overlapping this section
           at x=1330 y=2502 (130x155); it bleeds past the 1440 canvas. */}
@@ -46,7 +46,7 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
         className="pointer-events-none absolute top-[16px] right-[-30px] h-[90px] w-[64px] lg:top-[58px] lg:right-[-28px] lg:h-[155px] lg:w-[110px] object-contain"
       />
 
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-3 px-5 md:px-10 lg:px-20">
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-2 px-5 md:px-10 lg:px-20">
         <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
           Articles &amp; Features
         </p>
@@ -58,16 +58,23 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
         </p>
       </div>
 
-      <div className="mt-10 flex flex-col gap-5 lg:mt-14 lg:gap-7">
-        <div className="no-scrollbar flex gap-5 overflow-x-auto px-5 md:px-10 lg:pr-0 lg:pl-20">
-          {rowOne.map((article) => (
-            <ArticleCard key={article.title} article={article} />
-          ))}
+      {/* The two rows drift in opposite directions (the design's counter-scroll)
+          and pause on hover. Each row renders its list twice so the loop wraps
+          without a visible seam. */}
+      <div className="mt-8 flex flex-col gap-5 lg:mt-10 lg:gap-7">
+        <div className="overflow-hidden py-2">
+          <div className="marquee-track">
+            {[...rowOne, ...rowOne].map((article, index) => (
+              <ArticleCard key={`${article.title}-${index}`} article={article} />
+            ))}
+          </div>
         </div>
-        <div className="no-scrollbar flex gap-5 overflow-x-auto px-5 md:px-10 lg:pr-0 lg:pl-40">
-          {rowTwo.map((article) => (
-            <ArticleCard key={article.title} article={article} />
-          ))}
+        <div className="overflow-hidden py-2">
+          <div className="marquee-track marquee-reverse">
+            {[...rowTwo, ...rowTwo].map((article, index) => (
+              <ArticleCard key={`${article.title}-${index}`} article={article} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

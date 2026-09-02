@@ -59,8 +59,14 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
         src={HOME_ACCENT.statue}
         className="pointer-events-none hidden lg:block absolute bottom-0 left-[-13px] h-[262px] w-[128px] object-contain object-bottom"
       />
+      {/* Auto rickshaw beside the story cards, brought down from the green
+          section's edge per the design feedback. */}
+      <Asset
+        src={IMG.accentAutoRickshaw}
+        className="pointer-events-none hidden 2xl:block absolute top-[236px] left-[calc(50%-742px)] z-10 h-[110px] w-[147px] scale-x-[-1] object-contain opacity-90"
+      />
 
-      <div className="relative mx-auto max-w-[1440px] px-5 pt-14 pb-16 md:px-10 lg:px-20 lg:pt-[100px] lg:pb-[90px]">
+      <div className="relative mx-auto max-w-[1440px] px-5 pt-12 pb-12 md:px-10 lg:px-20 lg:pt-[56px] lg:pb-[64px]">
         <SectionHeading
           eyebrow="Chronicles of Kolkata"
           eyebrowClassName="text-cyan"
@@ -68,7 +74,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           blurb="Real people. Real memories. Authentic life snippets that breathe soul into the historic streets."
         />
 
-        <div className="relative mt-[29px] flex w-full items-center justify-center gap-3 sm:gap-6">
+        <div className="relative mt-5 flex w-full items-center justify-center gap-3 sm:gap-6">
           <button
             type="button"
             aria-label="Previous story"
@@ -131,12 +137,12 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           </button>
         </div>
 
-        <blockquote className="mx-auto mt-[29px] flex w-full max-w-[680px] flex-col items-center gap-3 text-center">
+        <blockquote className="mx-auto mt-5 flex w-full max-w-[680px] flex-col items-center gap-3 text-center">
           <p className="font-ui text-[16px] leading-[26px] text-slate">{featured.quote}</p>
           <footer className="font-display text-[16px] font-bold text-red">{featured.attribution}</footer>
         </blockquote>
 
-        <div className="mt-[29px] flex items-center justify-center gap-2">
+        <div className="mt-5 flex items-center justify-center gap-2">
           {stories.map((_, index) => (
             <span
               key={index}
@@ -145,7 +151,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           ))}
         </div>
 
-        <div className="mt-[29px] flex justify-center">
+        <div className="mt-5 flex justify-center">
           <Button3D href="/submit" className="w-full px-0 sm:w-[320px]">
             Show us your hidden gem
           </Button3D>
