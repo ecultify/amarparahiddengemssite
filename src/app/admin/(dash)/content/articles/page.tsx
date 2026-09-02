@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { MoveArticleButtons } from "@/components/admin/MoveArticleButtons";
+import { ArticlesList } from "@/components/admin/ArticlesList";
 import { slugOf } from "@/data/site";
 import { getContent } from "@/lib/content";
 
-/** Articles list — static segment, so it shadows the generic
+/** Articles list. A static segment, so it shadows the generic
  *  /admin/content/[collection] editor for this one collection. */
 export default async function ArticlesPage() {
   const { articles } = await getContent();
+  const rows = articles.map((article) => ({ ...article, slug: slugOf(article) }));
 
   return (
     <div className="flex flex-col gap-6">
@@ -17,7 +17,7 @@ export default async function ArticlesPage() {
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold tracking-tight">Articles</h1>
           <p className="text-sm text-muted-foreground">
-            Home — “Articles &amp; Features” rows. Click a piece to edit it.
+            These show on the homepage, in the Articles and Features rows. Click a piece to edit it.
           </p>
         </div>
         <Button asChild size="sm">
@@ -27,7 +27,7 @@ export default async function ArticlesPage() {
         </Button>
       </header>
 
-      {articles.length === 0 ? (
+      {rows.length === 0 ? (
         <div className="rounded-lg border border-dashed p-10 text-center">
           <p className="text-sm font-medium">No articles yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -35,45 +35,7 @@ export default async function ArticlesPage() {
           </p>
         </div>
       ) : (
-        <div className="flex flex-col divide-y rounded-lg border bg-card">
-          {articles.map((article, index) => {
-            const slug = slugOf(article);
-            return (
-              <div key={slug} className="flex items-center gap-3 px-4 py-3">
-                {article.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={article.image}
-                    alt=""
-                    className="size-12 shrink-0 rounded-md border object-cover"
-                  />
-                ) : (
-                  <div className="size-12 shrink-0 rounded-md border bg-muted" />
-                )}
-                <Link
-                  href={`/admin/content/articles/${slug}`}
-                  className="flex min-w-0 flex-1 flex-col gap-0.5 hover:underline"
-                >
-                  <span className="truncate text-sm font-semibold">
-                    {article.title || "Untitled article"}
-                  </span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    /articles/{slug}
-                    {article.date ? ` · ${article.date}` : ""}
-                  </span>
-                </Link>
-                <Badge variant="outline" className="shrink-0">
-                  Row {article.row}
-                </Badge>
-                <MoveArticleButtons
-                  slug={slug}
-                  first={index === 0}
-                  last={index === articles.length - 1}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <ArticlesList initialArticles={rows} />
       )}
     </div>
   );

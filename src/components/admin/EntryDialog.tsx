@@ -53,7 +53,7 @@ export function EntryDialog({
 
   return (
     <Dialog open={open} onOpenChange={(next) => (!next && !saving ? onClose() : undefined)}>
-      <DialogContent className="max-h-[85vh] gap-0 overflow-y-auto p-0 sm:max-w-xl">
+      <DialogContent className="max-h-[85vh] gap-0 overflow-x-hidden overflow-y-auto p-0 sm:max-w-xl">
         <DialogHeader className="border-b px-6 py-4">
           <DialogTitle>
             {isNew
@@ -71,7 +71,7 @@ export function EntryDialog({
               field.type === "textarea" || field.type === "image" || field.type === "video";
 
             return (
-              <div key={field.key} className={`flex flex-col gap-2 ${wide ? "sm:col-span-2" : ""}`}>
+              <div key={field.key} className={`flex min-w-0 flex-col gap-2 ${wide ? "sm:col-span-2" : ""}`}>
                 <Label htmlFor={id}>{field.label}</Label>
 
                 {field.type === "textarea" ? (

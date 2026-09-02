@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { COLLECTIONS } from "@/lib/schema";
 import { listSubmissions } from "@/lib/submissions";
 
-export const metadata = { title: "Content desk — Amar Para 2.0" };
+export const metadata = { title: "Amar Para Content Desk" };
 
 // Editors must always see current data, never a prerendered snapshot.
 export const dynamic = "force-dynamic";

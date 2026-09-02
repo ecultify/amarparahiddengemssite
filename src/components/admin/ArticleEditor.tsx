@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Trash2 } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -159,12 +161,43 @@ export function ArticleEditor({
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="article-date">Dateline</Label>
-          <Input
-            id="article-date"
-            value={article.date ?? ""}
-            placeholder="March 4, 2024"
-            onChange={(event) => patch({ date: event.target.value })}
-          />
+          <div className="flex items-center gap-1.5">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="article-date"
+                  type="button"
+                  variant="outline"
+                  className={`flex-1 justify-start font-normal ${article.date ? "" : "text-muted-foreground"}`}
+                >
+                  <CalendarIcon className="size-4" />
+                  {article.date || "Pick a date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={parseDateline(article.date)}
+                  defaultMonth={parseDateline(article.date)}
+                  captionLayout="dropdown"
+                  onSelect={(date) => {
+                    if (date) patch({ date: formatDateline(date) });
+                  }}
+                />
+              </PopoverContent>
+            </Popover>
+            {article.date ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label="Clear date"
+                onClick={() => patch({ date: "" })}
+              >
+                <X className="size-4" />
+              </Button>
+            ) : null}
+          </div>
           <p className="text-xs text-muted-foreground">Shown above the headline on the page.</p>
         </div>
 
@@ -193,7 +226,7 @@ export function ArticleEditor({
             </SelectContent>
           </Select>
           <p className="text-xs text-muted-foreground">
-            Which “Articles &amp; Features” row carries it on the homepage.
+            Which Articles and Features row carries it on the homepage.
           </p>
         </div>
       </div>
@@ -210,7 +243,7 @@ export function ArticleEditor({
           <Input
             id="article-seo-title"
             value={article.seoTitle ?? ""}
-            placeholder={article.title ? `${article.title} — Amar Para Hidden Gems` : "Defaults to the headline"}
+            placeholder="Defaults to the headline"
             onChange={(event) => patch({ seoTitle: event.target.value })}
           />
         </div>
@@ -227,6 +260,16 @@ export function ArticleEditor({
       </fieldset>
     </div>
   );
+}
+
+/** The dateline is stored as display text like "March 4, 2024". */
+const formatDateline = (date: Date) =>
+  date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+
+function parseDateline(value: string | undefined) {
+  if (!value) return undefined;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 }
 
 /** Older articles carry plain paragraphs; seed the editor with them as HTML. */

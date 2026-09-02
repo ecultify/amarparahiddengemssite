@@ -3,7 +3,7 @@ import { LoginForm } from "@/components/admin/LoginForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { isAuthed } from "@/lib/auth";
 
-export const metadata = { title: "Sign in — Amar Para content desk" };
+export const metadata = { title: "Sign in to the Amar Para Content Desk" };
 
 export default async function LoginPage({
   searchParams,

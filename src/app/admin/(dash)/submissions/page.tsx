@@ -99,7 +99,7 @@ export default async function SubmissionsPage({
                     {formatDate(entry.createdAt)}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {entry.upload ? (entry.uploadType === "video" ? "Video" : "Photo") : "—"}
+                    {entry.upload ? (entry.uploadType === "video" ? "Video" : "Photo") : "None"}
                   </TableCell>
                   <TableCell className="text-right">
                     <Badge variant="outline" className={STATUS_TONE[entry.status]}>

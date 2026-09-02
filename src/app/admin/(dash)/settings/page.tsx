@@ -42,7 +42,7 @@ export default async function SettingsPage() {
             in the Vercel project. Change it there and everyone signs in with the new one.
           </dd>
           <dt className="text-muted-foreground">Publishing</dt>
-          <dd>Saving a section rewrites the live site immediately — there is no draft state.</dd>
+          <dd>Saving a section rewrites the live site right away. There is no draft state.</dd>
         </dl>
       </section>
     </div>

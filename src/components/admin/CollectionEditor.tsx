@@ -53,12 +53,23 @@ export function CollectionEditor({
       }
     });
 
+  // Reorders swap instantly and save in the background; a failed save puts
+  // the rows back and says so.
   const move = (index: number, direction: -1 | 1) => {
     const target = index + direction;
     if (target < 0 || target >= items.length) return;
+    const previous = items;
     const next = [...items];
     [next[index], next[target]] = [next[target], next[index]];
-    persist(next);
+    setItems(next);
+    startTransition(async () => {
+      try {
+        await saveCollection(collection.key, next);
+      } catch {
+        setItems(previous);
+        toast.error("Couldn't reorder", { description: "Check your connection and try again." });
+      }
+    });
   };
 
   const saveEntry = (draft: Item) => {

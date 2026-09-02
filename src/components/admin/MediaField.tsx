@@ -27,7 +27,7 @@ export function MediaField({ id, value, kind, onChange }: Props) {
       const blob = await upload(file.name, file, { access: "public", handleUploadUrl: "/api/upload" });
       onChange(blob.url);
     } catch {
-      setError("Upload failed. JPG, PNG, WEBP or MP4 up to 25MB.");
+      setError("Upload failed. JPG, PNG, WEBP or MP4 up to 10 MB.");
     } finally {
       setBusy(false);
       event.target.value = "";

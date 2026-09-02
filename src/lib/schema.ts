@@ -28,7 +28,7 @@ export const COLLECTIONS: Collection[] = [
   {
     key: "gems",
     label: "Explore gems",
-    where: "Home — “Explore the Gems of Kolkata” carousel",
+    where: "Shows on the homepage, in the Explore the Gems of Kolkata carousel",
     singular: "Gem",
     titleKey: "title",
     fields: [
@@ -41,7 +41,7 @@ export const COLLECTIONS: Collection[] = [
   {
     key: "stories",
     label: "Para stories",
-    where: "Home — “Stories from the Paras” coverflow",
+    where: "Shows on the homepage, in the Stories from the Paras coverflow",
     singular: "Story",
     titleKey: "name",
     fields: [
@@ -49,7 +49,7 @@ export const COLLECTIONS: Collection[] = [
       { key: "para", label: "Para", type: "text" },
       { key: "image", label: "Portrait", type: "image" },
       { key: "quote", label: "Quote", type: "textarea" },
-      { key: "attribution", label: "Attribution", type: "text", help: "Shown under the quote, e.g. “— Riya Sen, Gariahat”." },
+      { key: "attribution", label: "Attribution", type: "text", help: "Shown under the quote, like: Riya Sen, Gariahat." },
     ],
   },
   {
@@ -58,7 +58,7 @@ export const COLLECTIONS: Collection[] = [
     // the admin nav, so it carries no fields.
     key: "articles",
     label: "Articles",
-    where: "Home — “Articles & Features” rows",
+    where: "Shows on the homepage, in the Articles and Features rows",
     singular: "Article",
     titleKey: "title",
     fields: [],
@@ -66,7 +66,7 @@ export const COLLECTIONS: Collection[] = [
   {
     key: "creatorTrails",
     label: "Creator trails",
-    where: "Home — “Creator Trails” mosaic",
+    where: "Shows on the homepage, in the Creator Trails mosaic",
     singular: "Trail",
     titleKey: "caption",
     fields: [
@@ -77,7 +77,7 @@ export const COLLECTIONS: Collection[] = [
   {
     key: "discoveredGems",
     label: "Discovered gems",
-    where: "Participate & Submit — “Gems Already Discovered” carousel",
+    where: "Shows on the Participate and Submit pages, in the Gems Already Discovered carousel",
     singular: "Gem",
     titleKey: "title",
     fields: [
@@ -90,8 +90,8 @@ export const COLLECTIONS: Collection[] = [
   },
   {
     key: "photoGems",
-    label: "Gallery — images",
-    where: "500 Gems — Images tab",
+    label: "Image gallery",
+    where: "Shows on the 500 Gems page, under the Images tab",
     singular: "Photo gem",
     titleKey: "title",
     fields: [
@@ -104,8 +104,8 @@ export const COLLECTIONS: Collection[] = [
   },
   {
     key: "videoGems",
-    label: "Gallery — videos",
-    where: "500 Gems — Videos tab",
+    label: "Video gallery",
+    where: "Shows on the 500 Gems page, under the Videos tab",
     singular: "Video gem",
     titleKey: "title",
     fields: [
@@ -114,18 +114,18 @@ export const COLLECTIONS: Collection[] = [
       { key: "location", label: "Location", type: "text" },
       { key: "submittedBy", label: "Submitted by", type: "text" },
       { key: "image", label: "Poster image", type: "image" },
-      { key: "video", label: "Video file", type: "video", help: "MP4. Plays inline when a visitor hits play." },
+      { key: "video", label: "Video file", type: "video", help: "MP4 file. It plays right on the page when a visitor hits play." },
     ],
   },
   {
     key: "quiz",
     label: "Guess the Para",
-    where: "Guess the Para — daily quiz, reached from the thank-you page (not linked in the site nav)",
+    where: "The daily quiz, reached from the thank you page. It is not linked anywhere in the site menu.",
     singular: "Question",
     titleKey: "question",
     fields: [
       { key: "question", label: "Question", type: "text" },
-      { key: "image", label: "Photo clue", type: "image", help: "Optional — a photo of the para to identify." },
+      { key: "image", label: "Photo clue", type: "image", help: "Optional. A photo of the para to identify." },
       { key: "option1", label: "Option 1", type: "text" },
       { key: "option2", label: "Option 2", type: "text" },
       { key: "option3", label: "Option 3", type: "text" },
@@ -135,14 +135,14 @@ export const COLLECTIONS: Collection[] = [
   },
   {
     key: "streetStories",
-    label: "Gallery — text",
-    where: "500 Gems — Text tab",
+    label: "Written tales",
+    where: "Shows on the 500 Gems page, under the Text tab",
     singular: "Written tale",
     titleKey: "title",
     fields: [
       { key: "title", label: "Title", type: "text" },
       { key: "quote", label: "Quote", type: "textarea" },
-      { key: "meta", label: "Meta line", type: "text", help: "e.g. “Food • College Street • Contributed by: Amit K.”" },
+      { key: "meta", label: "Meta line", type: "text", help: "For example: Food, College Street, contributed by Amit K." },
     ],
   },
 ];
