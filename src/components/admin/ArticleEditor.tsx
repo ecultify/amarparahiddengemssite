@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, CalendarIcon, Loader2, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
@@ -61,29 +61,50 @@ export function ArticleEditor({
   // Articles from before the draft workflow carry no status but are live.
   const isLive = savedSlug !== null && article.status !== "draft";
 
+  // A refresh or tab close with unsaved edits gets the browser's own warning.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
+  /** Returns the saved slug, or null when the save failed. */
+  async function doSave(status: "draft" | "published"): Promise<string | null> {
+    try {
+      const result = await saveArticle(savedSlug, { ...article, status });
+      if (!result.ok) {
+        toast.error("Couldn't save", { description: result.error });
+        return null;
+      }
+      setDirty(false);
+      setSavedSlug(result.slug);
+      // Sync the form with what the server settled on (the slug may have
+      // been cleaned up or de-duplicated) without marking it dirty again.
+      setArticle((a) => ({ ...a, slug: result.slug, status }));
+      if (status === "draft") {
+        toast.success("Draft saved", { description: "It is not on the live site." });
+      } else {
+        toast.success("Article published", { description: `Live at /articles/${result.slug}` });
+      }
+      return result.slug;
+    } catch {
+      toast.error("Couldn't save", { description: "Check your connection and try again." });
+      return null;
+    }
+  }
+
   const save = (status: "draft" | "published") =>
     startTransition(async () => {
-      try {
-        const result = await saveArticle(savedSlug, { ...article, status });
-        if (!result.ok) {
-          toast.error("Couldn't save", { description: result.error });
-          return;
-        }
-        setDirty(false);
-        setSavedSlug(result.slug);
-        // Sync the form with what the server settled on (the slug may have
-        // been cleaned up or de-duplicated) without marking it dirty again.
-        setArticle((a) => ({ ...a, slug: result.slug, status }));
-        if (status === "draft") {
-          toast.success("Draft saved", { description: "It is not on the live site." });
-        } else {
-          toast.success("Article published", { description: `Live at /articles/${result.slug}` });
-        }
-        // A new article (or a renamed slug) gets its real edit URL.
-        router.replace(`${LIST}/${result.slug}`);
-      } catch {
-        toast.error("Couldn't save", { description: "Check your connection and try again." });
-      }
+      const slug = await doSave(status);
+      // A new article (or a renamed slug) gets its real edit URL.
+      if (slug) router.replace(`${LIST}/${slug}`);
+    });
+
+  const saveAndLeave = () =>
+    startTransition(async () => {
+      const slug = await doSave(isLive ? "published" : "draft");
+      if (slug) router.push(LIST);
     });
 
   const remove = () =>
@@ -97,11 +118,43 @@ export function ArticleEditor({
   return (
     <div className="flex flex-col gap-6">
       <div className="sticky top-0 z-30 -mx-5 flex items-center justify-between gap-3 border-b bg-background/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:-mt-4">
-        <Button asChild variant="ghost" size="sm" className="-ml-2">
-          <Link href={LIST}>
-            <ArrowLeft className="size-3.5" /> All articles
-          </Link>
-        </Button>
+        {dirty ? (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="sm" className="-ml-2">
+                <ArrowLeft className="size-3.5" /> All articles
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>You have unsaved changes</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {isLive
+                    ? "Publish them before leaving, or discard them and keep the live version as it is."
+                    : "Save them as a draft before leaving, or discard them."}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Keep editing</AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-transparent text-destructive shadow-none hover:bg-destructive/10"
+                  onClick={() => router.push(LIST)}
+                >
+                  Discard changes
+                </AlertDialogAction>
+                <AlertDialogAction onClick={saveAndLeave}>
+                  {isLive ? "Publish and leave" : "Save draft and leave"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        ) : (
+          <Button asChild variant="ghost" size="sm" className="-ml-2">
+            <Link href={LIST}>
+              <ArrowLeft className="size-3.5" /> All articles
+            </Link>
+          </Button>
+        )}
         <div className="flex items-center gap-2">
           {dirty ? <span className="text-sm font-medium">• unsaved changes</span> : null}
           {savedSlug ? (

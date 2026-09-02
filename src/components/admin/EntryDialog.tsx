@@ -2,6 +2,16 @@
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,12 +57,21 @@ export function EntryDialog({
   // The parent keys this component per opened entry, so a fresh mount (and a
   // fresh draft) happens every time the dialog opens on something else.
   const [draft, setDraft] = useState<Item>(() => item ?? {});
+  const [confirmDiscard, setConfirmDiscard] = useState(false);
 
   const patch = (key: string, value: string) => setDraft((d) => ({ ...d, [key]: value }));
   const isNew = item !== null && !item[collection.titleKey];
+  const dirty = item !== null && JSON.stringify(draft) !== JSON.stringify(item);
+
+  // Closing with edits on board asks first; a clean close just closes.
+  const requestClose = () => {
+    if (saving) return;
+    if (dirty) setConfirmDiscard(true);
+    else onClose();
+  };
 
   return (
-    <Dialog open={open} onOpenChange={(next) => (!next && !saving ? onClose() : undefined)}>
+    <Dialog open={open} onOpenChange={(next) => (!next ? requestClose() : undefined)}>
       {/* Header and footer stay put; only the fields in between scroll. */}
       <DialogContent className="flex max-h-[85vh] flex-col gap-0 p-0 sm:max-w-xl">
         <DialogHeader className="shrink-0 border-b px-6 py-4">
@@ -117,7 +136,7 @@ export function EntryDialog({
         </div>
 
         <DialogFooter className="shrink-0 border-t px-6 py-4">
-          <Button type="button" variant="outline" disabled={saving} onClick={onClose}>
+          <Button type="button" variant="outline" disabled={saving} onClick={requestClose}>
             Cancel
           </Button>
           <Button type="button" disabled={saving} onClick={() => onSave(draft)}>
@@ -125,6 +144,37 @@ export function EntryDialog({
             {saving ? "Publishing…" : "Publish"}
           </Button>
         </DialogFooter>
+
+        <AlertDialog open={confirmDiscard} onOpenChange={setConfirmDiscard}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>You have unsaved changes</AlertDialogTitle>
+              <AlertDialogDescription>
+                Publish them, or discard them and leave this entry as it was.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Keep editing</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-transparent text-destructive shadow-none hover:bg-destructive/10"
+                onClick={() => {
+                  setConfirmDiscard(false);
+                  onClose();
+                }}
+              >
+                Discard changes
+              </AlertDialogAction>
+              <AlertDialogAction
+                onClick={() => {
+                  setConfirmDiscard(false);
+                  onSave(draft);
+                }}
+              >
+                Publish
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </DialogContent>
     </Dialog>
   );

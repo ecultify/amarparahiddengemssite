@@ -136,7 +136,9 @@ html {
 }
 
 body {
-  overflow-x: hidden;
+  /* clip, not hidden: overflow-x hidden makes body a scroll container and
+     silently kills position: sticky on the site header. */
+  overflow-x: clip;
   background: var(--color-cream);
   color: var(--color-navy);
   font-family: var(--font-body);

@@ -62,7 +62,7 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             145px it never used. Handing most of it over is free width for the
             collage that does not risk overflowing the viewport, which is all
             the right bleed can safely take below ~1700px. */}
-        <div className="w-full lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[110px] 2xl:-mr-[130px]">
+        <div className="w-full lg:-mt-[100px] lg:-mr-20 lg:self-start xl:-mr-[130px] 2xl:-mr-[200px]">
           <HeroCarousel />
         </div>
       </div>
