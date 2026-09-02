@@ -67,7 +67,7 @@ export default async function ParticipatePage() {
             minus the 88px navbar the frame includes, same as the rest here. */}
         <Asset
           src={IMG.accentKiteRainbow}
-          className="pointer-events-none hidden lg:block absolute top-[2px] left-[calc(50%-353px)] z-10 h-[148px] w-[131px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[18px] left-[calc(50%-372px)] z-10 h-[148px] w-[131px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.golfPouch}
@@ -93,7 +93,7 @@ export default async function ParticipatePage() {
             y=179, 24x37. z-10 so it reads above the headline. */}
         <Asset
           src={PARTICIPATE_ACCENT.caddie}
-          className="pointer-events-none hidden lg:block absolute top-[91px] left-[calc(50%+201px)] z-10 h-[37px] w-[24px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[68px] left-[calc(50%+205px)] z-10 h-[37px] w-[24px] object-contain"
         />
         <Asset
           src={HOME_ACCENT.golfer}
@@ -101,7 +101,7 @@ export default async function ParticipatePage() {
         />
         <Asset
           src={IMG.accentAutoRickshaw}
-          className="pointer-events-none hidden lg:block absolute top-[212px] right-[calc(50%-493px)] h-[120px] w-[161px] opacity-90 object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[168px] right-[calc(50%-520px)] h-[120px] w-[161px] opacity-90 object-contain"
         />
 
         <div className="relative z-30 mx-auto flex w-full max-w-[1315px] flex-col items-center gap-8">
@@ -123,9 +123,9 @@ export default async function ParticipatePage() {
             <p className="text-center font-body text-[18px] leading-[28px] font-medium text-red sm:text-[24px] sm:leading-[36px]">
               Share Your Para&apos;s Hidden Gem
             </p>
-            <p className="w-full max-w-[937px] font-body text-[15px] leading-[26px] text-slate sm:text-[16px]">
-              You know your para better than anyone. Share a place, tradition or local favourite
-              that deserves to be known beyond your neighbourhood.
+            <p className="w-full max-w-[760px] font-body text-[15px] leading-[22px] text-slate sm:text-[16px] sm:leading-[24px]">
+              You know your para better than anyone. Share a place, tradition or local
+              favourite that deserves to be known beyond your&nbsp;neighbourhood.
             </p>
           </div>
 
@@ -154,17 +154,17 @@ export default async function ParticipatePage() {
         src={PARTICIPATE_ACCENT.statue}
         className="pointer-events-none hidden lg:block absolute bottom-[-165px] right-0 z-10 h-[346px] w-[143px] object-contain"
       />
-      <section className="relative w-full overflow-hidden bg-green px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-[53px] lg:pb-[100px]">
+      <section className="relative w-full overflow-hidden bg-green px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-[44px] lg:pb-[64px]">
         {/* Dhol 164:62 (x=172 y=1219, 172x204) at the section floor. */}
         <Asset
           src={PARTICIPATE_ACCENT.dhol}
           className="pointer-events-none absolute bottom-[8px] left-[-44px] h-[100px] w-[84px] lg:bottom-[8px] lg:left-[calc(50%-548px)] lg:h-[204px] lg:w-[172px] object-contain"
         />
 
-        <div className="relative z-30 mx-auto flex max-w-[1280px] flex-col items-center gap-12 lg:gap-[59px]">
+        <div className="relative z-30 mx-auto flex max-w-[1280px] flex-col items-center gap-10 lg:gap-[44px]">
           <div className="flex w-full flex-col items-center gap-8">
             <div className="flex w-full max-w-[800px] flex-col items-center gap-3 text-center">
-              <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
+              <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-yellow">
                 Step-by-step Guide
               </p>
               <h2 className="font-title text-[42px] leading-tight font-black text-white sm:text-[50px] lg:text-[58px]">
@@ -200,7 +200,7 @@ export default async function ParticipatePage() {
           {/* submission-guidelines — Figma 95:88 */}
           <div className="flex w-full flex-col items-start gap-8 lg:flex-row lg:gap-12">
             <div className="flex w-full flex-col gap-3 lg:w-[360px]">
-              <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
+              <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-yellow">
                 Important notes
               </p>
               <h2 className="font-title text-[42px] leading-tight font-black text-white sm:text-[50px] lg:text-[58px]">

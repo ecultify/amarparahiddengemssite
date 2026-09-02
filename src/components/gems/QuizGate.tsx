@@ -16,7 +16,7 @@ export function QuizGate() {
           Verify your number to play
         </p>
         <p className="max-w-[440px] font-body text-[14px] leading-[1.6] text-slate">
-          Guess the Para uses the same verification as the hidden gem form — if you just submitted
+          Guess the Para uses the same verification as the hidden gem form. If you just submitted
           a gem, you&apos;re already in.
         </p>
       </div>

@@ -9,7 +9,7 @@ export default async function SubmitPage() {
   const content = await getContent();
   return (
     <>
-      <section className="relative w-full overflow-hidden bg-cream px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-20 lg:pb-[100px]">
+      <section className="relative w-full overflow-hidden bg-cream px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-14 lg:pb-[64px]">
         {/* Hero accents — Figma 95:309. y values are the Figma value minus the
             88px navbar the frame includes. Box sizes follow each export's own
             aspect so object-contain adds no letterbox offset. The three lower
@@ -26,7 +26,7 @@ export default async function SubmitPage() {
         />
         <Asset
           src={SUBMIT_ACCENT.golfBag}
-          className="pointer-events-none hidden lg:block absolute top-[32px] left-[calc(50%+274px)] h-[99px] w-[42px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[21px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.kite}
@@ -38,7 +38,7 @@ export default async function SubmitPage() {
         />
         <Asset
           src={SUBMIT_ACCENT.fishPlate}
-          className="pointer-events-none hidden lg:block absolute bottom-[180px] right-[-42px] h-[202px] w-[139px] object-contain"
+          className="pointer-events-none hidden lg:block absolute bottom-[180px] right-[10px] h-[202px] w-[139px] object-contain"
         />
         {/* Same kite art as the participate Gems block, sitting against the
             form card's right border (card spans 50%-313px .. 50%+313px). */}
@@ -51,8 +51,8 @@ export default async function SubmitPage() {
           className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-448px)] h-[144px] w-[172px] object-contain"
         />
 
-        <div className="relative z-30 mx-auto flex max-w-[1200px] flex-col items-center gap-8 lg:gap-12">
-          <div className="flex w-full max-w-[840px] flex-col items-center gap-4">
+        <div className="relative z-30 mx-auto flex max-w-[1200px] flex-col items-center gap-6 lg:gap-8">
+          <div className="flex w-full max-w-[840px] flex-col items-center gap-3">
             <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[14px] font-extrabold uppercase tracking-[0.06em] text-pink">
               Submit your entry
             </span>
@@ -61,14 +61,14 @@ export default async function SubmitPage() {
             <div className="relative w-full max-w-[840px]">
               <span
                 aria-hidden
-                className="pointer-events-none hidden lg:block absolute top-[165px] left-[calc(50%+83px)] h-[37px] w-[175px] bg-[rgba(255,210,0,0.78)]"
+                className="pointer-events-none hidden lg:block absolute top-[147px] left-[calc(50%+83px)] h-[37px] w-[175px] bg-[rgba(255,210,0,0.78)]"
               />
               <h1 className="relative text-center font-title text-[44px] leading-[0.78] font-black sm:text-[56px] lg:text-[128px]">
                 <span className="text-cyan">Share Your Para&apos;s </span>
                 <span className="text-pink">Hidden Gem</span>
               </h1>
             </div>
-            <p className="text-center font-body text-[16px] leading-[26px] text-slate sm:text-[18px] sm:leading-[28px]">
+            <p className="text-center font-body text-[16px] leading-[24px] text-slate sm:text-[17px] sm:leading-[26px]">
               Tell us about the special places, stories, and memories that make your neighborhood
               unique. Stand up for your community and place your neighborhood&apos;s legacy on
               TOI&apos;s historic directory.

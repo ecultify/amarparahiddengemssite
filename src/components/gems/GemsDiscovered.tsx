@@ -12,12 +12,14 @@ type Theme = "cream" | "cyan";
 
 const THEMES: Record<
   Theme,
-  { section: string; title: string; arrow: string; kite: string }
+  { section: string; title: string; eyebrow: string; arrow: string; kite: string }
 > = {
   // Participate page — Figma 95:124 (golfer 95:125, kite 95:126).
   cream: {
     section: "bg-cream",
     title: "text-black",
+    // Yellow disappears on cream, so the eyebrow goes pink here.
+    eyebrow: "text-pink",
     arrow: "border-yellow text-navy",
     kite: "top-[80px]",
   },
@@ -25,6 +27,7 @@ const THEMES: Record<
   cyan: {
     section: "bg-cyan",
     title: "text-white",
+    eyebrow: "text-yellow",
     arrow: "border-white text-navy",
     kite: "top-[228px]",
   },
@@ -60,7 +63,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[172px] w-[165px] object-contain"
         />
       ) : null}
-    <section className={`relative w-full overflow-hidden ${tone.section} pt-[53px] pb-[80px]`}>
+    <section className={`relative w-full overflow-hidden ${tone.section} pt-[44px] pb-[56px]`}>
       {/* Kite mirrored onto the left wall. The box uses the PNG's own 0.778
           aspect so object-contain adds no letterbox, and the mirror puts the
           artwork's zero-padding edge on the left - together that is what makes
@@ -84,7 +87,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           {/* Pale streaks sitting in the gap above the first gem card. */}
           <Asset
             src={IMG.gemsStreaks}
-            className="pointer-events-none hidden lg:block absolute top-[209px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
+            className="pointer-events-none hidden lg:block absolute top-[176px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
           />
         </>
       ) : null}
@@ -106,7 +109,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
       <div className="relative mx-auto max-w-[1440px] px-5 md:px-10 lg:px-20">
         <div className="flex flex-col items-center gap-5">
           <div className="flex w-full flex-col items-center gap-3 text-center">
-            <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-yellow">
+            <p className={`font-body text-[14px] font-bold uppercase tracking-[0.08em] ${tone.eyebrow}`}>
               Community Discoveries
             </p>
             <h2 className={`font-title text-[42px] leading-tight font-black sm:text-[50px] lg:text-[58px] ${tone.title}`}>
@@ -127,7 +130,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           </div>
         </div>
 
-        <div className="mt-10 flex items-center gap-6 lg:mt-14">
+        <div className="mt-8 flex items-center gap-6 lg:mt-10">
           <button
             type="button"
             aria-label="Previous gems"
@@ -153,7 +156,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           </button>
         </div>
 
-        <div className="mt-10 flex justify-center lg:mt-14">
+        <div className="mt-8 flex justify-center">
           <Button3D href="/500-gems">View all gems</Button3D>
         </div>
       </div>

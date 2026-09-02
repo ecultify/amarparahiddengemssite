@@ -1,7 +1,7 @@
 import { Asset } from "@/components/ui/Asset";
 import { QuizCard } from "@/components/gems/QuizCard";
 import { QuizGate } from "@/components/gems/QuizGate";
-import { HOME_ACCENT, IMG, PARTICIPATE_ACCENT, SUBMIT_ACCENT } from "@/lib/assets";
+import { IMG, PARTICIPATE_ACCENT, SUBMIT_ACCENT } from "@/lib/assets";
 import { getGemPhone } from "@/lib/auth";
 import { getContent } from "@/lib/content";
 import { istDayIndex } from "@/lib/quiz";
@@ -26,11 +26,11 @@ export default async function GuessTheParaPage() {
 
   return (
     <>
-      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 py-16 md:px-10 lg:px-20 lg:py-24">
+      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 py-16 md:px-10 lg:px-20 lg:py-16">
         {/* Dressed with the same accents as the thank-you page it follows. */}
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[80px] left-[-54px] h-[110px] w-[88px] lg:top-[120px] lg:left-[-40px] lg:h-[200px] lg:w-[160px] object-contain"
+          className="pointer-events-none absolute top-[80px] left-[-30px] h-[110px] w-[88px] lg:top-[190px] lg:left-[16px] lg:h-[200px] lg:w-[160px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
@@ -42,15 +42,11 @@ export default async function GuessTheParaPage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.tower}
-          className="pointer-events-none hidden lg:block absolute right-[calc(50%-660px)] bottom-[40px] h-[240px] w-[131px] object-contain"
-        />
-        <Asset
-          src={HOME_ACCENT.golfer}
-          className="pointer-events-none hidden lg:block absolute bottom-[60px] left-[calc(50%-470px)] h-[109px] w-[55px] object-contain"
+          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[131px] object-contain object-bottom"
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
-          className="pointer-events-none hidden lg:block absolute top-[190px] left-[calc(50%+300px)] h-[38px] w-[36px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[132px] left-[calc(50%+236px)] z-40 h-[38px] w-[36px] object-contain"
         />
 
         <div className="relative z-30 flex w-full max-w-[1000px] flex-col items-center gap-6 text-center lg:gap-8">
@@ -63,14 +59,14 @@ export default async function GuessTheParaPage() {
               <span className="text-pink">the Para</span>
             </h1>
             <p className="max-w-[680px] font-body text-[15px] leading-[1.7] text-slate sm:text-[16px]">
-              One question a day for the people who really know Kolkata. Read the clue, pick your
-              para, and see if you got it right.
+              One question a day for the people who really know Kolkata. Read the clue, pick
+              your para, and see if you got it right.
             </p>
           </div>
 
           {!question ? (
             <p className="font-display text-[18px] font-extrabold text-navy">
-              Today&apos;s question is being prepared — check back soon.
+              Today&apos;s question is being prepared. Check back soon.
             </p>
           ) : phone ? (
             <QuizCard question={question} initialGuess={todaysGuess} />
