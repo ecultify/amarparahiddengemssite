@@ -26,7 +26,7 @@ export default async function SubmitPage() {
         />
         <Asset
           src={SUBMIT_ACCENT.golfBagTall}
-          className="pointer-events-none hidden lg:block absolute top-[21px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[39px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.kite}
@@ -48,7 +48,7 @@ export default async function SubmitPage() {
         />
         <Asset
           src={SUBMIT_ACCENT.golfCart}
-          className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-448px)] z-40 h-[144px] w-[172px] object-contain"
+          className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-520px)] z-40 h-[144px] w-[172px] object-contain"
         />
 
         <div className="relative z-30 mx-auto flex max-w-[1200px] flex-col items-center gap-6 lg:gap-8">

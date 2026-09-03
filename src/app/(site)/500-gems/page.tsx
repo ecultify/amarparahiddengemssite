@@ -73,7 +73,7 @@ export default async function GalleryPage() {
         />
         <Asset
           src={GALLERY_IMG.saxophone}
-          className="pointer-events-none absolute top-[16px] right-[-56px] h-[150px] w-[128px] lg:top-[120px] lg:right-[40px] lg:h-[360px] lg:w-[306px] object-contain"
+          className="pointer-events-none absolute top-[16px] right-[-56px] h-[150px] w-[128px] lg:top-[130px] lg:right-[70px] lg:h-[400px] lg:w-[341px] object-contain"
         />
         <h2 className="relative text-center font-title text-[42px] font-black text-white sm:text-[52px] lg:text-[66px]">
           Your Para Has a Story Too

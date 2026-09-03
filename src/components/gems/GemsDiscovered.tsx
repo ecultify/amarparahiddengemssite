@@ -82,12 +82,12 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           {/* Derozio statue standing at the cyan floor, bottom left. */}
           <Asset
             src={PARTICIPATE_ACCENT.statue}
-            className="pointer-events-none hidden lg:block absolute bottom-[20px] left-[24px] z-10 h-[260px] w-[107px] object-contain"
+            className="pointer-events-none hidden lg:block absolute bottom-0 left-[24px] z-10 h-[260px] w-[107px] object-contain"
           />
           {/* Pale streaks sitting in the gap above the first gem card. */}
           <Asset
             src={IMG.gemsStreaks}
-            className="pointer-events-none hidden lg:block absolute top-[201px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
+            className="pointer-events-none hidden lg:block absolute top-[209px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
           />
         </>
       ) : null}
