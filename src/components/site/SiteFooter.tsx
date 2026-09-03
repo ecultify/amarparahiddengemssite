@@ -31,7 +31,9 @@ export function SiteFooter() {
           section supplies its own cream division for this to land on. */}
       {/* The pull-up has to stay inside the preceding section's bottom padding,
           which is 64px on mobile against 100px+ from lg up. */}
-      <div className="relative z-10 -mt-[56px] w-full lg:-mt-[102px]">
+      {/* pointer-events-none: the band overlaps the CTA row above it, and a
+          full-width overlay would otherwise eat clicks on those buttons. */}
+      <div className="pointer-events-none relative z-10 -mt-[56px] w-full lg:-mt-[102px]">
         <div className="mx-auto max-w-[1440px] px-5 pb-2 md:px-10 lg:px-20">
           {/* Both marks carry transparent padding inside their own files —
               9/157 here, 54/387 on the masthead — so each needs its own pull to

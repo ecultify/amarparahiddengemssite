@@ -30,23 +30,23 @@ export default async function GuessTheParaPage() {
         {/* Dressed with the same accents as the thank-you page it follows. */}
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[80px] left-[-30px] h-[110px] w-[88px] lg:top-[190px] lg:left-[16px] lg:h-[200px] lg:w-[160px] object-contain"
+          className="pointer-events-none absolute top-[80px] left-[-30px] h-[110px] w-[88px] lg:top-[190px] lg:left-0 lg:h-[200px] lg:w-[160px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
           className="pointer-events-none absolute top-[54px] right-[-58px] h-[170px] w-[106px] lg:top-[70px] lg:right-[-50px] lg:h-[320px] lg:w-[200px] object-contain"
         />
         <Asset
-          src={IMG.accentKiteRainbow}
-          className="pointer-events-none hidden lg:block absolute top-[90px] left-[calc(50%-620px)] h-[170px] w-[128px] object-contain"
+          src={IMG.accentKitePainted}
+          className="pointer-events-none hidden lg:block absolute top-[90px] left-[calc(50%-620px)] h-[170px] w-[156px] rotate-[11deg] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.tower}
-          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[131px] object-contain object-bottom"
+          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[109px] object-contain object-bottom"
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
-          className="pointer-events-none hidden lg:block absolute top-[132px] left-[calc(50%+236px)] z-40 h-[38px] w-[36px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[119px] left-[calc(50%+284px)] z-40 h-[38px] w-[36px] object-contain"
         />
 
         <div className="relative z-30 flex w-full max-w-[1000px] flex-col items-center gap-6 text-center lg:gap-8">
