@@ -9,7 +9,17 @@ import { appendRaw, delRaw, setRaw, writeJson } from "@/lib/blob-store";
  * enforced on APPEND's returned length.
  */
 
-const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "video/mp4", "video/quicktime"];
+const ALLOWED = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  // iPhones hand these over straight from the camera roll.
+  "image/heic",
+  "image/heif",
+  "video/mp4",
+  "video/quicktime",
+];
 // 7MB of raw media is ~9.4MB of base64, just under the store's request cap.
 const MAX_BASE64_CHARS = 9_800_000;
 const MAX_CHUNK_CHARS = 4_000_000;

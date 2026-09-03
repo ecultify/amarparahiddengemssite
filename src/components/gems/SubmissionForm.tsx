@@ -9,7 +9,7 @@ import { ShipAnimation } from "@/components/gems/ShipAnimation";
 import { SUBMISSION_CATEGORIES } from "@/lib/tokens";
 import { submitGem, type SubmitState } from "@/app/actions/submissions";
 
-const STEPS = ["Your Para", "Your Gem", "Photo / Video", "Verify"];
+const STEPS = ["Your Para", "Your Gem", "Photo & Verify"];
 
 // Photos are compressed before upload; videos have a hard cap in storage.
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
@@ -23,8 +23,8 @@ function Label({ children }: { children: React.ReactNode }) {
 
 type Upload = { url: string; name: string; type: "image" | "video" };
 
-/** form-card — Figma 95:341. Four steps; uploads go straight to blob storage,
- *  and the last step gates submission behind phone verification. */
+/** form-card — Figma 95:341. Three steps; the last one carries the upload,
+ *  phone verification and submit together. */
 export function SubmissionForm() {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -206,7 +206,7 @@ export function SubmissionForm() {
             <label className="flex w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-[12px] border-2 border-dashed border-pink bg-cream/30 p-6 text-center sm:p-8">
               <input
                 type="file"
-                accept="image/jpeg,image/png,video/mp4"
+                accept="image/jpeg,image/png,image/webp,image/heic,image/heif,video/mp4,video/quicktime,.heic,.heif,.mov"
                 className="sr-only"
                 onChange={handleFile}
               />
@@ -220,7 +220,7 @@ export function SubmissionForm() {
                 Help us see your hidden gem. Upload an original photo or video, if available.
               </span>
               <span className="font-ui text-[11px] font-bold uppercase text-slate/60">
-                Supported formats: JPG, PNG, MP4 | Videos up to 7 MB
+                JPG, PNG, HEIC, MP4 or MOV | Videos up to 7 MB
               </span>
             </label>
           )}
@@ -237,27 +237,9 @@ export function SubmissionForm() {
           <p className="w-full max-w-[440px] text-left font-body text-[14px] text-red">{state.error}</p>
         ) : null}
 
-        <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
-          <button
-            type="button"
-            onClick={() => setStep(1)}
-            className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
-          >
-            Back
-          </button>
-          <button
-            type="button"
-            onClick={() => setStep(3)}
-            disabled={uploading}
-            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
-          >
-            Next
-          </button>
-        </div>
-      </div>
-
-      <div className={step === 3 ? "contents" : "hidden"}>
-        <div className="flex w-full max-w-[440px] flex-col items-center gap-2 text-center">
+        {/* Verification lives with the upload rather than in a step of its
+            own, so the last screen is: attach a file, verify, submit. */}
+        <div className="flex w-full max-w-[440px] flex-col items-center gap-2 pt-2 text-center">
           <Label>Verify your number</Label>
           <p className="font-body text-[14px] leading-[1.5] text-slate">
             We verify every submission against a mobile number so each gem can be credited to the
@@ -276,7 +258,7 @@ export function SubmissionForm() {
         <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
           <button
             type="button"
-            onClick={() => setStep(2)}
+            onClick={() => setStep(1)}
             className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
           >
             Back

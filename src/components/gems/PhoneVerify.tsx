@@ -8,12 +8,12 @@ const FIELD =
   "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[16px] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink";
 
 /**
- * Dummy phone verification gating the submit button.
+ * Phone verification, inline: the number and its Verify button share a row,
+ * and the code slots open directly beneath once a code has been requested.
  *
  * There is no SMS provider wired up yet, so requesting a code just reveals the
- * slots and any six digits verify. The shape is the real one though — request,
- * per-digit entry with paste and backspace handling, then a verified state —
- * so swapping in a provider is a change to the two handlers, not to the UI.
+ * slots and any six digits verify. The shape is the real one though, so
+ * swapping in a provider is a change to the server action, not to this UI.
  */
 export function PhoneVerify({
   verified,
@@ -39,7 +39,6 @@ export function PhoneVerify({
     }
     setError(null);
     setSent(true);
-    // Focus the first slot once it exists.
     requestAnimationFrame(() => slots.current[0]?.focus());
   }
 
@@ -69,9 +68,9 @@ export function PhoneVerify({
     if (event.key === "ArrowRight" && index < OTP_LENGTH - 1) slots.current[index + 1]?.focus();
   }
 
-  // Server-side so the verification also starts the visitor session cookie
-  // that Guess the Para shares.
-  async function verify() {
+  // Server-side so the check also starts the visitor session cookie that
+  // Guess the Para shares.
+  async function confirm() {
     if (code.length !== OTP_LENGTH) {
       setError(`Enter all ${OTP_LENGTH} digits.`);
       return;
@@ -112,6 +111,7 @@ export function PhoneVerify({
     <div className="flex w-full max-w-[440px] flex-col items-center gap-3">
       <label className="flex w-full flex-col items-start gap-2">
         <span className="font-display text-[16px] font-bold text-navy">Mobile Number</span>
+        {/* Number and its Verify button share the row. */}
         <div className="flex w-full gap-2">
           <input
             name="phone"
@@ -127,17 +127,20 @@ export function PhoneVerify({
             <button
               type="button"
               onClick={send}
-              className="icon-btn h-[52px] shrink-0 rounded-[8px] border-2 border-navy px-4 font-display text-[14px] font-extrabold uppercase text-navy"
+              className="btn-3d inline-flex h-[52px] shrink-0 items-center justify-center rounded-[4px] bg-yellow px-6 font-display text-[14px] font-extrabold uppercase text-navy"
             >
-              Send OTP
+              Verify
             </button>
           ) : null}
         </div>
       </label>
 
+      {/* The code slots open directly beneath the number. */}
       {sent ? (
         <div className="flex w-full flex-col items-start gap-2">
-          <span className="font-display text-[16px] font-bold text-navy">Enter the OTP</span>
+          <span className="font-display text-[15px] font-bold text-navy">
+            Enter the code sent to {phone}
+          </span>
           <div className="flex w-full gap-2">
             {digits.map((digit, index) => (
               <input
@@ -151,7 +154,7 @@ export function PhoneVerify({
                 inputMode="numeric"
                 autoComplete={index === 0 ? "one-time-code" : "off"}
                 maxLength={OTP_LENGTH}
-                aria-label={`OTP digit ${index + 1}`}
+                aria-label={`Code digit ${index + 1}`}
                 className="h-[52px] min-w-0 flex-1 rounded-[8px] border border-line bg-white text-center font-display text-[20px] font-extrabold text-navy transition-colors duration-150 focus:border-pink"
               />
             ))}
@@ -159,22 +162,26 @@ export function PhoneVerify({
           <div className="flex w-full items-center justify-between gap-3 pt-1">
             <button
               type="button"
-              onClick={() => { setSent(false); setDigits(Array(OTP_LENGTH).fill("")); }}
+              onClick={() => {
+                setSent(false);
+                setDigits(Array(OTP_LENGTH).fill(""));
+                setError(null);
+              }}
               className="font-body text-[13px] text-slate underline underline-offset-2 hover:text-pink"
             >
               Change number
             </button>
             <button
               type="button"
-              onClick={verify}
+              onClick={confirm}
               disabled={checking}
               className="btn-3d inline-flex h-12 items-center justify-center rounded-[4px] bg-yellow px-6 font-display text-[14px] font-extrabold uppercase text-navy disabled:opacity-60"
             >
-              {checking ? "Verifying…" : "Verify"}
+              {checking ? "Checking…" : "Confirm"}
             </button>
           </div>
           <p className="font-body text-[12px] text-slate/70">
-            Demo build — no SMS is sent, any six digits will verify.
+            Demo build. No SMS is sent, any six digits will verify.
           </p>
         </div>
       ) : null}

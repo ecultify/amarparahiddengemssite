@@ -10,9 +10,20 @@ import { downscaleImage } from "@/lib/resize-image";
 export const MAX_VIDEO_BYTES = 7 * 1024 * 1024;
 const CHUNK_CHARS = 3_000_000;
 
+const HEIC = /heic|heif/i;
+
 export async function uploadMedia(file: File): Promise<{ url: string; type: "image" | "video" }> {
   const isVideo = file.type.startsWith("video");
   const prepared = isVideo ? file : await downscaleImage(file);
+
+  // Safari decodes HEIC, so downscaleImage turns it into WebP there. Browsers
+  // that cannot decode it would upload a file nothing can display, so ask for
+  // a JPEG instead rather than storing something the desk cannot open.
+  if (!isVideo && (HEIC.test(prepared.type) || HEIC.test(prepared.name))) {
+    throw new Error(
+      "This device can't read that HEIC photo. Set the camera to Most Compatible, or pick a JPEG.",
+    );
+  }
 
   if (isVideo && prepared.size > MAX_VIDEO_BYTES) {
     throw new Error("Videos can be up to 7 MB. Trim it or upload a photo instead.");
