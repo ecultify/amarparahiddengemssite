@@ -44,7 +44,7 @@ export function SubmissionForm() {
       return;
     }
     if (picked.size > MAX_UPLOAD_BYTES) {
-      setUploadError("That file is too large.");
+      setUploadError("Photos can be up to 25 MB. Try a smaller one.");
       event.target.value = "";
       return;
     }
@@ -56,7 +56,7 @@ export function SubmissionForm() {
       setUploadError(
         error instanceof Error && error.message
           ? error.message
-          : "That file couldn't be uploaded. JPG, PNG or MP4.",
+          : "That file couldn't be uploaded. Photos: JPG, PNG or HEIC. Videos: MP4 or MOV.",
       );
     } finally {
       setUploading(false);
@@ -219,8 +219,9 @@ export function SubmissionForm() {
               <span className="w-full max-w-[400px] font-body text-[14px] text-slate">
                 Help us see your hidden gem. Upload an original photo or video, if available.
               </span>
-              <span className="font-ui text-[11px] font-bold uppercase text-slate/60">
-                JPG, PNG, HEIC, MP4 or MOV | Videos up to 7 MB
+              <span className="flex flex-col gap-0.5 font-ui text-[11px] font-bold uppercase text-slate/60">
+                <span>Photos: JPG, PNG or HEIC, up to 25 MB</span>
+                <span>Videos: MP4 or MOV, up to 7 MB</span>
               </span>
             </label>
           )}

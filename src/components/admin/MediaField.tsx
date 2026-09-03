@@ -30,7 +30,7 @@ export function MediaField({ id, value, kind, onChange }: Props) {
       setError(
         uploadError instanceof Error && uploadError.message
           ? uploadError.message
-          : "Upload failed. JPG, PNG, WEBP or MP4 (videos up to 7 MB).",
+          : "Upload failed. Photos: JPG, PNG, WEBP or HEIC. Videos: MP4 or MOV, up to 7 MB.",
       );
     } finally {
       setBusy(false);
@@ -69,7 +69,11 @@ export function MediaField({ id, value, kind, onChange }: Props) {
                 <input
                   type="file"
                   className="sr-only"
-                  accept={kind === "video" ? "video/mp4,video/quicktime" : "image/jpeg,image/png,image/webp"}
+                  accept={
+                    kind === "video"
+                      ? "video/mp4,video/quicktime,.mov"
+                      : "image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"
+                  }
                   onChange={handleFile}
                 />
               </label>
