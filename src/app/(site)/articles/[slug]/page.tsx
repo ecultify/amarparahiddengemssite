@@ -65,7 +65,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         />
         <Asset
           src={IMG.blogSprout}
-          className="pointer-events-none absolute top-[-2px] left-[calc(50%+104px)] h-[58px] w-[33px] lg:top-[14px] lg:left-[calc(50%-96px)] lg:h-[120px] lg:w-[74px] object-contain"
+          className="pointer-events-none absolute top-[-2px] left-[calc(50%+104px)] h-[58px] w-[33px] lg:top-[43px] lg:left-[calc(50%-65px)] lg:h-[80px] lg:w-[49px] object-contain"
         />
         <Asset
           src={IMG.blogDhol}

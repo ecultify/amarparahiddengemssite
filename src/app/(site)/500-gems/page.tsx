@@ -13,7 +13,7 @@ export default async function GalleryPage() {
   return (
     <>
       {/* gallery-hero-section — Figma 106:288 */}
-      <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-cream px-5 py-12 md:px-10 lg:gap-10 lg:px-20 lg:py-20">
+      <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-cream px-5 pt-12 pb-8 md:px-10 lg:gap-10 lg:px-20 lg:pt-20 lg:pb-10">
         <Asset
           src={IMG.accentKiteRainbow}
           className="pointer-events-none absolute top-[8px] left-[-34px] h-[110px] w-[83px] lg:top-[40px] lg:left-[-24px] lg:h-[210px] lg:w-[159px] object-contain"
@@ -56,7 +56,7 @@ export default async function GalleryPage() {
           src={GALLERY_IMG.bar}
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[90px] w-[201px] object-contain"
         />
-        <section className="flex w-full flex-col items-center gap-8 bg-cream px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-20 lg:pb-[100px]">
+        <section className="flex w-full flex-col items-center gap-8 bg-cream px-5 pt-8 pb-16 md:px-10 lg:px-20 lg:pt-10 lg:pb-[100px]">
           <GalleryTabs
             photoGems={content.photoGems}
             videoGems={content.videoGems}
@@ -73,9 +73,9 @@ export default async function GalleryPage() {
         />
         <Asset
           src={GALLERY_IMG.saxophone}
-          className="pointer-events-none absolute top-[16px] right-[-56px] h-[150px] w-[128px] lg:top-[50px] lg:right-[-10px] lg:h-[300px] lg:w-[255px] object-contain"
+          className="pointer-events-none absolute top-[16px] right-[-56px] h-[150px] w-[128px] lg:top-[120px] lg:right-[40px] lg:h-[360px] lg:w-[306px] object-contain"
         />
-        <h2 className="relative text-center font-title text-[42px] font-black text-black sm:text-[52px] lg:text-[66px]">
+        <h2 className="relative text-center font-title text-[42px] font-black text-white sm:text-[52px] lg:text-[66px]">
           Your Para Has a Story Too
         </h2>
         <p className="relative w-full max-w-[680px] text-center font-body text-[16px] leading-[1.5] text-cream sm:text-[18px]">

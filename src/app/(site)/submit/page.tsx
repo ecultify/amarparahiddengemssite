@@ -25,7 +25,7 @@ export default async function SubmitPage() {
           className="pointer-events-none absolute top-[70px] right-[-22px] h-[200px] w-[125px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
         />
         <Asset
-          src={SUBMIT_ACCENT.golfBag}
+          src={SUBMIT_ACCENT.golfBagTall}
           className="pointer-events-none hidden lg:block absolute top-[21px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
         />
         <Asset
@@ -37,8 +37,8 @@ export default async function SubmitPage() {
           className="pointer-events-none hidden lg:block absolute bottom-[320px] left-[-11px] h-[170px] w-[167px] object-contain"
         />
         <Asset
-          src={SUBMIT_ACCENT.fishPlate}
-          className="pointer-events-none hidden lg:block absolute bottom-[180px] right-[10px] h-[202px] w-[139px] object-contain"
+          src={SUBMIT_ACCENT.fishPlateNew}
+          className="pointer-events-none hidden lg:block absolute bottom-[180px] right-[-26px] h-[232px] w-[160px] object-contain"
         />
         {/* Same kite art as the participate Gems block, sitting against the
             form card's right border (card spans 50%-313px .. 50%+313px). */}
@@ -48,7 +48,7 @@ export default async function SubmitPage() {
         />
         <Asset
           src={SUBMIT_ACCENT.golfCart}
-          className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-448px)] h-[144px] w-[172px] object-contain"
+          className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-448px)] z-40 h-[144px] w-[172px] object-contain"
         />
 
         <div className="relative z-30 mx-auto flex max-w-[1200px] flex-col items-center gap-6 lg:gap-8">

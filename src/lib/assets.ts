@@ -24,6 +24,8 @@ export const IMG = {
   accentAutoRickshaw: "/images/accent-auto-rickshaw.png",
   /** Rainbow kite — hand-supplied; gallery hero and participate hero. */
   accentKiteRainbow: "/accent-kite-rainbow.png",
+  /** Painted kite that leads the participate hero (Figma accent-kite). */
+  accentKitePainted: "/accent-kite.png",
 
   /** Article page — Figma 178:296. Hand-supplied plus a few node exports. */
   blogSprout: "/blog-sprout.png",
@@ -84,6 +86,8 @@ export const PARTICIPATE_ACCENT = {
   dancers: "/images/participate/dancers.png", // 178:17
   /** Rotation (-29.3deg) is baked into the Figma render, so no CSS rotate. */
   dhol: "/images/participate/dhol.png", // 164:62
+  /** Charkha + sticks on the guidelines plate — hand-supplied (Group 28). */
+  charkha: "/participate-charkha.png",
   statue: "/participate-statue.png", // 178:226 — hand-supplied, not from figma sync
   /** Kite trailing its string across the Gems block. */
   kiteString: "/images/participate/kitestring.png", // 178:166
@@ -104,6 +108,10 @@ export const SUBMIT_ACCENT = {
   fishPlate: "/images/submit/kite-s.png", // 178:271
   golfCart: "/images/submit/cart.png", // 178:142
   kite: "/images/submit/kitetri.png", // 178:210 (rotated 26.59deg in Figma)
+  /** Golf bag that stands on the "A" of PARA'S — hand-supplied. */
+  golfBagTall: "/submit-golf-bag.png",
+  /** Fish plate on the verify step — hand-supplied replacement. */
+  fishPlateNew: "/fish.png",
   /** Cyan section - real cutouts, since they sit on colour not cream. */
   heron: "/images/submit/heron.png", // 178:206
   statue: "/images/submit/statue-s.png", // 178:218

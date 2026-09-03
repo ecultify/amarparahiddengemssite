@@ -87,7 +87,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           {/* Pale streaks sitting in the gap above the first gem card. */}
           <Asset
             src={IMG.gemsStreaks}
-            className="pointer-events-none hidden lg:block absolute top-[176px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
+            className="pointer-events-none hidden lg:block absolute top-[201px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
           />
         </>
       ) : null}
