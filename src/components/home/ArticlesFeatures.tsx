@@ -8,7 +8,7 @@ function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
       href={`/articles/${slugOf(article)}`}
-      className="group relative block h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] shadow-[0_10px_20px_rgba(27,42,74,0.18)] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[200px] sm:w-[320px] hover:-translate-y-[3px] active:translate-y-0"
+      className="group relative block h-[180px] w-[280px] shrink-0 overflow-hidden rounded-[12px] transition-transform duration-150 ease-[var(--ease-out-quart)] sm:h-[200px] sm:w-[320px] hover:-translate-y-[3px] active:translate-y-0"
     >
       <Asset
         src={article.image}
