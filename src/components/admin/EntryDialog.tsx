@@ -135,7 +135,7 @@ export function EntryDialog({
           })}
         </div>
 
-        <DialogFooter className="shrink-0 border-t px-6 py-4">
+        <DialogFooter className="mx-0 mb-0 shrink-0 rounded-b-xl border-t px-6 py-4">
           <Button type="button" variant="outline" disabled={saving} onClick={requestClose}>
             Cancel
           </Button>

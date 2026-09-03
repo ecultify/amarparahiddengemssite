@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Inbox, LayoutDashboard, LogOut, Settings, UsersRound } from "lucide-react";
+import { ChevronRight, Images, Inbox, LayoutDashboard, LogOut, Settings, UsersRound } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,11 +15,22 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { collectionIcon } from "@/components/admin/collectionIcons";
 import { logout } from "@/app/actions/auth";
 
 export type NavCollection = { key: string; label: string };
+
+/** The three gallery collections live together under one nav group. */
+const GALLERY_KEYS = ["photoGems", "videoGems", "streetStories"];
 
 /** The content desk's navigation rail, on the shadcn sidebar. Collapses to
  *  icons on desktop and becomes a drawer on mobile. */
@@ -31,6 +42,7 @@ export function AdminSidebar({
   newCount: number;
 }) {
   const pathname = usePathname();
+  const galleries = collections.filter((c) => GALLERY_KEYS.includes(c.key));
 
   return (
     <Sidebar collapsible="icon">
@@ -101,24 +113,60 @@ export function AdminSidebar({
           <SidebarGroupLabel>Site content</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-1.5">
-              {collections.map((collection) => {
-                const Icon = collectionIcon(collection.key);
-                const href = `/admin/content/${collection.key}`;
-                return (
-                  <SidebarMenuItem key={collection.key}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={pathname.startsWith(href)}
-                      tooltip={collection.label}
-                    >
-                      <Link href={href}>
-                        <Icon />
-                        <span>{collection.label}</span>
-                      </Link>
+              {collections
+                .filter((c) => !GALLERY_KEYS.includes(c.key))
+                .map((collection) => {
+                  const Icon = collectionIcon(collection.key);
+                  const href = `/admin/content/${collection.key}`;
+                  return (
+                    <SidebarMenuItem key={collection.key}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname.startsWith(href)}
+                        tooltip={collection.label}
+                      >
+                        <Link href={href}>
+                          <Icon />
+                          <span>{collection.label}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+
+              {/* The 500 Gems galleries fold into one group, open whenever
+                  the page you are on lives inside it. */}
+              <Collapsible
+                asChild
+                defaultOpen={galleries.some((c) => pathname.startsWith(`/admin/content/${c.key}`))}
+                className="group/collapsible"
+              >
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip="Galleries">
+                      <Images />
+                      <span>Galleries</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {galleries.map((collection) => {
+                        const href = `/admin/content/${collection.key}`;
+                        return (
+                          <SidebarMenuSubItem key={collection.key}>
+                            <SidebarMenuSubButton asChild isActive={pathname.startsWith(href)}>
+                              <Link href={href}>
+                                <span>{collection.label}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        );
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

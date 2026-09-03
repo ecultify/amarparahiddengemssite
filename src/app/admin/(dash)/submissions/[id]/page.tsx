@@ -46,44 +46,50 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
 
       <Separator />
 
-      <dl className="flex flex-col gap-3">
-        <Row label="Para" value={entry.para} />
-        <Row label="Location" value={entry.location} />
-        <Row label="Category" value={entry.category} />
-      </dl>
+      {/* Two columns from lg up: the entry's details beside its upload. */}
+      <div className="grid items-start gap-8 lg:grid-cols-2">
+        <div className="flex flex-col gap-6">
+          <dl className="flex flex-col gap-3">
+            <Row label="Para" value={entry.para} />
+            <Row label="Location" value={entry.location} />
+            <Row label="Category" value={entry.category} />
+            {entry.phone ? <Row label="Phone" value={entry.phone} /> : null}
+          </dl>
 
-      <div className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold">Description</h2>
-        <p className="max-w-[70ch] text-sm leading-relaxed whitespace-pre-line text-muted-foreground">
-          {entry.description}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold">Upload</h2>
-        {entry.upload ? (
-          <div className="flex flex-col items-start gap-3">
-            <div className="overflow-hidden rounded-lg border bg-muted">
-              {entry.uploadType === "video" ? (
-                <video src={entry.upload} controls className="max-h-[420px] w-full max-w-xl" />
-              ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={entry.upload}
-                  alt={entry.uploadName ?? entry.title}
-                  className="max-h-[420px] w-full max-w-xl object-contain"
-                />
-              )}
-            </div>
-            <Button asChild variant="outline" size="sm">
-              <a href={entry.upload} download target="_blank" rel="noreferrer">
-                <Download className="size-3.5" /> {entry.uploadName ?? "Download file"}
-              </a>
-            </Button>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-sm font-semibold">Description</h2>
+            <p className="text-sm leading-relaxed whitespace-pre-line text-muted-foreground">
+              {entry.description}
+            </p>
           </div>
-        ) : (
-          <p className="text-sm text-muted-foreground">No file attached.</p>
-        )}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <h2 className="text-sm font-semibold">Upload</h2>
+          {entry.upload ? (
+            <div className="flex flex-col items-start gap-3">
+              <div className="w-full overflow-hidden rounded-lg border bg-muted">
+                {entry.uploadType === "video" ? (
+                  <video src={entry.upload} controls className="max-h-[420px] w-full" />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={entry.upload}
+                    alt={entry.uploadName ?? entry.title}
+                    className="max-h-[420px] w-full object-contain"
+                  />
+                )}
+              </div>
+              <Button asChild variant="outline" size="sm">
+                <a href={entry.upload} download target="_blank" rel="noreferrer">
+                  <Download className="size-3.5" /> {entry.uploadName ?? "Download file"}
+                </a>
+              </Button>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">No file attached.</p>
+          )}
+        </div>
       </div>
     </div>
   );

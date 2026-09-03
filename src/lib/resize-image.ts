@@ -1,5 +1,7 @@
 const MAX_EDGE = 1600;
 const QUALITY = 0.85;
+/** Past this, re-encode to WebP even if the pixel size is fine. */
+const HEAVY_BYTES = 600 * 1024;
 
 /**
  * WordPress-style upload scaling, done in the browser: images larger than
@@ -12,8 +14,9 @@ export async function downscaleImage(file: File): Promise<File> {
   if (!file.type.startsWith("image/")) return file;
   try {
     const bitmap = await createImageBitmap(file);
-    const scale = MAX_EDGE / Math.max(bitmap.width, bitmap.height);
-    if (scale >= 1) {
+    const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
+    // Already small and already light: nothing to gain by re-encoding.
+    if (scale >= 1 && file.size <= HEAVY_BYTES) {
       bitmap.close();
       return file;
     }
@@ -25,7 +28,8 @@ export async function downscaleImage(file: File): Promise<File> {
     const blob = await new Promise<Blob | null>((resolve) =>
       canvas.toBlob(resolve, "image/webp", QUALITY),
     );
-    if (!blob) return file;
+    // Keep whichever is smaller: a PNG screenshot can beat a WebP re-encode.
+    if (!blob || blob.size >= file.size) return file;
     return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".webp", { type: blob.type });
   } catch {
     return file;
