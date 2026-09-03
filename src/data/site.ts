@@ -268,6 +268,15 @@ export const CREATOR_TRAILS = [
   "/images/trail-1.png",
 ];
 
+/** Creator reels shown in the Creator Trails mosaic, one per card. */
+export const CREATOR_REELS = [
+  "https://www.instagram.com/reel/DNvDM92Yj1H/",
+  "https://www.instagram.com/reel/DM2v8uzPT-R/",
+  "https://www.instagram.com/reel/DM_6hh8zyUU/",
+  "https://www.instagram.com/reel/DMSoydCP1AD/",
+  "https://www.instagram.com/reel/DLtrKCETcpG/",
+];
+
 /** Campaign counter shown in the hero and on the progress card. */
 export const GEM_COUNT = { discovered: 236, total: 500 };
 

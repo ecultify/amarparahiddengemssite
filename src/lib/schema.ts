@@ -70,8 +70,9 @@ export const COLLECTIONS: Collection[] = [
     singular: "Trail",
     titleKey: "caption",
     fields: [
-      { key: "caption", label: "Caption", type: "text", help: "Used as the image’s alt text." },
-      { key: "image", label: "Image", type: "image" },
+      { key: "caption", label: "Caption", type: "text", help: "Describes the card for screen readers." },
+      { key: "reel", label: "Instagram reel", type: "text", help: "Paste the reel link. The card plays it; leave blank to show the image instead." },
+      { key: "image", label: "Image", type: "image", help: "Shown when there is no reel link." },
     ],
   },
   {

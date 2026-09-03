@@ -3,6 +3,7 @@ import { readJson, writeJson } from "@/lib/blob-store";
 import {
   ARTICLES_ROW_ONE,
   ARTICLES_ROW_TWO,
+  CREATOR_REELS,
   CREATOR_TRAILS,
   DISCOVERED_GEMS,
   GEMS,
@@ -21,7 +22,13 @@ import {
 
 export const CONTENT_PATH = "content.json";
 
-export type Trail = { image: string; caption: string };
+export type Trail = {
+  image: string;
+  caption: string;
+  /** Instagram reel URL. When set, the card plays the reel instead of the
+   *  still, at exactly the same size. */
+  reel?: string;
+};
 export type ArticleEntry = Article & { row: "1" | "2" };
 
 /** One Guess the Para question. Flat strings so the generic admin editor
@@ -63,6 +70,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   creatorTrails: CREATOR_TRAILS.map((image, index) => ({
     image,
     caption: `Creator trail ${index + 1}`,
+    reel: CREATOR_REELS[index],
   })),
   photoGems: PHOTO_GEMS,
   videoGems: VIDEO_GEMS,

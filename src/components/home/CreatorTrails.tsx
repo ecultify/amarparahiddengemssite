@@ -5,12 +5,27 @@ import { Asset } from "@/components/ui/Asset";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
 import { HOME_ACCENT, IMG } from "@/lib/assets";
+import type { Trail } from "@/lib/content";
+
+/** Instagram's own embed endpoint for a reel or post URL. Returns null for
+ *  anything that isn't a recognisable permalink, so a typo falls back to the
+ *  card's image rather than rendering a broken frame. */
+function reelEmbed(url: string | undefined) {
+  const code = url?.match(/instagram\.com\/(?:reel|reels|p|tv)\/([\w-]+)/)?.[1];
+  return code ? `https://www.instagram.com/reel/${code}/embed/` : null;
+}
+
+/** The embed is rendered at its natural width and scaled into the card, so
+ *  the mosaic keeps the exact 240x380 tiles the section is built around. */
+const EMBED_W = 320;
+const EMBED_H = 507;
+const SCALE = 240 / EMBED_W;
 
 /** One card stride: 240px image + 16px gap. */
 const STRIDE = 256;
 
 /** Creator Trails — Figma 49:2139. Five-up 240x380 mosaic. */
-export function CreatorTrails({ trails }: { trails: { image: string; caption: string }[] }) {
+export function CreatorTrails({ trails }: { trails: Trail[] }) {
   const track = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
 
@@ -67,14 +82,40 @@ export function CreatorTrails({ trails }: { trails: { image: string; caption: st
           </button>
 
           <div ref={track} className="no-scrollbar flex h-[380px] gap-4 overflow-x-auto lg:mx-16">
-            {trails.map((trail, index) => (
-              <Asset
-                key={index}
-                src={trail.image}
-                alt={trail.caption}
-                className="h-[380px] w-[240px] shrink-0 rounded-[16px] object-cover"
-              />
-            ))}
+            {trails.map((trail, index) => {
+              const embed = reelEmbed(trail.reel);
+              if (!embed) {
+                return (
+                  <Asset
+                    key={index}
+                    src={trail.image}
+                    alt={trail.caption}
+                    className="h-[380px] w-[240px] shrink-0 rounded-[16px] object-cover"
+                  />
+                );
+              }
+              return (
+                <div
+                  key={index}
+                  className="h-[380px] w-[240px] shrink-0 overflow-hidden rounded-[16px] bg-navy/5"
+                >
+                  <iframe
+                    src={embed}
+                    title={trail.caption}
+                    loading="lazy"
+                    scrolling="no"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    className="origin-top-left border-0"
+                    style={{
+                      width: EMBED_W,
+                      height: EMBED_H,
+                      transform: `scale(${SCALE})`,
+                    }}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <button
