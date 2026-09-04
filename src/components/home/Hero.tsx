@@ -14,7 +14,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
 export function Hero({ gemCount }: { gemCount: { discovered: number; total: number } }) {
   return (
     <section className="relative w-full overflow-hidden bg-cream">
-      <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-6 px-5 pt-5 pb-10 md:px-10 sm:pt-[60px] lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,780px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
+      <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-6 px-5 pt-12 pb-10 md:px-10 sm:pt-[60px] lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,780px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           {/* Two lines below lg, three from lg up, so no line carries a lone word. */}
           <h1
