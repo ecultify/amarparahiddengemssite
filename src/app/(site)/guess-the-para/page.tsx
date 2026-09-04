@@ -26,15 +26,15 @@ export default async function GuessTheParaPage() {
 
   return (
     <>
-      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 py-16 md:px-10 lg:px-20 lg:py-16">
+      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 pt-[104px] pb-16 md:px-10 lg:px-20 lg:py-16">
         {/* Dressed with the same accents as the thank-you page it follows. */}
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[80px] left-[-30px] h-[110px] w-[88px] lg:top-[190px] lg:left-0 lg:h-[200px] lg:w-[160px] object-contain"
+          className="pointer-events-none absolute top-[6px] left-[-14px] h-[88px] w-[70px] lg:top-[190px] lg:left-0 lg:h-[200px] lg:w-[160px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[54px] right-[-58px] h-[170px] w-[106px] lg:top-[70px] lg:right-[-50px] lg:h-[320px] lg:w-[200px] object-contain"
+          className="pointer-events-none absolute top-[0px] right-[-20px] h-[100px] w-[63px] lg:top-[70px] lg:right-[-50px] lg:h-[320px] lg:w-[200px] object-contain"
         />
         <Asset
           src={IMG.accentKitePainted}
@@ -50,11 +50,11 @@ export default async function GuessTheParaPage() {
         />
 
         <div className="relative z-30 flex w-full max-w-[1000px] flex-col items-center gap-6 text-center lg:gap-8">
-          <div className="flex flex-col items-center gap-4">
+          <div data-reveal className="flex flex-col items-center gap-4">
             <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[13px] font-extrabold uppercase tracking-[0.06em] text-pink">
               Daily quiz
             </span>
-            <h1 className="font-title text-[44px] leading-[0.94] font-black uppercase sm:text-[56px] lg:text-[128px]">
+            <h1 className="font-title text-[44px] leading-[1.05] font-black uppercase sm:text-[56px] lg:text-[128px] lg:leading-[0.94]">
               <span className="text-cyan">Guess </span>
               <span className="text-pink">the Para</span>
             </h1>

@@ -11,14 +11,14 @@ export const metadata = {
 export default function ThankYouPage() {
   return (
     <>
-      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 py-16 md:px-10 lg:px-20 lg:py-16">
+      <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 pt-[104px] pb-16 md:px-10 lg:px-20 lg:py-16">
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[80px] left-[-30px] h-[110px] w-[88px] lg:top-[190px] lg:left-[16px] lg:h-[200px] lg:w-[160px] object-contain"
+          className="pointer-events-none absolute top-[6px] left-[-14px] h-[88px] w-[70px] lg:top-[190px] lg:left-[16px] lg:h-[200px] lg:w-[160px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[54px] right-[-58px] h-[170px] w-[106px] lg:top-[70px] lg:right-[-50px] lg:h-[320px] lg:w-[200px] object-contain"
+          className="pointer-events-none absolute top-[0px] right-[-20px] h-[100px] w-[63px] lg:top-[70px] lg:right-[-50px] lg:h-[320px] lg:w-[200px] object-contain"
         />
         <Asset
           src={IMG.accentKiteRainbow}
@@ -33,12 +33,12 @@ export default function ThankYouPage() {
           className="pointer-events-none hidden lg:block absolute top-[150px] left-[calc(50%+250px)] z-40 h-[38px] w-[36px] object-contain"
         />
 
-        <div className="relative flex w-full max-w-[1000px] flex-col items-center gap-5 text-center">
+        <div data-reveal className="relative flex w-full max-w-[1000px] flex-col items-center gap-4 text-center">
           <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[13px] font-extrabold uppercase tracking-[0.06em] text-pink">
             Submission received
           </span>
 
-          <h1 className="font-title text-[40px] leading-[0.94] font-black text-navy uppercase sm:text-[56px] lg:text-[128px]">
+          <h1 className="font-title text-[40px] leading-[1.05] font-black text-navy uppercase sm:text-[56px] lg:text-[128px] lg:leading-[0.94]">
             Thank You for Sharing Your Hidden Gem
           </h1>
 

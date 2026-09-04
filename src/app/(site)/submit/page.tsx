@@ -9,7 +9,8 @@ export default async function SubmitPage() {
   const content = await getContent();
   return (
     <>
-      <section className="relative w-full overflow-hidden bg-cream px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-14 lg:pb-[64px]">
+      {/* Below lg the two visible accents sit in the band above the eyebrow. */}
+      <section className="relative w-full overflow-hidden bg-cream px-5 pt-[104px] pb-16 md:px-10 lg:px-20 lg:pt-14 lg:pb-[64px]">
         {/* Hero accents — Figma 95:309. y values are the Figma value minus the
             88px navbar the frame includes. Box sizes follow each export's own
             aspect so object-contain adds no letterbox offset. The three lower
@@ -18,11 +19,11 @@ export default async function SubmitPage() {
             them past the floor where overflow-hidden clips them away. */}
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[120px] left-[-20px] h-[130px] w-[104px] lg:top-[188px] lg:left-[-60px] lg:h-[237px] lg:w-[190px] object-contain"
+          className="pointer-events-none absolute top-[4px] left-[-14px] h-[88px] w-[70px] lg:top-[188px] lg:left-[-60px] lg:h-[237px] lg:w-[190px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[70px] right-[-22px] h-[200px] w-[125px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
+          className="pointer-events-none absolute top-[0px] right-[-18px] h-[100px] w-[63px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.golfBagTall}
@@ -52,7 +53,7 @@ export default async function SubmitPage() {
         />
 
         <div className="relative z-30 mx-auto flex max-w-[1200px] flex-col items-center gap-6 lg:gap-8">
-          <div className="flex w-full max-w-[840px] flex-col items-center gap-3">
+          <div data-reveal className="flex w-full max-w-[840px] flex-col items-center gap-4">
             <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[14px] font-extrabold uppercase tracking-[0.06em] text-pink">
               Submit your entry
             </span>
@@ -63,7 +64,7 @@ export default async function SubmitPage() {
                 aria-hidden
                 className="pointer-events-none hidden lg:block absolute top-[147px] left-[calc(50%+83px)] h-[37px] w-[175px] bg-[rgba(255,210,0,0.78)]"
               />
-              <h1 className="relative text-center font-title text-[44px] leading-[0.78] font-black sm:text-[56px] lg:text-[128px]">
+              <h1 className="relative text-center font-title text-[44px] leading-[1.05] font-black sm:text-[56px] lg:text-[128px] lg:leading-[0.78]">
                 <span className="text-cyan">Share Your Para&apos;s </span>
                 <span className="text-pink">Hidden Gem</span>
               </h1>
@@ -75,7 +76,9 @@ export default async function SubmitPage() {
             </p>
           </div>
 
-          <SubmissionForm />
+          <div data-reveal="1" className="flex w-full justify-center">
+            <SubmissionForm />
+          </div>
         </div>
       </section>
 

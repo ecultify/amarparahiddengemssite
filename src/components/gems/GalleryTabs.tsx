@@ -39,9 +39,9 @@ function GemMeta({ gem }: { gem: GalleryGem }) {
   );
 }
 
-function PhotoCard({ gem }: { gem: GalleryGem }) {
+function PhotoCard({ gem, index }: { gem: GalleryGem; index: number }) {
   return (
-    <article className="flex h-[320px] w-full max-w-[304px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
+    <article data-reveal={String(index % 3)} className="flex h-[320px] w-full max-w-[304px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
       <Asset
         src={gem.image}
         alt={gem.title}
@@ -52,11 +52,11 @@ function PhotoCard({ gem }: { gem: GalleryGem }) {
   );
 }
 
-function VideoCard({ gem }: { gem: GalleryGem }) {
+function VideoCard({ gem, index }: { gem: GalleryGem; index: number }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <article className="flex h-[360px] w-full max-w-[628px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
+    <article data-reveal={String(index % 2)} className="flex h-[360px] w-full max-w-[628px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
       <div className="relative flex h-[180px] w-full items-center justify-center bg-navy">
         {playing && gem.video ? (
           <video
@@ -127,6 +127,7 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
   return (
     <div className="flex w-full max-w-[1280px] flex-col items-center gap-8">
       <div
+        data-reveal
         role="tablist"
         className="flex w-full max-w-full flex-wrap justify-center gap-1.5 rounded-[12px] border border-line bg-white p-1.5 sm:w-auto sm:gap-3"
       >
@@ -151,6 +152,7 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
           {streetStories.slice(0, limit).map((story, index) => (
             <article
               key={story.title}
+              data-reveal={String(index % 3)}
               className={`flex w-full max-w-[304px] shrink-0 flex-col justify-between gap-8 rounded-[8px] border p-6 shadow-[0_8px_8px_rgba(27,42,74,0.07)] sm:h-[360px] sm:gap-0 ${quoteTone(index).card}`}
             >
               <div className="flex flex-col gap-3">
@@ -178,16 +180,16 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
 
       {tab === "Photo Gems" && (
         <div className="grid w-full grid-cols-1 justify-items-center gap-6 sm:grid-cols-[repeat(auto-fit,304px)] sm:justify-items-start">
-          {photoGems.slice(0, limit).map((gem) => (
-            <PhotoCard key={gem.title} gem={gem} />
+          {photoGems.slice(0, limit).map((gem, index) => (
+            <PhotoCard key={gem.title} gem={gem} index={index} />
           ))}
         </div>
       )}
 
       {tab === "Video Stories" && (
         <div className="flex w-full flex-wrap justify-center gap-6 sm:justify-start">
-          {videoGems.slice(0, limit).map((gem) => (
-            <VideoCard key={gem.title} gem={gem} />
+          {videoGems.slice(0, limit).map((gem, index) => (
+            <VideoCard key={gem.title} gem={gem} index={index} />
           ))}
         </div>
       )}

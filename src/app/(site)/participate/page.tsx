@@ -1,6 +1,7 @@
 import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
 import { GemsDiscovered } from "@/components/gems/GemsDiscovered";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { User, MapPin, Upload, Check } from "@/components/ui/icons";
 import { HOME_ACCENT, IMG, PARTICIPATE_ACCENT } from "@/lib/assets";
 import { getContent } from "@/lib/content";
@@ -57,7 +58,8 @@ export default async function ParticipatePage() {
         src={PARTICIPATE_ACCENT.shell}
         className="pointer-events-none hidden lg:block absolute top-[461px] left-[-23px] z-20 h-[101px] w-[83px] object-contain"
       />
-      <section className="relative flex w-full items-center overflow-hidden bg-cream px-5 py-14 md:px-10 lg:h-[516px] lg:px-20 lg:py-0">
+      {/* Below lg the accents live in the top and bottom bands, clear of the copy. */}
+      <section className="relative flex w-full items-center overflow-hidden bg-cream px-5 pt-[104px] pb-[124px] md:px-10 lg:h-[516px] lg:px-20 lg:py-0">
         {/* Hero accents — Figma 95:4. The frame includes an 88px navbar, so
             every y below is the Figma value minus 88. Edge pieces that bleed
             past the 1440 canvas stay viewport-anchored; the rest are pinned
@@ -75,7 +77,7 @@ export default async function ParticipatePage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.saxophone}
-          className="pointer-events-none absolute top-[36px] left-[-16px] h-[168px] w-[113px] lg:top-[111px] lg:left-[calc(50%-637px)] lg:h-[317px] lg:w-[213px] object-contain"
+          className="pointer-events-none absolute top-[6px] left-[-10px] h-[92px] w-[62px] lg:top-[111px] lg:left-[calc(50%-637px)] lg:h-[317px] lg:w-[213px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.plate}
@@ -83,7 +85,7 @@ export default async function ParticipatePage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.tower}
-          className="pointer-events-none absolute right-0 bottom-0 h-[200px] w-[109px] lg:top-[227px] lg:bottom-auto lg:right-[-26px] lg:h-[291px] lg:w-[159px] object-contain"
+          className="pointer-events-none absolute right-[-8px] bottom-0 h-[112px] w-[61px] lg:top-[227px] lg:bottom-auto lg:right-[-26px] lg:h-[291px] lg:w-[159px] object-contain"
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
@@ -105,7 +107,7 @@ export default async function ParticipatePage() {
         />
 
         <div className="relative z-30 mx-auto flex w-full max-w-[1315px] flex-col items-center gap-8">
-          <div className="flex flex-col items-center gap-4 text-center">
+          <div data-reveal className="flex flex-col items-center gap-4 text-center">
             {/* Figma 95:40 — the two lines carry different colours (#81429e /
                 #e36418), with the pink wash 178:28 (x=491 y=194, 152x34)
                 sitting behind the first line. */}
@@ -114,7 +116,7 @@ export default async function ParticipatePage() {
                 aria-hidden
                 className="pointer-events-none hidden lg:block absolute top-[59px] left-[calc(50%-246px)] h-[34px] w-[152px] bg-[rgba(233,78,119,0.7)]"
               />
-              <h1 className="relative text-center font-title text-[56px] leading-[0.78] font-black sm:text-[78px] lg:text-[128px]">
+              <h1 className="relative text-center font-title text-[56px] leading-[1.05] font-black sm:text-[78px] lg:text-[128px] lg:leading-[0.78]">
                 <span className="text-purple">500 Gems.</span>
                 <br />
                 <span className="text-orange">One Kolkata.</span>
@@ -129,9 +131,11 @@ export default async function ParticipatePage() {
             </p>
           </div>
 
-          <Button3D href="/submit" variant="red" className="h-14 w-full max-w-[360px] px-4 text-center sm:h-16 sm:w-auto sm:px-8">
-            Log in to participate
-          </Button3D>
+          <div data-reveal="2" className="flex w-full justify-center">
+            <Button3D href="/submit" variant="red" className="h-14 w-full max-w-[360px] px-4 text-center sm:h-16 sm:w-auto sm:px-8">
+              Log in to participate
+            </Button3D>
+          </div>
         </div>
       </section>
       </div>
@@ -154,29 +158,26 @@ export default async function ParticipatePage() {
         src={PARTICIPATE_ACCENT.statue}
         className="pointer-events-none hidden lg:block absolute bottom-[-165px] right-0 z-10 h-[346px] w-[143px] object-contain"
       />
-      <section className="relative w-full overflow-hidden bg-green px-5 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-[44px] lg:pb-[110px]">
+      <section className="relative w-full overflow-hidden bg-green px-5 pt-12 pb-[124px] md:px-10 lg:px-20 lg:pt-[44px] lg:pb-[110px]">
         {/* Dhol 164:62 (x=172 y=1219, 172x204) at the section floor. */}
         <Asset
           src={PARTICIPATE_ACCENT.charkha}
-          className="pointer-events-none absolute bottom-[8px] left-[-30px] h-[110px] w-[60px] lg:bottom-[16px] lg:left-[calc(50%-548px)] lg:h-[179px] lg:w-[97px] rotate-[29deg] object-contain"
+          className="pointer-events-none absolute bottom-[8px] left-[-24px] h-[96px] w-[52px] lg:bottom-[16px] lg:left-[calc(50%-548px)] lg:h-[179px] lg:w-[97px] rotate-[29deg] object-contain"
         />
 
         <div className="relative z-30 mx-auto flex max-w-[1280px] flex-col items-center gap-10 lg:gap-[44px]">
           <div className="flex w-full flex-col items-center gap-8">
-            <div className="flex w-full max-w-[800px] flex-col items-center gap-3 text-center">
-              <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-yellow">
-                Step-by-step Guide
-              </p>
-              <h2 className="font-title text-[42px] leading-tight font-black text-white sm:text-[50px] lg:text-[58px]">
-                How to Participate
-              </h2>
-              <p className="font-body text-[16px] leading-[26px] text-white sm:text-[18px] sm:leading-[28px]">
-                Add your para&apos;s hidden gem to TOI&apos;s Amar Para collection and be credited for
-                the discovery.
-              </p>
-            </div>
+            <SectionHeading
+              eyebrow="Step-by-step Guide"
+              eyebrowClassName="text-yellow"
+              title="How to Participate"
+              titleClassName="text-white"
+              blurb="Add your para's hidden gem to TOI's Amar Para collection and be credited for the discovery."
+              blurbClassName="text-white"
+              blurbWidth={800}
+            />
 
-            <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-6">
+            <div data-reveal="1" className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-6">
               {STEPS.map((step, index) => (
                 <div key={step.n} className="contents">
                   {index > 0 ? <Connector /> : null}
@@ -199,19 +200,20 @@ export default async function ParticipatePage() {
 
           {/* submission-guidelines — Figma 95:88 */}
           <div className="flex w-full flex-col items-start gap-8 lg:flex-row lg:gap-12">
-            <div className="flex w-full flex-col gap-3 lg:w-[360px]">
+            <div data-reveal className="flex w-full flex-col gap-2 lg:w-[360px]">
               <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-yellow">
                 Important notes
               </p>
-              <h2 className="font-title text-[42px] leading-tight font-black text-white sm:text-[50px] lg:text-[58px]">
+              <h2 className="font-title text-[42px] leading-[1.05] font-black text-white sm:text-[50px] lg:text-[58px]">
                 Submission Guidelines
               </h2>
             </div>
 
             <div className="grid w-full flex-1 grid-cols-1 gap-4 md:grid-cols-2">
-              {GUIDELINES.map((text) => (
+              {GUIDELINES.map((text, index) => (
                 <div
                   key={text}
+                  data-reveal={String(index % 2)}
                   className="flex items-center gap-3 rounded-[16px] border border-white/40 bg-white/80 p-4 shadow-[0_10px_24px_0_rgba(27,42,74,0.08)] md:h-20"
                 >
                   <span className="flex size-6 shrink-0 items-center justify-center rounded-[12px] bg-green-soft/15 text-green-soft">

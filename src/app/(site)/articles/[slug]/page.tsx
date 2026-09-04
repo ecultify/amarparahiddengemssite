@@ -46,10 +46,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {/* Campaign banner — Figma 178:296 opens the piece on the submission
           hero. The frame runs y=88..609, so the section is 521px on lg and
           every accent below is its Figma y minus the 88px navbar. */}
-      <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-cream px-5 py-14 md:px-10 lg:h-[521px] lg:px-20 lg:py-0">
+      {/* Below lg the accents split into a top band and a bottom band around the copy. */}
+      <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-cream px-5 pt-[100px] pb-[120px] md:px-10 lg:h-[521px] lg:px-20 lg:py-0">
         <Asset
           src={IMG.blogKite}
-          className="pointer-events-none absolute top-[112px] left-[-42px] h-[124px] w-[78px] lg:top-[226px] lg:left-[-19px] lg:h-[295px] lg:w-[184px] object-contain"
+          className="pointer-events-none absolute top-[8px] left-[62px] h-[84px] w-[53px] lg:top-[226px] lg:left-[-19px] lg:h-[295px] lg:w-[184px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.golfBag}
@@ -61,7 +62,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             out under 100px and read as clipped. */}
         <Asset
           src={IMG.blogFlowers}
-          className="pointer-events-none absolute bottom-[-10px] left-[-32px] h-[126px] w-[130px] lg:top-[153px] lg:bottom-auto lg:left-[calc(50%-458px)] lg:h-[233px] lg:w-[240px] object-contain"
+          className="pointer-events-none absolute bottom-[-8px] left-[-24px] h-[104px] w-[107px] lg:top-[153px] lg:bottom-auto lg:left-[calc(50%-458px)] lg:h-[233px] lg:w-[240px] object-contain"
         />
         <Asset
           src={IMG.blogSprout}
@@ -69,17 +70,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         />
         <Asset
           src={IMG.blogDhol}
-          className="pointer-events-none absolute top-[84px] right-[-34px] h-[148px] w-[110px] lg:top-[159px] lg:right-[-20px] lg:h-[314px] lg:w-[234px] object-contain"
+          className="pointer-events-none absolute top-[0px] right-[-26px] h-[96px] w-[71px] lg:top-[159px] lg:right-[-20px] lg:h-[314px] lg:w-[234px] object-contain"
         />
         <Asset
           src={IMG.blogWalkers}
           className="pointer-events-none absolute right-[8px] bottom-[8px] h-[60px] w-[84px] lg:top-[411px] lg:right-[182px] lg:bottom-auto lg:h-[113px] lg:w-[158px] object-contain"
         />
 
-        <div className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-5 text-center lg:gap-[44px]">
+        <div data-reveal className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-4 text-center lg:gap-[44px]">
           {/* Two lines, as the frame sets it — on one line the headline runs
               straight through the sprout and the dhol. */}
-          <h2 className="font-title text-[42px] leading-[0.92] font-black uppercase sm:text-[62px] lg:text-[128px]">
+          <h2 className="font-title text-[42px] leading-[1.05] font-black uppercase sm:text-[62px] lg:text-[128px] lg:leading-[0.92]">
             <span className="block text-cyan">Share Your Para&apos;s</span>
             <span className="block text-pink">Hidden Gem</span>
           </h2>
@@ -94,16 +95,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {/* The article itself — Figma 178:625, a full-bleed yellow plate. */}
       <article className="relative w-full overflow-hidden bg-yellow px-5 py-12 md:px-10 lg:px-20 lg:py-16">
         <div className="relative mx-auto flex w-full max-w-[1216px] flex-col items-center gap-5">
-          <p className="font-ui text-[12px] font-extrabold uppercase tracking-[0.1em] text-pink sm:text-[13px]">
+          <p data-reveal className="font-ui text-[12px] font-extrabold uppercase tracking-[0.1em] text-pink sm:text-[13px]">
             {article.date ?? "Amar Para Hidden Gems"}
           </p>
-          <h1 className="text-center font-title text-[34px] leading-tight font-black text-pink uppercase sm:text-[46px] lg:text-[56px]">
+          <h1 data-reveal="1" className="text-center font-title text-[34px] leading-[1.05] font-black text-pink uppercase sm:text-[46px] lg:text-[56px]">
             {article.title}
           </h1>
 
           <Asset
             src={article.image}
             alt={article.title}
+            data-reveal="2"
             className="mt-1 h-[210px] w-full rounded-[10px] object-cover sm:h-[320px] lg:h-[402px]"
           />
 
@@ -111,11 +113,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             /* Admin-authored rich body. Admin-only input, so rendering it
                directly is safe enough; sanitise here if authorship ever widens. */
             <div
+              data-reveal
               className="article-prose mt-2 w-full max-w-[700px] font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
               dangerouslySetInnerHTML={{ __html: article.html }}
             />
           ) : (
-            <div className="mt-2 flex w-full max-w-[700px] flex-col gap-4">
+            <div data-reveal className="mt-2 flex w-full max-w-[700px] flex-col gap-4">
               {paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 40)}
@@ -130,7 +133,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {/* Figma 178:664 + 178:663 — the rail of other pieces, chevrons on
               either side of it. */}
           <div className="mt-10 flex w-full flex-col items-center gap-6 lg:mt-16">
-            <h2 className="text-center font-display text-[24px] leading-tight font-extrabold text-white sm:text-[32px] lg:text-[40px]">
+            <h2 data-reveal className="text-center font-display text-[24px] leading-tight font-extrabold text-white sm:text-[32px] lg:text-[40px]">
               Deep dives into Kolkata&apos;s most fascinating paras.
             </h2>
             <ArticleCarousel articles={others} />

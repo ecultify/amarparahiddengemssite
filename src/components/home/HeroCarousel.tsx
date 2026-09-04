@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { IMG } from "@/lib/assets";
 
-const SLIDE_MS = 5000;
+const SLIDE_MS = 3000;
 
 const CAPTIONS = [
   "From a gigantic tower that fed signals to tree-lined avenues that serve global fare",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -23,7 +23,18 @@ const SLOT_STYLES = [
 
 export function StoriesFromParas({ stories }: { stories: Story[] }) {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const featured = stories[active];
+
+  // Auto-advances every 3s, running backwards so it counter-scrolls the
+  // Explore rail above it. Any manual step restarts the clock.
+  useEffect(() => {
+    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => {
+      if (!document.hidden) setActive((current) => (current - 1 + stories.length) % stories.length);
+    }, 3000);
+    return () => clearInterval(id);
+  }, [paused, active, stories.length]);
 
   // Rotate the deck so the active story always sits in the centre slot.
   const ordered = SLOT_STYLES.map((slot, index) => ({
@@ -72,9 +83,17 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           eyebrowClassName="text-cyan"
           title="Stories from the Paras"
           blurb="Real people. Real memories. Authentic life snippets that breathe soul into the historic streets."
+          blurbWidth={860}
         />
 
-        <div className="relative mt-5 flex w-full items-center justify-center gap-3 sm:gap-6">
+        <div
+          data-reveal="1"
+          className="relative mt-5 flex w-full items-center justify-center gap-3 sm:gap-6"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
+        >
           <button
             type="button"
             aria-label="Previous story"
@@ -137,7 +156,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           </button>
         </div>
 
-        <blockquote className="mx-auto mt-5 flex w-full max-w-[680px] flex-col items-center gap-3 text-center">
+        <blockquote data-reveal="2" className="mx-auto mt-5 flex w-full max-w-[680px] flex-col items-center gap-3 text-center">
           <p className="font-ui text-[16px] leading-[26px] text-slate">{featured.quote}</p>
           <footer className="font-display text-[16px] font-bold text-red">{featured.attribution}</footer>
         </blockquote>
@@ -151,7 +170,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           ))}
         </div>
 
-        <div className="mt-5 flex justify-center">
+        <div data-reveal="3" className="mt-5 flex justify-center">
           <Button3D href="/submit" className="w-full px-0 sm:w-[320px]">
             Show us your hidden gem
           </Button3D>

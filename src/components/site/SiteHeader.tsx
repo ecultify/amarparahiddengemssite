@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button3D } from "@/components/ui/Button3D";
 import { Asset } from "@/components/ui/Asset";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { MenuIcon } from "lucide-react";
 import { IMG } from "@/lib/assets";
 
 const NAV = [
@@ -91,6 +93,41 @@ export function SiteHeader() {
               Submit your gem
             </Button3D>
           </div>
+
+          {/* Below sm the nav collapses into a hamburger that opens a sidebar
+              carrying the same links plus the CTA. Links close the sheet. */}
+          <Sheet>
+            <SheetTrigger
+              aria-label="Open menu"
+              className="icon-btn flex size-11 items-center justify-center rounded-full border-2 border-navy bg-cream text-navy sm:hidden"
+            >
+              <MenuIcon className="size-6" />
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[280px] bg-cream p-6 pt-20 text-navy">
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <nav className="flex flex-col gap-2">
+                {NAV.map((item) => (
+                  <SheetClose asChild key={item.label}>
+                    <Link
+                      href={item.href}
+                      className={`rounded-[6px] px-3 py-3 font-ui text-[18px] ${
+                        isActive(item.href)
+                          ? "font-extrabold text-red"
+                          : "font-semibold text-navy"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </SheetClose>
+                ))}
+              </nav>
+              <SheetClose asChild>
+                <Button3D href="/submit" size="sm" className="mt-4 w-full px-0">
+                  Submit your gem
+                </Button3D>
+              </SheetClose>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

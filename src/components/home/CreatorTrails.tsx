@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
+import { useAutoRail } from "@/hooks/use-auto-rail";
 import { HOME_ACCENT, IMG } from "@/lib/assets";
 import type { Trail } from "@/lib/content";
 
@@ -21,22 +21,9 @@ const EMBED_W = 320;
 const EMBED_H = 507;
 const SCALE = 240 / EMBED_W;
 
-/** One card stride: 240px image + 16px gap. */
-const STRIDE = 256;
-
 /** Creator Trails — Figma 49:2139. Five-up 240x380 mosaic. */
 export function CreatorTrails({ trails }: { trails: Trail[] }) {
-  const track = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState(0);
-
-  const scroll = (direction: -1 | 1) => {
-    const node = track.current;
-    if (!node) return;
-    node.scrollBy({ left: direction * STRIDE, behavior: "smooth" });
-    setPage((current) =>
-      Math.min(Math.max(current + direction, 0), Math.max(trails.length - 1, 0)),
-    );
-  };
+  const { ref: trackRef, index: active, pages, step, pause } = useAutoRail(1);
 
   return (
     <div className="relative w-full">
@@ -66,22 +53,32 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
         <SectionHeading
           eyebrow="Creator Discoveries"
           eyebrowClassName="text-pink"
-          title="Fresh Finds From the Paras"
+          title={
+            <>
+              Fresh Finds From
+              <br className="sm:hidden" /> the Paras
+            </>
+          }
           blurb="See creators uncover lesser-known places, people and local favourites from across Kolkata."
         />
 
-        {/* Arrows flank the rail on both sides, as on every other carousel. */}
-        <div className="relative mt-10 lg:mt-14">
+        {/* Arrows flank the rail on both sides, as on every other carousel.
+            Below sm the track pads out so one card sits centred with its
+            neighbours peeking in; the 240px tile is fixed by the embed scale. */}
+        <div data-reveal="1" className="relative mt-10 lg:mt-14" {...pause}>
           <button
             type="button"
             aria-label="Previous trails"
-            onClick={() => scroll(-1)}
+            onClick={() => step(-1)}
             className="icon-btn absolute top-1/2 left-0 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)]"
           >
             <ChevronLeft />
           </button>
 
-          <div ref={track} className="no-scrollbar flex h-[380px] gap-4 overflow-x-auto lg:mx-16">
+          <div
+            ref={trackRef}
+            className="no-scrollbar flex h-[380px] snap-x snap-mandatory gap-4 overflow-x-auto px-[calc(50%-120px)] sm:px-0 lg:mx-16"
+          >
             {trails.map((trail, index) => {
               const embed = reelEmbed(trail.reel);
               if (!embed) {
@@ -90,14 +87,14 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
                     key={index}
                     src={trail.image}
                     alt={trail.caption}
-                    className="h-[380px] w-[240px] shrink-0 rounded-[16px] object-cover"
+                    className="h-[380px] w-[240px] shrink-0 snap-center rounded-[16px] object-cover sm:snap-start"
                   />
                 );
               }
               return (
                 <div
                   key={index}
-                  className="h-[380px] w-[240px] shrink-0 overflow-hidden rounded-[16px] bg-navy/5"
+                  className="h-[380px] w-[240px] shrink-0 snap-center overflow-hidden rounded-[16px] bg-navy/5 sm:snap-start"
                 >
                   <iframe
                     src={embed}
@@ -121,7 +118,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
           <button
             type="button"
             aria-label="Next trails"
-            onClick={() => scroll(1)}
+            onClick={() => step(1)}
             className="icon-btn absolute top-1/2 right-0 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)]"
           >
             <ChevronRight />
@@ -129,10 +126,10 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
         </div>
 
         <div className="mt-10 flex items-center justify-center gap-2 lg:mt-14">
-          {trails.map((_, index) => (
+          {Array.from({ length: pages }).map((_, index) => (
             <span
               key={index}
-              className={`size-2 rounded-full ${index === page ? "bg-pink" : "bg-navy/15"}`}
+              className={`size-2 rounded-full ${index === active ? "bg-pink" : "bg-navy/15"}`}
             />
           ))}
         </div>

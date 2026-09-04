@@ -6,6 +6,8 @@ type Props = {
   alt?: string;
   className?: string;
   style?: CSSProperties;
+  /** Scroll-reveal hook, forwarded to the <img>. */
+  "data-reveal"?: string;
 };
 
 /**
@@ -16,6 +18,6 @@ type Props = {
  * the absolute positioning the design relies on. Artwork is transparent PNG, so
  * never give these a background — it shows through as a box behind the cutout.
  */
-export function Asset({ src, alt = "", className = "", style }: Props) {
-  return <img data-asset src={src} alt={alt} className={className} style={style} />;
+export function Asset({ src, alt = "", className = "", ...rest }: Props) {
+  return <img data-asset src={src} alt={alt} className={className} {...rest} />;
 }

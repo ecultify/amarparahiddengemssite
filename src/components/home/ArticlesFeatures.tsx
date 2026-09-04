@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Asset } from "@/components/ui/Asset";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { HOME_ACCENT } from "@/lib/assets";
 import { slugOf, type Article } from "@/data/site";
 
@@ -29,39 +30,38 @@ function ArticleCard({ article }: { article: Article }) {
 export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo: Article[] }) {
   return (
     <div className="relative w-full">
-      {/* Group 36 (178:245). Per request this sits flush to the bottom-left of
-          the yellow and does NOT overhang into Creator Trails, and is scaled
-          down from Figma's 194x314. The 133x240 box keeps the PNG's 0.5525
-          aspect so object-contain adds no letterbox gap on the left. */}
+      {/* Group 36 (178:245). Per request the horn sits top-left, level with the
+          section title rather than on the floor. The 65x150 box keeps the
+          PNG's 0.43 aspect so object-contain adds no letterbox gap. */}
       <Asset
         src={HOME_ACCENT.horn}
-        className="pointer-events-none hidden lg:block absolute bottom-0 left-0 z-10 h-[240px] w-[133px] object-contain object-left-bottom"
+        className="pointer-events-none hidden lg:block absolute top-[28px] left-[32px] z-10 h-[150px] w-[65px] object-contain"
       />
-    <section id="articles" className="relative w-full overflow-hidden bg-yellow pt-10 pb-14 lg:pt-[38px] lg:pb-[72px]">
+    <section id="articles" className="relative w-full overflow-hidden bg-yellow pt-[84px] pb-14 lg:pt-[38px] lg:pb-[72px]">
       {/* Figma 49:2090 — Group 36 (178:245) is the horn at bottom-left.
           Group_23 (178:549) is page-level in Figma, overlapping this section
           at x=1330 y=2502 (130x155); it bleeds past the 1440 canvas. */}
+      {/* Below lg the kebab sits in the band above the heading. */}
       <Asset
         src={HOME_ACCENT.kebab}
-        className="pointer-events-none absolute top-[16px] right-[-30px] h-[90px] w-[64px] lg:top-[58px] lg:right-[-28px] lg:h-[155px] lg:w-[110px] object-contain"
+        className="pointer-events-none absolute top-[6px] right-[-14px] h-[68px] w-[48px] lg:top-[58px] lg:right-[-28px] lg:h-[155px] lg:w-[110px] object-contain"
       />
 
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-2 px-5 md:px-10 lg:px-20">
-        <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
-          Articles &amp; Features
-        </p>
-        <h2 className="text-center font-title text-[40px] leading-tight font-black text-white sm:text-[46px] lg:text-[56px]">
-          Deep into the fascinating stories behind the Gems
-        </h2>
-        <p className="max-w-[788px] text-center font-body text-[16px] text-body-muted">
-          Discover the history, culture and people behind some of Kolkata&apos;s most interesting para finds.
-        </p>
+      <div className="mx-auto max-w-[1440px] px-5 md:px-10 lg:px-20">
+        <SectionHeading
+          eyebrow="Articles & Features"
+          eyebrowClassName="text-pink"
+          title="Deep into the fascinating stories behind the Gems"
+          titleClassName="text-white"
+          blurb="Discover the history, culture and people behind some of Kolkata's most interesting para finds."
+          blurbWidth={788}
+        />
       </div>
 
       {/* The two rows drift in opposite directions (the design's counter-scroll)
           and pause on hover. Each row renders its list twice so the loop wraps
           without a visible seam. */}
-      <div className="mt-8 flex flex-col gap-5 lg:mt-10 lg:gap-7">
+      <div data-reveal="1" className="mt-8 flex flex-col gap-5 lg:mt-10 lg:gap-7">
         <div className="overflow-hidden py-2">
           <div className="marquee-track">
             {[...rowOne, ...rowOne].map((article, index) => (

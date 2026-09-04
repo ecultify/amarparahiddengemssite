@@ -26,7 +26,7 @@ export function SectionHeading({
   blurbWidth = 600,
 }: Props) {
   return (
-    <div className="flex w-full flex-col items-center gap-2">
+    <div data-reveal className="flex w-full flex-col items-center gap-2">
       <p className={`font-body text-[14px] font-bold uppercase tracking-[0.08em] ${eyebrowClassName}`}>
         {eyebrow}
       </p>

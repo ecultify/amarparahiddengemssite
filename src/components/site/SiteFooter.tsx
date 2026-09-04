@@ -3,23 +3,17 @@ import { Asset } from "@/components/ui/Asset";
 import { IMG } from "@/lib/assets";
 import { Facebook, Instagram, Twitter } from "@/components/ui/icons";
 
-const COLUMN_ONE = [
-  { label: "About", href: "/about" },
-  { label: "Exhibitions", href: "/exhibitions" },
-  { label: "Participate", href: "/participate" },
+const LINKS = [
   { label: "500 Gems", href: "/500-gems" },
-];
-
-const COLUMN_TWO = [
-  { label: "Contact", href: "/contact" },
+  { label: "Gallery", href: "/500-gems#gallery" },
+  { label: "T&C", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Use", href: "/terms" },
 ];
 
 const SOCIALS = [
-  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
   { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
-  { label: "Twitter", href: "https://twitter.com", Icon: Twitter },
+  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
+  { label: "X", href: "https://x.com", Icon: Twitter },
 ];
 
 export function SiteFooter() {
@@ -54,26 +48,18 @@ export function SiteFooter() {
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
-            Amar Para Hidden Gems is a citizen-led initiative by The Times of India, celebrating
-            the places, people and stories that define Kolkata&apos;s paras (neighbourhoods) and
-            bringing their lesser-known gems to a wider audience.
+            Amar Para Hidden Gems is a citizen-led initiative by{" "}
+            <span className="whitespace-nowrap">The Times of India</span>, celebrating the places,
+            people and stories that define Kolkata&apos;s paras (neighbourhoods) and bringing their
+            lesser-known gems to a wider audience.
           </p>
 
-          <div className="flex w-full flex-col gap-4 font-body text-[14px] text-white sm:flex-row sm:justify-between lg:w-[634px]">
-            <div className="flex flex-wrap gap-4 sm:flex-1">
-              {COLUMN_ONE.map((link) => (
-                <Link key={link.label} href={link.href} className="opacity-80 hover:opacity-100">
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-4 sm:flex-1">
-              {COLUMN_TWO.map((link) => (
-                <Link key={link.label} href={link.href} className="opacity-80 hover:opacity-100">
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-3 font-body text-[14px] text-white">
+            {LINKS.map((link) => (
+              <Link key={link.label} href={link.href} className="opacity-80 hover:opacity-100">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
 

@@ -16,18 +16,18 @@ export default async function GalleryPage() {
       <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-cream px-5 pt-12 pb-8 md:px-10 lg:gap-10 lg:px-20 lg:pt-20 lg:pb-10">
         <Asset
           src={IMG.accentKiteRainbow}
-          className="pointer-events-none absolute top-[8px] left-[-34px] h-[110px] w-[83px] lg:top-[40px] lg:left-[-24px] lg:h-[210px] lg:w-[159px] object-contain"
+          className="pointer-events-none absolute top-[4px] left-[-24px] h-[76px] w-[57px] lg:top-[40px] lg:left-[-24px] lg:h-[210px] lg:w-[159px] object-contain"
         />
         <Asset
           src={GALLERY_IMG.mishtiPlate}
-          className="pointer-events-none absolute top-[8px] right-[-40px] h-[100px] w-[91px] lg:top-[40px] lg:right-[-20px] lg:h-[200px] lg:w-[183px] object-contain"
+          className="pointer-events-none absolute top-[4px] right-[-24px] h-[72px] w-[66px] lg:top-[40px] lg:right-[-20px] lg:h-[200px] lg:w-[183px] object-contain"
         />
 
-        <div className="relative flex w-full max-w-[960px] flex-col items-center gap-4">
+        <div data-reveal className="relative flex w-full max-w-[960px] flex-col items-center gap-4">
           <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
             Community Gallery
           </p>
-          <h1 className="text-center font-title text-[48px] leading-[0.92] font-black text-navy sm:text-[60px] lg:text-[128px]">
+          <h1 className="text-center font-title text-[48px] leading-[1.05] font-black text-navy sm:text-[60px] lg:text-[128px] lg:leading-[0.92]">
             500 Gems of Kolkata
           </h1>
           <p className="text-center font-body text-[16px] leading-[1.6] text-slate sm:text-[18px]">
@@ -37,7 +37,7 @@ export default async function GalleryPage() {
           </p>
         </div>
 
-        <div className="relative flex w-full max-w-[400px] flex-col items-center gap-3">
+        <div data-reveal="1" className="relative flex w-full max-w-[400px] flex-col items-center gap-3">
           <div className="flex w-full items-start justify-between text-[14px]">
             <span className="font-ui font-extrabold text-navy">
               {gemCount.discovered} GEMS DISCOVERED
@@ -51,7 +51,7 @@ export default async function GalleryPage() {
       </section>
 
       {/* bento-gallery-section — Figma 106:316 */}
-      <div className="relative w-full">
+      <div id="gallery" className="relative w-full">
         <Asset
           src={GALLERY_IMG.bar}
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[90px] w-[201px] object-contain"
@@ -66,25 +66,27 @@ export default async function GalleryPage() {
       </div>
 
       {/* cta-submit-section — Figma 106:420 */}
-      <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-green-soft px-5 py-16 md:px-10 lg:gap-8 lg:px-20 lg:py-[120px]">
+      <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-green-soft px-5 pt-[104px] pb-16 md:px-10 lg:gap-8 lg:px-20 lg:py-[120px]">
         <Asset
           src={GALLERY_IMG.picks}
           className="pointer-events-none hidden lg:block absolute bottom-[48px] left-[56px] h-[115px] w-[102px] object-contain"
         />
         <Asset
           src={GALLERY_IMG.saxophone}
-          className="pointer-events-none absolute top-[16px] right-[-56px] h-[150px] w-[128px] lg:top-[130px] lg:right-[70px] lg:h-[400px] lg:w-[341px] object-contain"
+          className="pointer-events-none absolute top-[4px] right-[-28px] h-[90px] w-[77px] lg:top-[130px] lg:right-[70px] lg:h-[400px] lg:w-[341px] object-contain"
         />
-        <h2 className="relative text-center font-title text-[42px] font-black text-white sm:text-[52px] lg:text-[66px]">
+        <h2 data-reveal className="relative text-center font-title text-[42px] leading-[1.05] font-black text-white sm:text-[52px] lg:text-[66px]">
           Your Para Has a Story Too
         </h2>
-        <p className="relative w-full max-w-[680px] text-center font-body text-[16px] leading-[1.5] text-cream sm:text-[18px]">
+        <p data-reveal="1" className="relative w-full max-w-[680px] text-center font-body text-[16px] leading-[1.5] text-cream sm:text-[18px]">
           Don&apos;t let the unique history of your street fade away. Document your local addas,
           favorite sweet shops, or historic landmarks and share it with the world.
         </p>
-        <Button3D href="/submit" className="relative rounded-[8px]">
-          Submit your gem
-        </Button3D>
+        <div data-reveal="2" className="relative">
+          <Button3D href="/submit" className="rounded-[8px]">
+            Submit your gem
+          </Button3D>
+        </div>
       </section>
 
       {/* The footer tucks "i am Kolkata" up into whatever section comes last —
