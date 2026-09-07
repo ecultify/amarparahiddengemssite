@@ -27,7 +27,7 @@ export function ArticleCarousel({ articles }: { articles: Article[] }) {
 
       <div
         ref={trackRef}
-        className="no-scrollbar flex w-full flex-1 snap-x snap-mandatory gap-5 overflow-x-auto px-12 lg:px-0"
+        className="no-scrollbar mx-12 flex min-w-0 flex-1 snap-x snap-mandatory gap-5 overflow-x-auto lg:mx-0"
       >
         {articles.map((article) => (
           <Link

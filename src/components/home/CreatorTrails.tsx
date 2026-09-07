@@ -63,21 +63,22 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
         />
 
         {/* Arrows flank the rail on both sides, as on every other carousel.
-            Below sm the track pads out so one card sits centred with its
-            neighbours peeking in; the 240px tile is fixed by the embed scale. */}
+            Below sm the track is exactly one tile wide (the 240px tile is
+            fixed by the embed scale), so a single reel shows with the arrows
+            clear of it on either side. */}
         <div data-reveal="1" className="relative mt-10 lg:mt-14" {...pause}>
           <button
             type="button"
             aria-label="Previous trails"
             onClick={() => step(-1)}
-            className="icon-btn absolute top-1/2 left-0 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)]"
+            className="icon-btn absolute top-1/2 left-0 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-pink sm:size-11 bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)]"
           >
             <ChevronLeft />
           </button>
 
           <div
             ref={trackRef}
-            className="no-scrollbar flex h-[380px] snap-x snap-mandatory gap-4 overflow-x-auto px-[calc(50%-120px)] sm:px-0 lg:mx-16"
+            className="no-scrollbar mx-auto flex h-[380px] w-[240px] snap-x snap-mandatory gap-4 overflow-x-auto sm:mx-[52px] sm:w-auto lg:mx-16"
           >
             {trails.map((trail, index) => {
               const embed = reelEmbed(trail.reel);
@@ -87,14 +88,14 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
                     key={index}
                     src={trail.image}
                     alt={trail.caption}
-                    className="h-[380px] w-[240px] shrink-0 snap-center rounded-[16px] object-cover sm:snap-start"
+                    className="h-[380px] w-[240px] shrink-0 snap-start rounded-[16px] object-cover"
                   />
                 );
               }
               return (
                 <div
                   key={index}
-                  className="h-[380px] w-[240px] shrink-0 snap-center overflow-hidden rounded-[16px] bg-navy/5 sm:snap-start"
+                  className="h-[380px] w-[240px] shrink-0 snap-start overflow-hidden rounded-[16px] bg-navy/5"
                 >
                   <iframe
                     src={embed}
@@ -119,7 +120,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
             type="button"
             aria-label="Next trails"
             onClick={() => step(1)}
-            className="icon-btn absolute top-1/2 right-0 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)]"
+            className="icon-btn absolute top-1/2 right-0 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-pink sm:size-11 bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)]"
           >
             <ChevronRight />
           </button>

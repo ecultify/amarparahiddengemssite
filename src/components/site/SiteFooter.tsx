@@ -35,7 +35,7 @@ export function SiteFooter() {
           <Asset
             src={IMG.logoIAmKolkata}
             alt="I am Kolkata"
-            className="-ml-[4px] h-[48px] w-[77px] object-contain lg:-ml-[9px] lg:h-[94px] lg:w-[150px]"
+            className="-ml-[6px] h-[64px] w-[102px] object-contain lg:-ml-[9px] lg:h-[94px] lg:w-[150px]"
           />
         </div>
       </div>

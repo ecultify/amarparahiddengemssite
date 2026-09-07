@@ -58,7 +58,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
           >
             <ChevronLeft />
           </button>
-          <div ref={trackRef} className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto lg:mx-16">
+          <div ref={trackRef} className="no-scrollbar mx-[52px] flex snap-x snap-mandatory gap-6 overflow-x-auto lg:mx-16">
             {gems.map((gem) => (
               <GemCard key={gem.title} gem={gem} />
             ))}

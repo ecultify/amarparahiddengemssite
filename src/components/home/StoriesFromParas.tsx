@@ -98,12 +98,12 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
             type="button"
             aria-label="Previous story"
             onClick={() => step(-1)}
-            className="icon-btn absolute left-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)] sm:static sm:size-12 sm:shadow-none"
+            className="icon-btn flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink sm:size-12"
           >
             <ArrowLeft />
           </button>
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex min-w-0 items-center justify-center gap-4">
             {ordered.map(({ slot, story, isCentre }, index) => (
               <button
                 key={`${story.name}-${index}`}
@@ -150,7 +150,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
             type="button"
             aria-label="Next story"
             onClick={() => step(1)}
-            className="icon-btn absolute right-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink shadow-[0_4px_10px_rgba(27,42,74,0.18)] sm:static sm:size-12 sm:shadow-none"
+            className="icon-btn flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-pink bg-white text-pink sm:size-12"
           >
             <ArrowRight />
           </button>

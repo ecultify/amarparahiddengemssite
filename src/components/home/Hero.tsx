@@ -16,15 +16,14 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
     <section className="relative w-full overflow-hidden bg-cream">
       <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-6 px-5 pt-12 pb-10 md:px-10 sm:pt-[60px] lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,780px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-          {/* Two lines below lg, three from lg up, so no line carries a lone word. */}
+          {/* Two balanced lines at every size; 88px is the largest Bebas Kai
+              size at which the second line still fits the 780px column. */}
           <h1
             data-reveal
-            className="font-title text-[38px] leading-[1.05] font-black text-navy uppercase sm:text-[60px] lg:text-[108px] lg:leading-[0.88]"
+            className="font-title text-[38px] leading-[1.05] font-black text-navy uppercase sm:text-[60px] lg:text-[88px] lg:leading-[0.9]"
           >
-            Finding 500
-            <br className="hidden lg:block" /> Gems
-            <br className="lg:hidden" /> Across
-            <br className="hidden lg:block" /> Kolkata&apos;s Paras.
+            Finding 500 Gems
+            <br /> Across Kolkata&apos;s Paras.
           </h1>
 
           <p
