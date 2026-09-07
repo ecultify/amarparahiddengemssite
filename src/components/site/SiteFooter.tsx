@@ -4,7 +4,7 @@ import { IMG } from "@/lib/assets";
 import { Facebook, Instagram, Twitter } from "@/components/ui/icons";
 
 const LINKS = [
-  { label: "500 Gems", href: "/500-gems" },
+  { label: "500 Gems", href: "/participate" },
   { label: "Gallery", href: "/500-gems#gallery" },
   { label: "T&C", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy" },
