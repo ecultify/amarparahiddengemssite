@@ -31,12 +31,12 @@ export function SiteFooter() {
         <div className="mx-auto max-w-[1440px] px-5 pb-2 md:px-10 lg:px-20">
           {/* The mark is centred over the masthead below: this box is exactly
               the masthead's width and starts on the same left edge. */}
-          <div className="flex w-[190px] justify-center sm:w-[250px]">
+          <div className="flex w-[160px] justify-center sm:w-[210px]">
             <Asset
               data-reveal
               src={IMG.logoIAmKolkata}
               alt="I am Kolkata"
-              className="h-[60px] w-[95px] object-contain lg:h-[84px] lg:w-[133px]"
+              className="h-[54px] w-[86px] object-contain lg:h-[76px] lg:w-[120px]"
             />
           </div>
         </div>
@@ -45,7 +45,7 @@ export function SiteFooter() {
       <footer className="relative w-full">
       <div className="w-full bg-pink">
       <div className="mx-auto max-w-[1440px] px-5 pt-[6px] md:px-10 lg:px-20">
-        <Asset data-reveal src={IMG.logoToi} alt="The Times of India" className="h-[58px] w-[190px] object-contain object-left sm:h-[76px] sm:w-[250px]" />
+        <Asset data-reveal src={IMG.logoToi} alt="The Times of India" className="h-[49px] w-[160px] object-contain object-left sm:h-[64px] sm:w-[210px]" />
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
