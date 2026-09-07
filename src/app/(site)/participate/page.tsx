@@ -176,7 +176,7 @@ export default async function ParticipatePage() {
         <Asset
           data-reveal
           src={PARTICIPATE_ACCENT.charkha}
-          className="pointer-events-none absolute bottom-[8px] left-[-24px] h-[96px] w-[52px] lg:bottom-[16px] lg:left-[calc(50%-548px)] lg:h-[179px] lg:w-[97px] rotate-[29deg] object-contain"
+          className="pointer-events-none absolute bottom-[8px] left-[-24px] h-[120px] w-[65px] lg:bottom-[16px] lg:left-[calc(50%-548px)] lg:h-[240px] lg:w-[130px] rotate-[29deg] object-contain"
         />
 
         <div className="relative z-30 mx-auto flex max-w-[1280px] flex-col items-center gap-10 lg:gap-[44px]">

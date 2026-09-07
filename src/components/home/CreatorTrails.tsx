@@ -40,7 +40,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
       <Asset
           data-reveal
         src={HOME_ACCENT.caddie}
-        className="pointer-events-none hidden lg:block absolute top-[110px] left-[calc(50%-651px)] h-[136px] w-[89px] object-contain"
+        className="pointer-events-none hidden lg:block absolute top-[110px] left-[calc(50%-540px)] h-[136px] w-[89px] object-contain"
       />
       <Asset
           data-reveal
