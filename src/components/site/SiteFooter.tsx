@@ -29,10 +29,9 @@ export function SiteFooter() {
           full-width overlay would otherwise eat clicks on those buttons. */}
       <div className="pointer-events-none relative z-10 -mt-[56px] w-full lg:-mt-[102px]">
         <div className="mx-auto max-w-[1440px] px-5 pb-2 md:px-10 lg:px-20">
-          {/* Both marks carry transparent padding inside their own files —
-              9/157 here, 54/387 on the masthead — so each needs its own pull to
-              put the visible artwork on the same left edge as the body copy
-              below. Aligning the boxes instead would leave them staggered. */}
+          {/* This mark carries 9/157 of transparent padding on its left, so it
+              is pulled back by that much to land its artwork on the same left
+              edge as the masthead (cropped flush) and the body copy below. */}
           <Asset
             src={IMG.logoIAmKolkata}
             alt="I am Kolkata"
@@ -44,7 +43,7 @@ export function SiteFooter() {
       <footer className="relative w-full">
       <div className="w-full bg-pink">
       <div className="mx-auto max-w-[1440px] px-5 pt-[6px] md:px-10 lg:px-20">
-        <Asset src={IMG.logoToi} alt="The Times of India" className="-ml-[31px] h-[56px] w-[220px] object-contain sm:-ml-[40px] sm:h-[74px] sm:w-[290px] lg:-ml-[41px]" />
+        <Asset src={IMG.logoToi} alt="The Times of India" className="h-[67px] w-[220px] object-contain object-left sm:h-[88px] sm:w-[290px]" />
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">

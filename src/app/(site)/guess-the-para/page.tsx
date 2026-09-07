@@ -46,7 +46,7 @@ export default async function GuessTheParaPage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
-          className="pointer-events-none hidden lg:block absolute top-[119px] left-[calc(50%+284px)] z-40 h-[38px] w-[36px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[86px] left-[calc(50%+257px)] z-40 h-[38px] w-[36px] object-contain"
         />
 
         <div className="relative z-30 flex w-full max-w-[1000px] flex-col items-center gap-6 text-center lg:gap-8">

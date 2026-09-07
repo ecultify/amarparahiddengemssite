@@ -14,7 +14,7 @@ export default function ThankYouPage() {
       <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 pt-[104px] pb-16 md:px-10 lg:px-20 lg:py-16">
         <Asset
           src={SUBMIT_ACCENT.flowers}
-          className="pointer-events-none absolute top-[6px] left-[-14px] h-[88px] w-[70px] lg:top-[190px] lg:left-[16px] lg:h-[200px] lg:w-[160px] object-contain"
+          className="pointer-events-none absolute top-[6px] left-[-14px] h-[88px] w-[70px] lg:top-[190px] lg:left-0 lg:h-[200px] lg:w-[160px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.saxophone}
@@ -26,11 +26,11 @@ export default function ThankYouPage() {
         />
         <Asset
           src={PARTICIPATE_ACCENT.tower}
-          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[131px] object-contain object-bottom"
+          className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[109px] object-contain object-right-bottom"
         />
         <Asset
           src={PARTICIPATE_ACCENT.kingfisher}
-          className="pointer-events-none hidden lg:block absolute top-[150px] left-[calc(50%+250px)] z-40 h-[38px] w-[36px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[86px] left-[calc(50%+252px)] z-40 h-[38px] w-[36px] object-contain"
         />
 
         <div data-reveal className="relative flex w-full max-w-[1000px] flex-col items-center gap-4 text-center">
