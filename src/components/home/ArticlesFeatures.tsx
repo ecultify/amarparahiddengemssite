@@ -31,11 +31,11 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
   return (
     <div className="relative w-full">
       {/* Group 36 (178:245). Per request the horn sits top-left, level with the
-          section title rather than on the floor. The 65x150 box keeps the
-          PNG's 0.43 aspect so object-contain adds no letterbox gap. */}
+          section title and flush with the wall. The PNG is cropped to its art
+          (126x227), so the 100x180 box adds no letterbox gap on the left. */}
       <Asset
         src={HOME_ACCENT.horn}
-        className="pointer-events-none hidden lg:block absolute top-[28px] left-[32px] z-10 h-[150px] w-[65px] object-contain"
+        className="pointer-events-none hidden lg:block absolute top-[24px] left-0 z-10 h-[180px] w-[100px] object-contain"
       />
     <section id="articles" className="relative w-full overflow-hidden bg-yellow pt-[84px] pb-14 lg:pt-[38px] lg:pb-[72px]">
       {/* Figma 49:2090 — Group 36 (178:245) is the horn at bottom-left.

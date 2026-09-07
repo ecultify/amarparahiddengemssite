@@ -2,7 +2,8 @@ import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
 import { GemsDiscovered } from "@/components/gems/GemsDiscovered";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { User, MapPin, Upload, Check } from "@/components/ui/icons";
+import { MapPin, Upload, Check } from "@/components/ui/icons";
+import { CircleQuestionMark } from "lucide-react";
 import { HOME_ACCENT, IMG, PARTICIPATE_ACCENT } from "@/lib/assets";
 import { getContent } from "@/lib/content";
 
@@ -11,21 +12,21 @@ import { getContent } from "@/lib/content";
 const STEPS = [
   {
     n: 1,
-    Icon: User,
-    title: "Log in",
-    body: "Enter your mobile number and verify it using the OTP sent to you.",
-  },
-  {
-    n: 2,
     Icon: MapPin,
     title: "Share Your Hidden Gem",
     body: "Tell us about a place, tradition or local favourite from your para that deserves to be known across Kolkata.",
   },
   {
-    n: 3,
+    n: 2,
     Icon: Upload,
     title: "Upload & Submit",
     body: "You may add a photo or video of your hidden gem to support your entry.",
+  },
+  {
+    n: 3,
+    Icon: CircleQuestionMark,
+    title: "Guess the Para",
+    body: "Can you recognise a para from just a few clues? Play Guess the Para and stand a chance to win cool merchandise.",
   },
 ];
 
