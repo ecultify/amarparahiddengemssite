@@ -7,7 +7,7 @@ type Props = {
   className?: string;
   style?: CSSProperties;
   /** Scroll-reveal hook, forwarded to the <img>. */
-  "data-reveal"?: string;
+  "data-reveal"?: string | boolean;
 };
 
 /**

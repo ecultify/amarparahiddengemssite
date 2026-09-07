@@ -29,21 +29,23 @@ export function SiteFooter() {
           full-width overlay would otherwise eat clicks on those buttons. */}
       <div className="pointer-events-none relative z-10 -mt-[56px] w-full lg:-mt-[102px]">
         <div className="mx-auto max-w-[1440px] px-5 pb-2 md:px-10 lg:px-20">
-          {/* This mark carries 9/157 of transparent padding on its left, so it
-              is pulled back by that much to land its artwork on the same left
-              edge as the masthead (cropped flush) and the body copy below. */}
-          <Asset
-            src={IMG.logoIAmKolkata}
-            alt="I am Kolkata"
-            className="-ml-[6px] h-[64px] w-[102px] object-contain lg:-ml-[9px] lg:h-[94px] lg:w-[150px]"
-          />
+          {/* The mark is centred over the masthead below: this box is exactly
+              the masthead's width and starts on the same left edge. */}
+          <div className="flex w-[190px] justify-center sm:w-[250px]">
+            <Asset
+              data-reveal
+              src={IMG.logoIAmKolkata}
+              alt="I am Kolkata"
+              className="h-[60px] w-[95px] object-contain lg:h-[84px] lg:w-[133px]"
+            />
+          </div>
         </div>
       </div>
 
       <footer className="relative w-full">
       <div className="w-full bg-pink">
       <div className="mx-auto max-w-[1440px] px-5 pt-[6px] md:px-10 lg:px-20">
-        <Asset src={IMG.logoToi} alt="The Times of India" className="h-[67px] w-[220px] object-contain object-left sm:h-[88px] sm:w-[290px]" />
+        <Asset data-reveal src={IMG.logoToi} alt="The Times of India" className="h-[58px] w-[190px] object-contain object-left sm:h-[76px] sm:w-[250px]" />
 
         <div className="flex flex-col items-start justify-between gap-8 pt-[6px] pb-5 lg:flex-row lg:gap-0">
           <p className="w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">

@@ -30,6 +30,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
       {/* Figma 49:2141 puts the kite at y=-30, i.e. riding up into the yellow
           Articles section, so it has to live outside this section's clip. */}
       <Asset
+          data-reveal
         src={IMG.accentKiteCreator}
         className="pointer-events-none hidden lg:block absolute top-[-30px] right-[-15px] z-10 h-[183px] w-[163px] object-contain opacity-85"
       />
@@ -37,14 +38,17 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
       {/* Figma 49:2139 — caddie 178:287, kite 49:2141, golfer 178:33 and its
           flag 178:31 (page-level in Figma, anchored to this section's floor). */}
       <Asset
+          data-reveal
         src={HOME_ACCENT.caddie}
         className="pointer-events-none hidden lg:block absolute top-[110px] left-[calc(50%-651px)] h-[136px] w-[89px] object-contain"
       />
       <Asset
+          data-reveal
         src={HOME_ACCENT.flag}
         className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%+457px)] h-[56px] w-[25px] object-contain"
       />
       <Asset
+          data-reveal
         src={HOME_ACCENT.golfer}
         className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%+604px)] h-[125px] w-[63px] object-contain"
       />

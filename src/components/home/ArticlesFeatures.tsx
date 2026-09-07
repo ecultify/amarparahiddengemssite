@@ -34,6 +34,7 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
           section title and flush with the wall. The PNG is cropped to its art
           (126x227), so the 100x180 box adds no letterbox gap on the left. */}
       <Asset
+          data-reveal
         src={HOME_ACCENT.horn}
         className="pointer-events-none hidden lg:block absolute top-[24px] left-0 z-10 h-[180px] w-[100px] object-contain"
       />
@@ -43,6 +44,7 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
           at x=1330 y=2502 (130x155); it bleeds past the 1440 canvas. */}
       {/* Below lg the kebab sits in the band above the heading. */}
       <Asset
+          data-reveal
         src={HOME_ACCENT.kebab}
         className="pointer-events-none absolute top-[6px] right-[-14px] h-[68px] w-[48px] lg:top-[58px] lg:right-[-28px] lg:h-[155px] lg:w-[110px] object-contain"
       />

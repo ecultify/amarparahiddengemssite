@@ -18,36 +18,44 @@ export default async function SubmitPage() {
             is shorter than Figma's, so Figma's absolute offsets would drop
             them past the floor where overflow-hidden clips them away. */}
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.flowers}
           className="pointer-events-none absolute top-[4px] left-[-14px] h-[88px] w-[70px] lg:top-[188px] lg:left-[-60px] lg:h-[237px] lg:w-[190px] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.saxophone}
           className="pointer-events-none absolute top-[0px] right-[-18px] h-[100px] w-[63px] lg:top-[100px] lg:right-[-66px] lg:h-[377px] lg:w-[236px] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.golfBagTall}
           className="pointer-events-none hidden lg:block absolute top-[2px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.kite}
           className="pointer-events-none hidden lg:block absolute top-[218px] left-[calc(50%-400px)] h-[106px] w-[108px] rotate-[26.59deg] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.coffee}
           className="pointer-events-none hidden lg:block absolute bottom-[320px] left-[-11px] h-[170px] w-[167px] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.fishPlateNew}
           className="pointer-events-none hidden lg:block absolute bottom-[180px] right-[-26px] h-[232px] w-[160px] object-contain"
         />
         {/* Same kite art as the participate Gems block, sitting against the
             form card's right border (card spans 50%-313px .. 50%+313px). */}
         <Asset
+          data-reveal
           src={IMG.accentKiteCreator}
           className="pointer-events-none hidden lg:block absolute top-[600px] left-[calc(50%+313px)] h-[153px] w-[119px] scale-x-[-1] object-contain opacity-85"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.golfCart}
           className="pointer-events-none hidden lg:block absolute bottom-0 left-[calc(50%-520px)] z-40 h-[144px] w-[172px] object-contain"
         />

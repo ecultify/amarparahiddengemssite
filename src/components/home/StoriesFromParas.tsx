@@ -52,6 +52,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
           Figma has it overhanging the yellow by 53px. Bottom-anchored and
           outside the clip so the overhang is exact at any section height. */}
       <Asset
+          data-reveal
         src={HOME_ACCENT.saxophone}
         className="pointer-events-none hidden lg:block absolute bottom-[-53px] left-[calc(50%+203px)] z-10 h-[244px] w-[185px] object-contain"
       />
@@ -59,20 +60,24 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
       {/* Figma 49:2023 — flowers 178:231, statue 178:224, saxophone 164:22
           (page-level). No accent sits bottom-right in the current design. */}
       <Asset
+          data-reveal
         src={IMG.accentBirds}
         className="pointer-events-none hidden lg:block absolute top-[41px] left-[calc(50%+234px)] h-[77px] w-[154px] object-contain opacity-70"
       />
       <Asset
+          data-reveal
         src={HOME_ACCENT.flowers}
         className="pointer-events-none hidden lg:block absolute top-[57px] right-[-68px] h-[219px] w-[232px] object-contain"
       />
       <Asset
+          data-reveal
         src={HOME_ACCENT.statue}
         className="pointer-events-none hidden lg:block absolute bottom-0 left-[-13px] h-[262px] w-[128px] object-contain object-bottom"
       />
       {/* Auto rickshaw in the section's top-left corner, as the Figma places
           it — just inside the cream, under the green band above. */}
       <Asset
+          data-reveal
         src={IMG.accentAutoRickshaw}
         className="pointer-events-none hidden lg:block absolute top-[18px] left-[30px] z-10 h-[104px] w-[150px] scale-x-[-1] object-contain opacity-90"
       />

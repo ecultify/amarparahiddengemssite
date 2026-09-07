@@ -29,22 +29,27 @@ export default async function GuessTheParaPage() {
       <section className="relative flex w-full flex-col items-center overflow-hidden bg-cream px-5 pt-[104px] pb-16 md:px-10 lg:px-20 lg:py-16">
         {/* Dressed with the same accents as the thank-you page it follows. */}
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.flowers}
           className="pointer-events-none absolute top-[6px] left-[-14px] h-[88px] w-[70px] lg:top-[190px] lg:left-0 lg:h-[200px] lg:w-[160px] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.saxophone}
           className="pointer-events-none absolute top-[0px] right-[-20px] h-[100px] w-[63px] lg:top-[70px] lg:right-[-50px] lg:h-[320px] lg:w-[200px] object-contain"
         />
         <Asset
+          data-reveal
           src={IMG.accentKitePainted}
           className="pointer-events-none hidden lg:block absolute top-[90px] left-[calc(50%-620px)] h-[170px] w-[156px] rotate-[11deg] object-contain"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.tower}
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[109px] object-contain object-bottom"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.kingfisher}
           className="pointer-events-none hidden lg:block absolute top-[86px] left-[calc(50%+257px)] z-40 h-[38px] w-[36px] object-contain"
         />

@@ -49,10 +49,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {/* Below lg the accents split into a top band and a bottom band around the copy. */}
       <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-cream px-5 pt-[100px] pb-[120px] md:px-10 lg:h-[521px] lg:px-20 lg:py-0">
         <Asset
+          data-reveal
           src={IMG.blogKite}
           className="pointer-events-none absolute top-[8px] left-[62px] h-[84px] w-[53px] lg:top-[226px] lg:left-[-19px] lg:h-[295px] lg:w-[184px] object-contain"
         />
         <Asset
+          data-reveal
           src={SUBMIT_ACCENT.golfBag}
           className="pointer-events-none absolute top-[8px] left-[14px] h-[70px] w-[36px] lg:top-[35px] lg:left-[calc(50%-588px)] lg:h-[136px] lg:w-[70px] object-contain"
         />
@@ -61,18 +63,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             sized well past the Figma one — at 175px the flowers themselves came
             out under 100px and read as clipped. */}
         <Asset
+          data-reveal
           src={IMG.blogFlowers}
           className="pointer-events-none absolute bottom-[-8px] left-[-24px] h-[104px] w-[107px] lg:top-[153px] lg:bottom-auto lg:left-[calc(50%-458px)] lg:h-[233px] lg:w-[240px] object-contain"
         />
         <Asset
+          data-reveal
           src={IMG.blogSprout}
           className="pointer-events-none absolute top-[-2px] left-[calc(50%+104px)] h-[58px] w-[33px] lg:top-[55px] lg:left-[calc(50%-65px)] lg:z-40 lg:h-[80px] lg:w-[49px] object-contain"
         />
         <Asset
+          data-reveal
           src={IMG.blogDhol}
           className="pointer-events-none absolute top-[0px] right-[-26px] h-[96px] w-[71px] lg:top-[159px] lg:right-[-20px] lg:h-[314px] lg:w-[234px] object-contain"
         />
         <Asset
+          data-reveal
           src={IMG.blogWalkers}
           className="pointer-events-none absolute right-[8px] bottom-[8px] h-[60px] w-[84px] lg:top-[411px] lg:right-[182px] lg:bottom-auto lg:h-[113px] lg:w-[158px] object-contain"
         />
@@ -146,6 +152,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <div className="relative w-full">
         {/* Flush with the footer edge, per the design feedback. */}
         <Asset
+          data-reveal
           src={IMG.blogCouple}
           className="pointer-events-none absolute right-[8px] bottom-0 h-[58px] w-[83px] lg:right-[80px] lg:h-[115px] lg:w-[165px] object-contain object-bottom"
         />

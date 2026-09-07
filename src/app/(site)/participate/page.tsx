@@ -56,6 +56,7 @@ export default async function ParticipatePage() {
       {/* Guitar pick 164:59 (x=-23 y=549, 83x101) runs 46px past the hero's
           516px floor, so it lives outside the clip and in front. */}
       <Asset
+          data-reveal
         src={PARTICIPATE_ACCENT.shell}
         className="pointer-events-none hidden lg:block absolute top-[461px] left-[-23px] z-20 h-[101px] w-[83px] object-contain"
       />
@@ -69,40 +70,49 @@ export default async function ParticipatePage() {
             starting level with the hero's top edge, so y is the Figma value
             minus the 88px navbar the frame includes, same as the rest here. */}
         <Asset
+          data-reveal
           src={IMG.accentKitePainted}
           className="pointer-events-none hidden lg:block absolute top-[6px] left-[calc(50%-353px)] z-10 h-[148px] w-[131px] rotate-[11deg] object-contain"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.golfPouch}
           className="pointer-events-none hidden lg:block absolute top-[28px] left-[-17px] h-[111px] w-[100px] object-contain"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.saxophone}
           className="pointer-events-none absolute top-[6px] left-[-10px] h-[92px] w-[62px] lg:top-[111px] lg:left-[calc(50%-637px)] lg:h-[317px] lg:w-[213px] object-contain"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.plate}
           className="pointer-events-none hidden lg:block absolute top-[21px] right-[-37px] h-[147px] w-[124px] object-contain"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.tower}
           className="pointer-events-none absolute right-[-8px] bottom-0 h-[112px] w-[61px] lg:top-[227px] lg:bottom-auto lg:right-[-26px] lg:h-[291px] lg:w-[159px] object-contain"
         />
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.kingfisher}
           className="pointer-events-none hidden lg:block absolute top-[247px] left-[calc(50%-141px)] h-[38px] w-[36px] object-contain"
         />
         {/* Layer_113 (164:32) stands on the full stop of "500 Gems." — x=921
             y=179, 24x37. z-10 so it reads above the headline. */}
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.caddie}
           className="pointer-events-none hidden lg:block absolute top-[168px] left-[calc(50%+259px)] z-10 h-[37px] w-[24px] object-contain"
         />
         <Asset
+          data-reveal
           src={HOME_ACCENT.golfer}
           className="pointer-events-none hidden lg:block absolute top-[406px] left-[calc(50%-287px)] h-[109px] w-[55px] object-contain"
         />
         <Asset
+          data-reveal
           src={IMG.accentAutoRickshaw}
           className="pointer-events-none hidden lg:block absolute top-[194px] left-[calc(50%+300px)] h-[120px] w-[161px] opacity-90 object-contain"
         />
@@ -149,6 +159,7 @@ export default async function ParticipatePage() {
           separate 178:26 span that used to sit behind it stacked a third
           layer and was removed. */}
       <Asset
+          data-reveal
         src={PARTICIPATE_ACCENT.dancers}
         className="pointer-events-none hidden lg:block absolute top-[-21px] left-[calc(50%+178px)] z-20 h-[83px] w-[115px] object-contain"
       />
@@ -156,12 +167,14 @@ export default async function ParticipatePage() {
           green floor into Gems Already Discovered. Bottom-anchored so that
           overhang is exact whatever height the section renders at. */}
       <Asset
+          data-reveal
         src={PARTICIPATE_ACCENT.statue}
         className="pointer-events-none hidden lg:block absolute bottom-[-165px] right-0 z-10 h-[346px] w-[143px] object-contain"
       />
       <section className="relative w-full overflow-hidden bg-green px-5 pt-12 pb-[124px] md:px-10 lg:px-20 lg:pt-[44px] lg:pb-[110px]">
         {/* Dhol 164:62 (x=172 y=1219, 172x204) at the section floor. */}
         <Asset
+          data-reveal
           src={PARTICIPATE_ACCENT.charkha}
           className="pointer-events-none absolute bottom-[8px] left-[-24px] h-[96px] w-[52px] lg:bottom-[16px] lg:left-[calc(50%-548px)] lg:h-[179px] lg:w-[97px] rotate-[29deg] object-contain"
         />

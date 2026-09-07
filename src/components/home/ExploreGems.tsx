@@ -18,6 +18,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
         {/* Below lg the kite sits in the band above the heading so it never
             runs behind the title. */}
         <Asset
+          data-reveal
           src={IMG.accentKites}
           className="pointer-events-none absolute top-[6px] left-[-30px] h-[72px] w-[63px] lg:top-[19px] lg:left-[-46px] lg:h-[199px] lg:w-[174px] object-contain opacity-90"
         />
@@ -34,6 +35,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
             y=880, 102x132). Page-level in Figma, so it overhangs the tab by
             28px above and 32px below. Renders after it to sit on top. */}
         <Asset
+          data-reveal
           src={HOME_ACCENT.busker}
           className="pointer-events-none hidden lg:block absolute top-[79px] right-[68px] h-[132px] w-[102px] object-contain"
         />

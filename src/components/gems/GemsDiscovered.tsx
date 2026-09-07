@@ -55,6 +55,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           anchored to the wrapper floor — the division's own bottom edge. */}
       {theme === "cyan" ? (
         <Asset
+          data-reveal
           src={IMG.gemsPlayground}
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[172px] w-[165px] object-contain"
         />
@@ -65,6 +66,7 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
           artwork's zero-padding edge on the left - together that is what makes
           it sit flush with no gap. */}
       <Asset
+          data-reveal
         src={IMG.accentKiteCreator}
         className={`pointer-events-none hidden lg:block absolute ${tone.kite} left-0 h-[153px] w-[119px] scale-x-[-1] object-contain opacity-85`}
       />
@@ -72,16 +74,19 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
         <>
           {/* Heron 95:x — top right, tucked 5px in from the canvas edge. */}
           <Asset
+          data-reveal
             src={IMG.gemsHeron}
             className="pointer-events-none hidden lg:block absolute top-[121px] right-0 h-[140px] w-[134px] object-contain"
           />
           {/* Derozio statue standing at the cyan floor, bottom left. */}
           <Asset
+          data-reveal
             src={PARTICIPATE_ACCENT.statue}
             className="pointer-events-none hidden lg:block absolute bottom-0 left-[24px] z-10 h-[260px] w-[107px] object-contain"
           />
           {/* Pale streaks sitting in the gap above the first gem card. */}
           <Asset
+          data-reveal
             src={IMG.gemsStreaks}
             className="pointer-events-none hidden lg:block absolute top-[209px] left-[calc(50%-466px)] h-[104px] w-[76px] object-contain"
           />
@@ -91,11 +96,13 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
         <>
           {/* Figma 178:166 — kite trailing its string, at (472, 83) 682x403. */}
           <Asset
+          data-reveal
             src={PARTICIPATE_ACCENT.kiteString}
             className="pointer-events-none hidden lg:block absolute top-[83px] left-[calc(50%-248px)] h-[403px] w-[682px] object-contain"
           />
           {/* Figma 164:68 — pink playground on the section floor, right. */}
           <Asset
+          data-reveal
             src={PARTICIPATE_ACCENT.playground}
             className="pointer-events-none absolute right-0 bottom-0 h-[80px] w-[117px] lg:right-0 lg:bottom-0 lg:h-[161px] lg:w-[235px] object-contain mix-blend-multiply"
           />

@@ -15,10 +15,12 @@ export default async function GalleryPage() {
       {/* gallery-hero-section — Figma 106:288 */}
       <section className="relative flex w-full flex-col items-center gap-8 overflow-hidden bg-cream px-5 pt-12 pb-8 md:px-10 lg:gap-10 lg:px-20 lg:pt-20 lg:pb-10">
         <Asset
+          data-reveal
           src={IMG.accentKiteRainbow}
           className="pointer-events-none absolute top-[4px] left-[-24px] h-[76px] w-[57px] lg:top-[40px] lg:left-[-24px] lg:h-[210px] lg:w-[159px] object-contain"
         />
         <Asset
+          data-reveal
           src={GALLERY_IMG.mishtiPlate}
           className="pointer-events-none absolute top-[4px] right-[-24px] h-[72px] w-[66px] lg:top-[40px] lg:right-[-20px] lg:h-[200px] lg:w-[183px] object-contain"
         />
@@ -53,6 +55,7 @@ export default async function GalleryPage() {
       {/* bento-gallery-section — Figma 106:316 */}
       <div id="gallery" className="relative w-full">
         <Asset
+          data-reveal
           src={GALLERY_IMG.bar}
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 z-10 h-[90px] w-[201px] object-contain"
         />
@@ -68,10 +71,12 @@ export default async function GalleryPage() {
       {/* cta-submit-section — Figma 106:420 */}
       <section className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden bg-green-soft px-5 pt-[104px] pb-16 md:px-10 lg:gap-8 lg:px-20 lg:py-[120px]">
         <Asset
+          data-reveal
           src={GALLERY_IMG.picks}
           className="pointer-events-none hidden lg:block absolute bottom-[48px] left-[56px] h-[115px] w-[102px] object-contain"
         />
         <Asset
+          data-reveal
           src={GALLERY_IMG.saxophone}
           className="pointer-events-none absolute top-[4px] right-[-28px] h-[90px] w-[77px] lg:top-[130px] lg:right-[70px] lg:h-[400px] lg:w-[341px] object-contain"
         />
