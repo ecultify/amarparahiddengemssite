@@ -27,7 +27,7 @@ export default async function SubmitPage() {
         />
         <Asset
           src={SUBMIT_ACCENT.golfBagTall}
-          className="pointer-events-none hidden lg:block absolute top-[39px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
+          className="pointer-events-none hidden lg:block absolute top-[2px] left-[calc(50%+278px)] z-40 h-[99px] w-[42px] object-contain"
         />
         <Asset
           src={SUBMIT_ACCENT.kite}

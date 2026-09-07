@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { uploadMedia, MAX_VIDEO_BYTES } from "@/lib/upload-media";
 import { UploadCloud } from "@/components/ui/icons";
@@ -29,8 +29,20 @@ export function SubmissionForm() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [verifiedPhone, setVerifiedPhone] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Verifying is the last thing on the last step, so a verified number sends
+  // the form straight away (after any upload still in flight). The hidden
+  // phone input has to render first, hence the effect rather than a callback.
+  const autoSent = useRef(false);
   const [file, setFile] = useState<Upload | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    if (!verifiedPhone || uploading || autoSent.current) return;
+    autoSent.current = true;
+    formRef.current?.requestSubmit();
+  }, [verifiedPhone, uploading]);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [state, formAction, pending] = useActionState<SubmitState, FormData>(submitGem, { ok: false });
 
@@ -74,6 +86,7 @@ export function SubmissionForm() {
   return (
     <form
       action={formAction}
+      ref={formRef}
       className="flex w-full max-w-[640px] flex-col items-center gap-6 rounded-[20px] bg-white p-6 shadow-[0_12px_16px_rgba(27,42,74,0.06)] sm:gap-8 sm:p-10 lg:p-12"
     >
       {/* Step meter: segments fill as you advance — no dangling connector line. */}

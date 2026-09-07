@@ -47,7 +47,7 @@ export function QuizCard({
   }
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col items-center gap-6 rounded-[20px] bg-white p-6 shadow-[0_12px_16px_rgba(27,42,74,0.06)] sm:p-10">
+    <div className="flex w-full max-w-[640px] flex-col items-center gap-6">
       {question.image ? (
         <Asset
           src={question.image}

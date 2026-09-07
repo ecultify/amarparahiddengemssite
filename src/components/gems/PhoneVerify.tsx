@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { verifyPhone } from "@/app/actions/auth";
 
 const OTP_LENGTH = 6;
@@ -90,6 +90,14 @@ export function PhoneVerify({
       setChecking(false);
     }
   }
+
+  // Auto-confirm the moment the last digit lands, so nobody has to find the
+  // Confirm button. It stays as a fallback for a code that didn't match.
+  /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps -- fire once per complete code */
+  useEffect(() => {
+    if (sent && code.length === OTP_LENGTH && !checking) void confirm();
+  }, [code]);
+  /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
   if (verified) {
     return (
