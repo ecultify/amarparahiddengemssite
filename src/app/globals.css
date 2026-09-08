@@ -378,8 +378,9 @@ body {
   }
 }
 /* Rich article body — shared by the admin editor and the public article page.
-   Colour comes from the surrounding context (navy-on-white in the admin,
-   white-on-yellow on the site), so everything here uses currentColor. */
+   Colour comes from the surrounding context, which is dark ink on white in
+   both places, so everything here uses currentColor. Keep any new article
+   surface light: the CMS writes plain markup with no colour of its own. */
 .article-prose {
   text-align: left;
 }

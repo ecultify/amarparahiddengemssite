@@ -144,7 +144,7 @@ export default async function ParticipatePage() {
 
           <div data-reveal="2" className="flex w-full justify-center">
             <Button3D href="/submit" variant="red" className="h-14 w-full max-w-[360px] px-4 text-center sm:h-16 sm:w-auto sm:px-8">
-              Log in to participate
+              Submit your gem
             </Button3D>
           </div>
         </div>

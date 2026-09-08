@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Asset } from "@/components/ui/Asset";
 import { ArticleCarousel } from "@/components/home/ArticleCarousel";
-import { IMG, SUBMIT_ACCENT } from "@/lib/assets";
+import { IMG } from "@/lib/assets";
 import { isDraft, slugOf } from "@/data/site";
 import { getContent } from "@/lib/content";
 
@@ -43,63 +43,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      {/* Campaign banner — Figma 178:296 opens the piece on the submission
-          hero. The frame runs y=88..609, so the section is 521px on lg and
-          every accent below is its Figma y minus the 88px navbar. */}
-      {/* Below lg the accents split into a top band and a bottom band around the copy. */}
-      <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-cream px-5 pt-[100px] pb-[120px] md:px-10 lg:h-[521px] lg:px-20 lg:py-0">
-        <Asset
-          data-reveal
-          src={IMG.blogKite}
-          className="pointer-events-none absolute top-[8px] left-[62px] h-[84px] w-[53px] lg:top-[226px] lg:left-[-19px] lg:h-[295px] lg:w-[184px] object-contain"
-        />
-        <Asset
-          data-reveal
-          src={SUBMIT_ACCENT.golfBag}
-          className="pointer-events-none absolute top-[8px] left-[14px] h-[70px] w-[36px] lg:top-[35px] lg:left-[calc(50%-588px)] lg:h-[136px] lg:w-[70px] object-contain"
-        />
-        {/* fhcfgjm 2 (178:588), sitting just left of "Hidden" on the second
-            line. Its ink is only 194x210 inside a 351x341 canvas, so the box is
-            sized well past the Figma one — at 175px the flowers themselves came
-            out under 100px and read as clipped. */}
-        <Asset
-          data-reveal
-          src={IMG.blogFlowers}
-          className="pointer-events-none absolute bottom-[-8px] left-[-24px] h-[104px] w-[107px] lg:top-[153px] lg:bottom-auto lg:left-[calc(50%-458px)] lg:h-[233px] lg:w-[240px] object-contain"
-        />
-        <Asset
-          data-reveal
-          src={IMG.blogSprout}
-          className="pointer-events-none absolute top-[-2px] left-[calc(50%+104px)] h-[58px] w-[33px] lg:top-[55px] lg:left-[calc(50%-65px)] lg:z-40 lg:h-[80px] lg:w-[49px] object-contain"
-        />
-        <Asset
-          data-reveal
-          src={IMG.blogDhol}
-          className="pointer-events-none absolute top-[0px] right-[-26px] h-[96px] w-[71px] lg:top-[159px] lg:right-[-20px] lg:h-[314px] lg:w-[234px] object-contain"
-        />
-        <Asset
-          data-reveal
-          src={IMG.blogWalkers}
-          className="pointer-events-none absolute right-[8px] bottom-[8px] h-[60px] w-[84px] lg:top-[411px] lg:right-[182px] lg:bottom-auto lg:h-[113px] lg:w-[158px] object-contain"
-        />
-
-        <div data-reveal className="relative z-30 flex w-full max-w-[840px] flex-col items-center gap-4 text-center lg:gap-[44px]">
-          {/* Two lines, as the frame sets it — on one line the headline runs
-              straight through the sprout and the dhol. */}
-          <h2 className="font-title text-[42px] leading-[1.05] font-black uppercase sm:text-[62px] lg:text-[128px] lg:leading-[0.92]">
-            <span className="block text-cyan">Share Your Para&apos;s</span>
-            <span className="block text-pink">Hidden Gem</span>
-          </h2>
-          <p className="max-w-[720px] font-body text-[15px] leading-[1.6] text-slate sm:text-[16px]">
-            Tell us about the special places, stories, and memories that make your neighborhood
-            unique. Stand up for your community and place your neighborhood&apos;s legacy on
-            TOI&apos;s historic directory.
-          </p>
-        </div>
-      </section>
-
-      {/* The article itself — Figma 178:625, a full-bleed yellow plate. */}
-      <article className="relative w-full overflow-hidden bg-yellow px-5 py-12 md:px-10 lg:px-20 lg:py-16">
+      {/* The article itself — a full-bleed white plate. It opens the page now
+          that the campaign banner is gone, so it carries its own top space. */}
+      <article className="relative w-full overflow-hidden bg-white px-5 pt-10 pb-12 md:px-10 lg:px-20 lg:pt-14 lg:pb-16">
         <div className="relative mx-auto flex w-full max-w-[1216px] flex-col items-center gap-5">
           <p data-reveal className="font-ui text-[12px] font-extrabold uppercase tracking-[0.1em] text-pink sm:text-[13px]">
             {article.date ?? "Amar Para Hidden Gems"}
@@ -120,7 +66,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                directly is safe enough; sanitise here if authorship ever widens. */
             <div
               data-reveal
-              className="article-prose mt-2 w-full max-w-[700px] font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
+              className="article-prose mt-2 w-full max-w-[700px] font-body text-[14px] leading-[1.7] text-ink sm:text-[15px]"
               dangerouslySetInnerHTML={{ __html: article.html }}
             />
           ) : (
@@ -128,7 +74,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               {paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 40)}
-                  className="text-center font-body text-[14px] leading-[1.7] text-white/90 sm:text-[15px]"
+                  className="text-center font-body text-[14px] leading-[1.7] text-ink sm:text-[15px]"
                 >
                   {paragraph}
                 </p>
@@ -139,7 +85,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {/* Figma 178:664 + 178:663 — the rail of other pieces, chevrons on
               either side of it. */}
           <div className="mt-10 flex w-full flex-col items-center gap-6 lg:mt-16">
-            <h2 data-reveal className="text-center font-display text-[24px] leading-tight font-extrabold text-white sm:text-[32px] lg:text-[40px]">
+            <h2 data-reveal className="text-center font-display text-[24px] leading-tight font-extrabold text-ink sm:text-[32px] lg:text-[40px]">
               Deep dives into Kolkata&apos;s most fascinating paras.
             </h2>
             <ArticleCarousel articles={others} />
@@ -148,7 +94,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </article>
 
       {/* The footer tucks "i am Kolkata" into whatever comes last; this page
-          ends on yellow, so the mark needs a cream division to land on. */}
+          ends on white, so the division carries that colour up to the footer. */}
       <div className="relative w-full">
         {/* Flush with the footer edge, per the design feedback. */}
         <Asset
@@ -156,7 +102,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           src={IMG.blogCouple}
           className="pointer-events-none absolute right-[8px] bottom-0 h-[58px] w-[83px] lg:right-[80px] lg:h-[115px] lg:w-[165px] object-contain object-bottom"
         />
-        <div className="h-[86px] w-full bg-cream lg:h-[128px]" />
+        <div className="h-[86px] w-full bg-white lg:h-[128px]" />
       </div>
     </>
   );

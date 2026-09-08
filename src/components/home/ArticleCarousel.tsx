@@ -20,7 +20,7 @@ export function ArticleCarousel({ articles }: { articles: Article[] }) {
         type="button"
         aria-label="Previous articles"
         onClick={() => step(-1)}
-        className="icon-btn absolute left-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-white text-navy shadow-[0_4px_10px_rgba(27,42,74,0.2)] lg:static lg:size-12 lg:shadow-none"
+        className="icon-btn absolute left-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-line bg-white text-navy shadow-[0_4px_10px_rgba(27,42,74,0.2)] lg:static lg:size-12"
       >
         <ChevronLeft className="size-5" />
       </button>
@@ -52,7 +52,7 @@ export function ArticleCarousel({ articles }: { articles: Article[] }) {
         type="button"
         aria-label="Next articles"
         onClick={() => step(1)}
-        className="icon-btn absolute right-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-white text-navy shadow-[0_4px_10px_rgba(27,42,74,0.2)] lg:static lg:size-12 lg:shadow-none"
+        className="icon-btn absolute right-0 z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-line bg-white text-navy shadow-[0_4px_10px_rgba(27,42,74,0.2)] lg:static lg:size-12"
       >
         <ChevronRight className="size-5" />
       </button>
