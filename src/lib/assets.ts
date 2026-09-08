@@ -43,6 +43,8 @@ export const IMG = {
 
   logoToi: "/images/logo-toi.png",
   logoIAmKolkata: "/images/logo-i-am-kolkata.png",
+  /** Same mark recoloured white, for the pink footer band. */
+  logoIAmKolkataWhite: "/images/logo-i-am-kolkata-white.png",
   logoMark: "/images/logo-mark.svg",
   logoHiddenGems: "/images/logo-hidden-gems.png",
 } as const;

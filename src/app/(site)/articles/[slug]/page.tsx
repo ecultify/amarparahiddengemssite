@@ -93,8 +93,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       </article>
 
-      {/* The footer tucks "i am Kolkata" into whatever comes last; this page
-          ends on white, so the division carries that colour up to the footer. */}
+      {/* A white run-out before the pink footer; the couple stands on it. */}
       <div className="relative w-full">
         {/* Flush with the footer edge, per the design feedback. */}
         <Asset

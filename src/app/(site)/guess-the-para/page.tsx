@@ -81,8 +81,6 @@ export default async function GuessTheParaPage() {
         </div>
       </section>
 
-      {/* The footer tucks "i am Kolkata" up into whatever comes last, and this
-          page's only section is cream, so no extra division is needed. */}
     </>
   );
 }
