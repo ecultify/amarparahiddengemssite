@@ -177,7 +177,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
 
         <div data-reveal="3" className="mt-5 flex justify-center">
           <Button3D href="/submit" className="w-full px-0 sm:w-[320px]">
-            Show us your hidden gem
+            Submit a hidden gem
           </Button3D>
         </div>
       </div>

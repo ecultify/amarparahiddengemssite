@@ -23,6 +23,11 @@ export function SiteHeader() {
   // collapses it back into the ordinary navbar.
   const heroMode = pathname === "/" && !scrolled;
 
+  // An article sits on a white plate and leads with its own headline, so the
+  // bar matches that white and drops its rule rather than laying a cream band
+  // across the top of the piece.
+  const onArticle = pathname.startsWith("/articles/");
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -39,8 +44,12 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
-        heroMode ? "border-b-2 border-transparent bg-transparent" : "border-b-2 border-line bg-cream"
+      className={`sticky top-0 z-50 w-full border-b-2 transition-colors duration-300 ${
+        heroMode
+          ? "border-transparent bg-transparent"
+          : onArticle
+            ? "border-transparent bg-white"
+            : "border-line bg-cream"
       }`}
     >
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 md:px-10 lg:h-[88px] lg:px-20">
