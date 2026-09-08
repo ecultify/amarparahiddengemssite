@@ -57,15 +57,15 @@ export default async function GuessTheParaPage() {
         <div className="relative z-30 flex w-full max-w-[1000px] flex-col items-center gap-6 text-center lg:gap-8">
           <div data-reveal className="flex flex-col items-center gap-4">
             <span className="rounded-full bg-pink/8 px-3.5 py-1.5 font-display text-[13px] font-extrabold uppercase tracking-[0.06em] text-pink">
-              Daily quiz
+              Para Quiz
             </span>
             <h1 className="font-title text-[44px] leading-[1.05] font-black uppercase sm:text-[56px] lg:text-[128px] lg:leading-[0.94]">
-              <span className="text-cyan">Guess </span>
-              <span className="text-pink">the Para</span>
+              <span className="text-cyan">Can you guess </span>
+              <span className="text-pink">this para?</span>
             </h1>
             <p className="max-w-[680px] font-body text-[15px] leading-[1.7] text-slate sm:text-[16px]">
-              One question a day for the people who really know Kolkata. Read the clue, pick
-              your para, and see if you got it right.
+              Let&apos;s put your para knowledge to a test. Take your best guess and submit it
+              below.
             </p>
           </div>
 

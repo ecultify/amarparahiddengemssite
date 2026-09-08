@@ -256,8 +256,7 @@ export function SubmissionForm() {
         <div className="flex w-full max-w-[440px] flex-col items-center gap-2 pt-2 text-center">
           <Label>Verify your number</Label>
           <p className="font-body text-[14px] leading-[1.5] text-slate">
-            We verify every submission against a mobile number so each gem can be credited to the
-            person who found it.
+            Enter your mobile number to verify your entry.
           </p>
         </div>
 

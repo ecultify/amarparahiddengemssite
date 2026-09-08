@@ -90,10 +90,10 @@ export function QuizCard({
       {answered ? (
         <div className="flex flex-col items-center gap-1 text-center">
           <p className={`font-display text-[18px] font-extrabold ${correct ? "text-grass" : "text-red"}`}>
-            {correct ? "Spot on! You know your paras." : `Not quite. It's ${answerLabel}.`}
+            {correct ? "Spot on! You know your paras!" : `Not quite. It's ${answerLabel}.`}
           </p>
           <p className="font-body text-[14px] text-slate">
-            Come back tomorrow for a new para to guess.
+            Come back again for a new para to guess
           </p>
         </div>
       ) : (
