@@ -11,7 +11,7 @@ import { IMG } from "@/lib/assets";
 
 const NAV = [
   { label: "Explore the Gems", href: "/500-gems" },
-  { label: "Participate", href: "/participate" },
+  { label: "How to Participate", href: "/participate" },
 ];
 
 export function SiteHeader() {
