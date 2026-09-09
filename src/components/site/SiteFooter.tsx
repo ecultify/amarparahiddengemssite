@@ -7,7 +7,7 @@ const LINKS = [
   { label: "How to Participate", href: "/participate" },
   { label: "Gallery", href: "/500-gems#gallery" },
   { label: "T&C", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Privacy Policy", href: "https://timesofindia.indiatimes.com/privacy-policy/cookiepolicy/86934312.cms" },
 ];
 
 const SOCIALS = [
@@ -43,11 +43,23 @@ export function SiteFooter() {
           </p>
 
           <div className="flex flex-wrap gap-x-6 gap-y-3 font-body text-[14px] text-white">
-            {LINKS.map((link) => (
-              <Link key={link.label} href={link.href} className="opacity-80 hover:opacity-100">
-                {link.label}
-              </Link>
-            ))}
+            {LINKS.map((link) =>
+              link.href.startsWith("http") ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="opacity-80 hover:opacity-100"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.label} href={link.href} className="opacity-80 hover:opacity-100">
+                  {link.label}
+                </Link>
+              ),
+            )}
           </div>
         </div>
 
