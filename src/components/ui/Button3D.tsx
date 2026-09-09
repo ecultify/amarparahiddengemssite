@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
-type Variant = "yellow" | "outline" | "red";
+type Variant = "yellow" | "outline" | "red" | "sky";
 type Size = "sm" | "md";
 
 const VARIANTS: Record<Variant, string> = {
@@ -11,6 +11,8 @@ const VARIANTS: Record<Variant, string> = {
   outline: "bg-cream text-navy border-2 border-navy btn-3d",
   // Figma 95:43 — LOG IN TO PARTICIPATE.
   red: "bg-red text-white btn-3d",
+  // The blue of HIDDEN in the logo — navy label, since white would wash out.
+  sky: "bg-sky text-navy btn-3d",
 };
 
 const SIZES: Record<Size, string> = {

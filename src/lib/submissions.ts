@@ -13,6 +13,8 @@ export type Submission = {
   title: string;
   category: string;
   description: string;
+  /** Submitter's name, taken alongside the number they verify. */
+  name?: string;
   /** Verified at submission time; how a published gem gets credited. */
   phone?: string;
   /** Blob URL of the visitor's upload, if they attached one. */

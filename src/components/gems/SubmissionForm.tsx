@@ -254,11 +254,16 @@ export function SubmissionForm() {
         {/* Verification lives with the upload rather than in a step of its
             own, so the last screen is: attach a file, verify, submit. */}
         <div className="flex w-full max-w-[440px] flex-col items-center gap-2 pt-2 text-center">
-          <Label>Verify your number</Label>
+          <Label>Verify some details to submit your entry</Label>
           <p className="font-body text-[14px] leading-[1.5] text-slate">
-            Enter your mobile number to verify your entry.
+            Tell us who you are, then verify your mobile number.
           </p>
         </div>
+
+        <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
+          <Label>Your Name</Label>
+          <input name="name" required autoComplete="name" className={FIELD} placeholder="Enter your full name" />
+        </label>
 
         <PhoneVerify verified={Boolean(verifiedPhone)} onVerified={setVerifiedPhone} />
 

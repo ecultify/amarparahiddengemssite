@@ -64,7 +64,7 @@ export default function ThankYouPage() {
             <Button3D href="/submit" variant="outline" className="w-full px-6 sm:w-auto">
               Submit another gem
             </Button3D>
-            <Button3D href="/guess-the-para" variant="red" className="w-full px-6 sm:w-auto">
+            <Button3D href="/guess-the-para" variant="sky" className="w-full px-6 sm:w-auto">
               Guess the Para
             </Button3D>
           </div>

@@ -53,6 +53,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
             <Row label="Para" value={entry.para} />
             <Row label="Location" value={entry.location} />
             <Row label="Category" value={entry.category} />
+            {entry.name ? <Row label="Name" value={entry.name} /> : null}
             {entry.phone ? <Row label="Phone" value={entry.phone} /> : null}
           </dl>
 
