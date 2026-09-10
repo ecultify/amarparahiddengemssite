@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Pintu Pohan",
+    "para": "Behala",
+    "image": "/images/stories/pintu-pohan.jpg",
+    "video": "/videos/stories/pintu-pohan.mp4",
+    "quote": "Behind the counter of a tiny neighborhood paan shop sits Pintu Pohan, quietly crafting 11 novels, hundreds of stories, and countless poems between serving customers.",
+    "attribution": "— Pintu Pohan, paan shop owner & writer, Behala"
+  },
+  {
+    "name": "Kake di Hatti & Balwan Singh's Eating House",
+    "para": "Bhawanipore",
+    "image": "/images/stories/kake-di-hatti.jpg",
+    "video": "/videos/stories/kake-di-hatti.mp4",
+    "quote": "From legendary bites at Kake Di Hatti and late-night chai at Balwant Singh Dhaba to neighbors crowning it 'Netaji Para', every corner carries a distinct pride and flavor.",
+    "attribution": "— Kake di Hatti & Balwant Singh's Eating House, Bhawanipore"
+  },
+  {
+    "name": "Bhaskar Chitrakar",
+    "para": "Pattachitra Para",
+    "image": "/images/stories/bhaskar-chitrakar.jpg",
+    "video": "/videos/stories/bhaskar-chitrakar.mp4",
+    "quote": "Carrying forward four generations of artistic lineage, 48-year-old Bhaskar Chitrakar keeps the timeless heritage of traditional Kalighat Patachitra scroll painting alive in the heart of Patuapara.",
+    "attribution": "— Bhaskar Chitrakar, pattachitra artist, Patuapara"
+  }
+]

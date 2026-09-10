@@ -1,5 +1,6 @@
 import articles from "@/data/articles.json";
 import gems from "@/data/gems.json";
+import stories from "@/data/stories.json";
 import streetStories from "@/data/street-stories.json";
 
 export type Gem = {
@@ -51,54 +52,16 @@ export const DISCOVERED_GEMS: Gem[] = [
 export type Story = {
   name: string;
   para: string;
+  /** Still shown on the side cards, and the poster behind the clip. */
   image: string;
+  /** The clip the centre card plays, trimmed to the moment that matters. */
+  video?: string;
   quote: string;
   attribution: string;
 };
 
 /** Stories from the Paras coverflow — homepage (Figma 49:2032). */
-export const STORIES: Story[] = [
-  {
-    name: "Haripada Da",
-    para: "Shyambazar",
-    image: "/images/story-haripada.png",
-    quote:
-      "The tram bell at dawn is our alarm clock. Three generations of my family have opened the shutter to that same sound.",
-    attribution: "— Haripada Da, Shyambazar",
-  },
-  {
-    name: "Riya Sen",
-    para: "Gariahat",
-    image: "/images/story-riya.png",
-    quote:
-      "Gariahat after sundown is a different city. The pavement stalls light up and the whole para comes out to bargain, gossip and eat.",
-    attribution: "— Riya Sen, Gariahat",
-  },
-  {
-    name: "Sourav Das",
-    para: "Bagbazar",
-    image: "/images/story-sourav.png",
-    quote:
-      "“Every Sunday morning, the adda at our local tea stall in Bagbazar represents more than just gossip. It is the living, breathing chronicle of our neighborhood. From standard updates to deep-rooted community debates, these lanes hold centuries of legacy.”",
-    attribution: "— Sourav Das, Resident since 1974",
-  },
-  {
-    name: "Animesh Pal",
-    para: "Kumartuli",
-    image: "/images/story-animesh.png",
-    quote:
-      "We shape the goddess with river clay every year and let her go every year. Kumartuli teaches you that nothing beautiful is meant to be kept.",
-    attribution: "— Animesh Pal, Kumartuli",
-  },
-  {
-    name: "Subrata Paul",
-    para: "Maidan",
-    image: "/images/story-subrata.png",
-    quote:
-      "The Maidan belongs to no one, so it belongs to everyone. Footballers, phuchka carts, lovers and lost dogs all get the same grass.",
-    attribution: "— Subrata Paul, Maidan",
-  },
-];
+export const STORIES: Story[] = stories;
 
 export type Article = {
   title: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -10,37 +10,46 @@ import { HOME_ACCENT, IMG } from "@/lib/assets";
 
 /**
  * Stories from the Paras — Figma 49:2023.
- * A five-up coverflow: the centre card is large with a pink border and a
- * FEATURED STORY badge, flanked by 220px and 180px cards at reduced opacity.
+ * A three-up coverflow: the centre card is large with a pink border and plays
+ * that story's clip, flanked by two smaller stills at reduced opacity.
  */
 const SLOT_STYLES = [
-  { width: 180, height: 260, radius: 12, opacity: 0.5, scrim: 0.4, pad: 16, name: 16, para: 12 },
   { width: 220, height: 300, radius: 16, opacity: 0.8, scrim: 0.3, pad: 20, name: 18, para: 13 },
   { width: 280, height: 360, radius: 20, opacity: 1, scrim: 0.25, pad: 24, name: 22, para: 14 },
   { width: 220, height: 300, radius: 16, opacity: 0.8, scrim: 0.3, pad: 20, name: 18, para: 13 },
-  { width: 180, height: 260, radius: 12, opacity: 0.5, scrim: 0.4, pad: 16, name: 16, para: 12 },
 ];
+const CENTRE = 1;
 
 export function StoriesFromParas({ stories }: { stories: Story[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const featured = stories[active];
+  const clip = useRef<HTMLVideoElement>(null);
 
-  // Auto-advances every 3s, running backwards so it counter-scrolls the
-  // Explore rail above it. Any manual step restarts the clock.
+  // Long enough to watch the clip that is playing. Any manual step or a hover
+  // restarts the clock.
   useEffect(() => {
     if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setInterval(() => {
       if (!document.hidden) setActive((current) => (current - 1 + stories.length) % stories.length);
-    }, 3000);
+    }, 9000);
     return () => clearInterval(id);
   }, [paused, active, stories.length]);
+
+  // The centre card's clip plays from the top each time it becomes the centre.
+  // Autoplay is only granted to muted video, so muted it is.
+  useEffect(() => {
+    const video = clip.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  }, [active]);
 
   // Rotate the deck so the active story always sits in the centre slot.
   const ordered = SLOT_STYLES.map((slot, index) => ({
     slot,
-    story: stories[(active + index - 2 + stories.length) % stories.length],
-    isCentre: index === 2,
+    story: stories[(active + index - CENTRE + stories.length) % stories.length],
+    isCentre: index === CENTRE,
   }));
 
   const step = (direction: -1 | 1) =>
@@ -121,14 +130,29 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
                   opacity: slot.opacity,
                 }}
                 className={`relative flex shrink flex-col justify-between overflow-hidden text-left lg:shrink-0 ${
-                  isCentre ? "" : "hidden xl:flex"
+                  isCentre ? "" : "hidden md:flex"
                 } ${
                   isCentre
                     ? "border-4 border-pink shadow-[0_16px_32px_0_rgba(27,42,74,0.25)]"
                     : ""
                 }`}
               >
-                <Asset src={story.image} alt={story.name} className="absolute inset-0 size-full object-cover" />
+                {isCentre && story.video ? (
+                  <video
+                    ref={clip}
+                    key={story.video}
+                    src={story.video}
+                    poster={story.image}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                ) : (
+                  <Asset src={story.image} alt={story.name} className="absolute inset-0 size-full object-cover" />
+                )}
                 <span
                   className="absolute inset-0"
                   style={{ backgroundColor: `rgba(27,42,74,${slot.scrim})` }}
