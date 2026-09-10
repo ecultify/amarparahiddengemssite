@@ -19,7 +19,7 @@ export default async function LoginPage({
         <CardHeader>
           <CardTitle>Amar Para content desk</CardTitle>
           <CardDescription>
-            Editors only. Everything you publish here goes live on amarpara-hidden-gems.vercel.app.
+            Editors only. Everything you publish here goes live on amarpara.in.
           </CardDescription>
         </CardHeader>
         <CardContent>
