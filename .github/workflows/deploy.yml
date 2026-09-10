@@ -1,0 +1,29 @@
+# Every push to main lands on the VPS, the way Vercel picks one up.
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # or run it by hand from the Actions tab
+
+concurrency:
+  group: vps-deploy         # never let two deploys build at once
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authorise the deploy key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${VPS_HOST#*@}" >> ~/.ssh/known_hosts 2>/dev/null
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+
+      - name: Ship it
+        run: bash scripts/deploy-vps.sh "${{ secrets.VPS_HOST }}"

@@ -12,11 +12,14 @@ echo "==> syncing source to $HOST:$APP"
 rsync -az --delete \
   --exclude node_modules --exclude .next --exclude .git \
   --exclude '*.zip' --exclude '*.psd' --exclude '*.docx' --exclude '*.pptx' \
-  --exclude tsconfig.tsbuildinfo --exclude _to_delete \
+  --exclude tsconfig.tsbuildinfo --exclude _to_delete --exclude .env.local \
   ./ "$HOST:$APP/"
 
-echo "==> env"
-scp -q .env.local "$HOST:$APP/.env.local"
+# Only send env when running from a machine that has it; CI does not.
+if [ -f .env.local ]; then
+  echo "==> env"
+  scp -q .env.local "$HOST:$APP/.env.local"
+fi
 
 echo "==> building and starting on the server"
 ssh "$HOST" APP="$APP" bash -s <<'REMOTE'
