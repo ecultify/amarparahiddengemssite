@@ -20,11 +20,53 @@ const SLOT_STYLES = [
 ];
 const CENTRE = 1;
 
+function SpeakerOn() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden>
+      <path d="M4 9v6h4l5 4V5L8 9H4z" />
+      <path d="M16.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function SpeakerOff() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden>
+      <path d="M4 9v6h4l5 4V5L8 9H4z" />
+      <path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function StoriesFromParas({ stories }: { stories: Story[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const featured = stories[active];
   const clip = useRef<HTMLVideoElement>(null);
+  // Autoplay is only granted to muted video, so the clip starts silent and
+  // turns its sound on at the visitor's first interaction — the moment the
+  // browser starts allowing it.
+  const [sound, setSound] = useState(false);
+
+  useEffect(() => {
+    if (sound) return;
+    const wake = () => setSound(true);
+    const events = ["pointerdown", "keydown", "touchstart", "wheel"] as const;
+    events.forEach((event) => window.addEventListener(event, wake, { once: true, passive: true }));
+    return () => events.forEach((event) => window.removeEventListener(event, wake));
+  }, [sound]);
+
+  // Unmuting can still be refused; fall back to silent rather than stopping.
+  useEffect(() => {
+    const video = clip.current;
+    if (!video) return;
+    video.muted = !sound;
+    video.play().catch(() => {
+      video.muted = true;
+      video.play().catch(() => {});
+    });
+  }, [sound, active]);
 
   // Long enough to watch the clip that is playing. Any manual step or a hover
   // restarts the clock.
@@ -36,13 +78,9 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
     return () => clearInterval(id);
   }, [paused, active, stories.length]);
 
-  // The centre card's clip plays from the top each time it becomes the centre.
-  // Autoplay is only granted to muted video, so muted it is.
+  // Each clip starts from the top when its card reaches the centre.
   useEffect(() => {
-    const video = clip.current;
-    if (!video) return;
-    video.currentTime = 0;
-    video.play().catch(() => {});
+    if (clip.current) clip.current.currentTime = 0;
   }, [active]);
 
   // Rotate the deck so the active story always sits in the centre slot.
@@ -119,8 +157,12 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
 
           <div className="flex min-w-0 items-center justify-center gap-4">
             {ordered.map(({ slot, story, isCentre }, index) => (
-              <button
+              <div
                 key={`${story.name}-${index}`}
+                className={`relative shrink lg:shrink-0 ${isCentre ? "" : "hidden md:block"}`}
+                style={{ width: slot.width, height: slot.height }}
+              >
+              <button
                 type="button"
                 onClick={() => setActive(stories.indexOf(story))}
                 style={{
@@ -129,9 +171,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
                   borderRadius: slot.radius,
                   opacity: slot.opacity,
                 }}
-                className={`relative flex shrink flex-col justify-between overflow-hidden text-left lg:shrink-0 ${
-                  isCentre ? "" : "hidden md:flex"
-                } ${
+                className={`relative flex flex-col justify-between overflow-hidden text-left ${
                   isCentre
                     ? "border-4 border-pink shadow-[0_16px_32px_0_rgba(27,42,74,0.25)]"
                     : ""
@@ -172,6 +212,18 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
                   </span>
                 </span>
               </button>
+              {isCentre && story.video ? (
+                <button
+                  type="button"
+                  aria-label={sound ? "Mute the story" : "Play the story's sound"}
+                  aria-pressed={sound}
+                  onClick={() => setSound((on) => !on)}
+                  className="icon-btn absolute top-3 right-3 z-10 flex size-9 items-center justify-center rounded-full bg-navy/60 text-white backdrop-blur-sm"
+                >
+                  {sound ? <SpeakerOn /> : <SpeakerOff />}
+                </button>
+              ) : null}
+              </div>
             ))}
           </div>
 
