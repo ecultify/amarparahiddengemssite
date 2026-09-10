@@ -35,6 +35,12 @@ command -v nginx >/dev/null || apt-get install -y nginx
 command -v pm2  >/dev/null || npm install -g pm2
 
 cd "$APP"
+
+# next start does not read .env.local, and next build only reads it for the
+# build itself — so the file is exported here, for the build and for the
+# process pm2 goes on to start.
+set -a; [ -f .env.local ] && . ./.env.local; set +a
+
 npm ci --omit=dev --ignore-scripts || npm install --omit=dev
 npm install --no-save --ignore-scripts   # build needs the dev deps too
 npm run build
