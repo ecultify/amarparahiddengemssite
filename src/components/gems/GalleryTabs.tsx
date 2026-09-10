@@ -9,7 +9,9 @@ import type { GalleryGem, QuoteCard } from "@/data/site";
 const TABS = ["Written Tales", "Photo Gems", "Video Stories"] as const;
 type Tab = (typeof TABS)[number];
 
-const PAGE = 3;
+// Three cards to a row; the written tales run to three figures, so a
+// click loads three rows rather than one.
+const PAGE = 9;
 
 function GemMeta({ gem }: { gem: GalleryGem }) {
   return (
@@ -153,7 +155,7 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
             <article
               key={story.title}
               data-reveal={String(index % 3)}
-              className={`flex w-full max-w-[304px] shrink-0 flex-col justify-between gap-8 rounded-[8px] border p-6 shadow-[0_8px_8px_rgba(27,42,74,0.07)] sm:h-[360px] sm:gap-0 ${quoteTone(index).card}`}
+              className={`flex w-full max-w-[304px] shrink-0 flex-col justify-between gap-8 rounded-[8px] border p-6 shadow-[0_8px_8px_rgba(27,42,74,0.07)] sm:h-[360px] sm:gap-4 ${quoteTone(index).card}`}
             >
               <div className="flex flex-col gap-3">
                 <span

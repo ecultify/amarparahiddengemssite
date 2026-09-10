@@ -1,4 +1,5 @@
 import articles from "@/data/articles.json";
+import streetStories from "@/data/street-stories.json";
 
 export type Gem = {
   title: string;
@@ -277,23 +278,6 @@ export type QuoteCard = {
   meta: string;
 };
 
-export const STREET_STORIES: QuoteCard[] = [
-  {
-    quote:
-      "Every Sunday, the addas at our local tea stall represent more than gossip - they are the living, breathing chronicle of Bagbazar.",
-    title: "Bagbazar Adda",
-    meta: "Customs • Bagbazar • Contributed by: Ananya D.",
-  },
-  {
-    quote:
-      "The narrow lane behind College Street has a 90-year-old sweet shop that only locals know.",
-    title: "Hidden Sweet Lane",
-    meta: "Food • College Street • Contributed by: Amit K.",
-  },
-  {
-    quote:
-      "My grandmother says the ghats looked different 50 years ago - now only the memories remain.",
-    title: "Ghats of Memory",
-    meta: "Stories • Princep Ghat • Contributed by: Debarati P.",
-  },
-];
+/** Written Tales — the Amar Para 2 deck: four things worth knowing about each
+ *  of 28 paras, the headline as the card's title and the note as its quote. */
+export const STREET_STORIES: QuoteCard[] = streetStories;
