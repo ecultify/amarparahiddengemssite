@@ -44,7 +44,10 @@ pm2 start npm --name amarpara -- start
 pm2 save
 pm2 startup systemd -u root --hp /root >/dev/null
 
-cat >/etc/nginx/sites-available/amarpara <<'CONF'
+# Written once, on a bare box. Never rewritten: certbot edits this file to add
+# the TLS server block, and clobbering it on every deploy takes HTTPS down.
+if [ ! -f /etc/nginx/sites-available/amarpara ]; then
+  cat >/etc/nginx/sites-available/amarpara <<'CONF'
 server {
   listen 80 default_server;
   server_name _;
@@ -62,8 +65,9 @@ server {
   }
 }
 CONF
-ln -sf /etc/nginx/sites-available/amarpara /etc/nginx/sites-enabled/amarpara
-rm -f /etc/nginx/sites-enabled/default
+  ln -sf /etc/nginx/sites-available/amarpara /etc/nginx/sites-enabled/amarpara
+  rm -f /etc/nginx/sites-enabled/default
+fi
 nginx -t && systemctl reload nginx
 
 pm2 status amarpara
