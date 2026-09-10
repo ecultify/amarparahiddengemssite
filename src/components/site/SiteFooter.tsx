@@ -1,27 +1,25 @@
 import Link from "next/link";
 import { Asset } from "@/components/ui/Asset";
-import { Button3D } from "@/components/ui/Button3D";
 import { IMG } from "@/lib/assets";
-import { getContent } from "@/lib/content";
 import { Facebook, Instagram, Twitter } from "@/components/ui/icons";
 
 /** Two titled columns give the right side the vertical mass the paragraph has
- *  on the left; the campaign's own ask closes the band. */
+ *  on the left; the social tray closes that same column. */
 const COLUMNS = [
   {
-    title: "Explore",
+    title: "Explore the Gems",
     links: [
-      { label: "Explore the Gems", href: "/500-gems" },
       { label: "Gallery", href: "/500-gems#gallery" },
-      { label: "Articles", href: "/#articles" },
-      { label: "Guess the Para", href: "/guess-the-para" },
+      { label: "Articles & Features", href: "/#articles" },
+      { label: "Chronicles of Kolkata", href: "/#stories" },
+      { label: "Creator Discoveries", href: "/#creator-trails" },
     ],
   },
   {
-    title: "Take Part",
+    title: "Participate",
     links: [
-      { label: "Submit your gem", href: "/submit" },
       { label: "How to Participate", href: "/participate" },
+      { label: "Submit your Gem", href: "/submit" },
       { label: "T&C", href: "/terms" },
       {
         label: "Privacy Policy",
@@ -37,8 +35,7 @@ const SOCIALS = [
   { label: "X", href: "https://x.com", Icon: Twitter },
 ];
 
-export async function SiteFooter() {
-  const { gemCount } = await getContent();
+export function SiteFooter() {
   return (
     <footer className="relative w-full overflow-hidden bg-pink">
       {/* The only band on the site with bare walls — the rainbow kite from the
@@ -49,7 +46,7 @@ export async function SiteFooter() {
         className="pointer-events-none absolute top-[6px] right-[-26px] hidden h-[124px] w-[110px] rotate-[14deg] object-contain lg:block"
       />
 
-      <div className="relative mx-auto max-w-[1440px] px-5 pt-6 pb-6 md:px-10 lg:px-20">
+      <div className="relative mx-auto max-w-[1440px] px-5 pt-6 pb-8 md:px-10 lg:px-20">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
           <div>
             {/* The mark is centred over the masthead below: this box is exactly
@@ -79,66 +76,55 @@ export async function SiteFooter() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-12 gap-y-3 lg:pt-2">
-            {COLUMNS.map((column) => (
-              <div key={column.title} className="flex flex-col gap-3">
-                <span className="font-display text-[12px] font-extrabold tracking-[0.12em] text-white/60 uppercase">
-                  {column.title}
-                </span>
-                {column.links.map((link) =>
-                  link.href.startsWith("http") ? (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-body text-[14px] text-white opacity-80 hover:opacity-100"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className="font-body text-[14px] text-white opacity-80 hover:opacity-100"
-                    >
-                      {link.label}
-                    </Link>
-                  ),
-                )}
-              </div>
-            ))}
-          </div>
+          {/* Links and socials share one column, so the band ends together. */}
+          <div className="flex flex-col gap-8 lg:pt-2 lg:pr-10">
+            <div className="grid grid-cols-2 gap-x-12 gap-y-3">
+              {COLUMNS.map((column) => (
+                <div key={column.title} className="flex flex-col gap-3">
+                  <span className="font-display text-[12px] font-extrabold tracking-[0.12em] text-white/60 uppercase">
+                    {column.title}
+                  </span>
+                  {column.links.map((link) =>
+                    link.href.startsWith("http") ? (
+                      <a
+                        key={link.label}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-body text-[14px] text-white opacity-80 hover:opacity-100"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="font-body text-[14px] text-white opacity-80 hover:opacity-100"
+                      >
+                        {link.label}
+                      </Link>
+                    ),
+                  )}
+                </div>
+              ))}
+            </div>
 
-          {/* The last thing anyone sees on a page is the campaign's ask. */}
-          <div className="flex flex-col items-start gap-3 lg:pt-2 lg:pr-6">
-            <span className="max-w-[240px] font-display text-[18px] leading-snug font-extrabold text-white">
-              Your para is hiding one too.
-            </span>
-            <Button3D href="/submit" className="px-8">
-              Submit your gem
-            </Button3D>
-            <span className="font-body text-[13px] text-white/80">
-              {gemCount.discovered} gems discovered so far
-            </span>
+            {/* White discs, since a pink disc would disappear into the band. */}
+            <div className="flex gap-5 border-t border-white/20 pt-6">
+              {SOCIALS.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex size-10 items-center justify-center rounded-full bg-white text-pink transition-opacity hover:opacity-80"
+                >
+                  <Icon />
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* Socials close the band, on the right. White discs, since a pink
-            disc would disappear into it. */}
-        <div className="mt-8 flex justify-end gap-5 border-t border-white/20 pt-6">
-          {SOCIALS.map(({ label, href, Icon }) => (
-            <a
-              key={label}
-              href={href}
-              aria-label={label}
-              target="_blank"
-              rel="noreferrer"
-              className="flex size-10 items-center justify-center rounded-full bg-white text-pink transition-opacity hover:opacity-80"
-            >
-              <Icon />
-            </a>
-          ))}
         </div>
       </div>
     </footer>
