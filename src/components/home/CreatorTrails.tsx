@@ -23,7 +23,7 @@ const SCALE = 240 / EMBED_W;
 
 /** Creator Trails — Figma 49:2139. Five-up 240x380 mosaic. */
 export function CreatorTrails({ trails }: { trails: Trail[] }) {
-  const { ref: trackRef, index: active, pages, step, pause } = useAutoRail(1);
+  const { ref: trackRef, index: active, pages, step, pause } = useAutoRail(1, true);
 
   return (
     <div className="relative w-full">
@@ -40,7 +40,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
       <Asset
           data-reveal
         src={HOME_ACCENT.caddie}
-        className="pointer-events-none hidden lg:block absolute top-[110px] left-[calc(50%-540px)] h-[148px] w-[90px] object-contain"
+        className="pointer-events-none hidden lg:block absolute top-[62px] left-[calc(50%-540px)] h-[148px] w-[90px] object-contain"
       />
       <Asset
           data-reveal
@@ -84,14 +84,18 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
             ref={trackRef}
             className="no-scrollbar mx-auto flex h-[380px] w-[240px] snap-x snap-mandatory gap-4 overflow-x-auto sm:mx-[52px] sm:w-auto lg:mx-16"
           >
-            {trails.map((trail, index) => {
+            {/* Twice through: the second run is what the rail scrolls into at
+                the end, so it never has to rewind past every card to reach
+                the first one again. */}
+            {[...trails, ...trails].map((trail, index) => {
+              const copy = index >= trails.length;
               const embed = reelEmbed(trail.reel);
               if (!embed) {
                 return (
                   <Asset
                     key={index}
                     src={trail.image}
-                    alt={trail.caption}
+                    alt={copy ? "" : trail.caption}
                     className="h-[380px] w-[240px] shrink-0 snap-start rounded-[16px] object-cover"
                   />
                 );
@@ -99,6 +103,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
               return (
                 <div
                   key={index}
+                  aria-hidden={copy || undefined}
                   className="h-[380px] w-[240px] shrink-0 snap-start overflow-hidden rounded-[16px] bg-navy/5"
                 >
                   <iframe
