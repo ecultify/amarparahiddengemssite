@@ -14,9 +14,9 @@ import { HOME_ACCENT, IMG } from "@/lib/assets";
  * that story's clip, flanked by two smaller stills at reduced opacity.
  */
 const SLOT_STYLES = [
-  { width: 220, height: 300, radius: 16, opacity: 0.8, scrim: 0.3, pad: 20, name: 18, para: 13 },
-  { width: 280, height: 360, radius: 20, opacity: 1, scrim: 0.25, pad: 24, name: 22, para: 14 },
-  { width: 220, height: 300, radius: 16, opacity: 0.8, scrim: 0.3, pad: 20, name: 18, para: 13 },
+  { width: 220, height: 300, radius: 16, opacity: 0.85, scrim: 0.22, pad: 12, name: 16, para: 12 },
+  { width: 280, height: 360, radius: 20, opacity: 1, scrim: 0.14, pad: 14, name: 20, para: 13 },
+  { width: 220, height: 300, radius: 16, opacity: 0.85, scrim: 0.22, pad: 12, name: 16, para: 12 },
 ];
 const CENTRE = 1;
 
@@ -41,47 +41,63 @@ function SpeakerOff() {
 
 export function StoriesFromParas({ stories }: { stories: Story[] }) {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  /** The visitor asked for sound. Only the button sets this — nothing else. */
+  const [watching, setWatching] = useState(false);
+  const [inView, setInView] = useState(false);
   const featured = stories[active];
   const clip = useRef<HTMLVideoElement>(null);
-  // Autoplay is only granted to muted video, so the clip starts silent and
-  // turns its sound on at the visitor's first interaction — the moment the
-  // browser starts allowing it.
-  const [sound, setSound] = useState(false);
+  const deck = useRef<HTMLDivElement>(null);
 
+  // The clip only runs while the cards are actually on screen.
   useEffect(() => {
-    if (sound) return;
-    const wake = () => setSound(true);
-    const events = ["pointerdown", "keydown", "touchstart", "wheel"] as const;
-    events.forEach((event) => window.addEventListener(event, wake, { once: true, passive: true }));
-    return () => events.forEach((event) => window.removeEventListener(event, wake));
-  }, [sound]);
+    const element = deck.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.intersectionRatio > 0.35),
+      { threshold: [0, 0.35, 0.8] },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
-  // Unmuting can still be refused; fall back to silent rather than stopping.
+  // Scrolling away gives the sound back up, so it never plays off screen.
+  useEffect(() => {
+    if (!inView) setWatching(false);
+  }, [inView]);
+
+  // Play and mute follow the two things that decide them: whether the section
+  // is on screen, and whether the visitor asked to hear it. Unmuted playback
+  // can still be refused, in which case it carries on silently.
   useEffect(() => {
     const video = clip.current;
     if (!video) return;
-    video.muted = !sound;
+    if (!inView) {
+      video.pause();
+      return;
+    }
+    video.muted = !watching;
     video.play().catch(() => {
       video.muted = true;
       video.play().catch(() => {});
     });
-  }, [sound, active]);
-
-  // Long enough to watch the clip that is playing. Any manual step or a hover
-  // restarts the clock.
-  useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => {
-      if (!document.hidden) setActive((current) => (current - 1 + stories.length) % stories.length);
-    }, 9000);
-    return () => clearInterval(id);
-  }, [paused, active, stories.length]);
+  }, [inView, watching, active]);
 
   // Each clip starts from the top when its card reaches the centre.
   useEffect(() => {
     if (clip.current) clip.current.currentTime = 0;
   }, [active]);
+
+  // The deck holds still while someone is listening to a story, or hovering,
+  // or while the section is off screen.
+  useEffect(() => {
+    if (hovered || watching || !inView) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => {
+      if (!document.hidden) setActive((current) => (current - 1 + stories.length) % stories.length);
+    }, 9000);
+    return () => clearInterval(id);
+  }, [hovered, watching, inView, active, stories.length]);
 
   // Rotate the deck so the active story always sits in the centre slot.
   const ordered = SLOT_STYLES.map((slot, index) => ({
@@ -141,10 +157,9 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
         <div
           data-reveal="1"
           className="relative mt-5 flex w-full items-center justify-center gap-3 sm:gap-6"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
+          ref={deck}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
         >
           <button
             type="button"
@@ -197,16 +212,22 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
                   className="absolute inset-0"
                   style={{ backgroundColor: `rgba(27,42,74,${slot.scrim})` }}
                 />
+                {/* The clip keeps moving under the caption, so the caption
+                    carries its own ground rather than relying on the wash. */}
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-navy/85 to-transparent" />
                 <span className="relative flex h-full w-full flex-col justify-between" style={{ padding: slot.pad }}>
                   <span className="block h-[10px]" />
-                  <span className="flex flex-col gap-1">
+                  <span className="flex w-full flex-col gap-0.5 rounded-[10px] bg-navy/70 px-3 py-2 backdrop-blur-[3px]">
                     <span
-                      className="font-display font-black text-white"
+                      className="font-display font-black leading-tight text-white"
                       style={{ fontSize: slot.name }}
                     >
                       {story.name}
                     </span>
-                    <span className="font-ui font-bold text-pink" style={{ fontSize: slot.para }}>
+                    <span
+                      className="font-ui font-bold leading-tight text-yellow"
+                      style={{ fontSize: slot.para }}
+                    >
                       {story.para}
                     </span>
                   </span>
@@ -215,12 +236,13 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
               {isCentre && story.video ? (
                 <button
                   type="button"
-                  aria-label={sound ? "Mute the story" : "Play the story's sound"}
-                  aria-pressed={sound}
-                  onClick={() => setSound((on) => !on)}
+                  aria-label={watching ? "Mute this story" : "Listen to this story"}
+                  aria-pressed={watching}
+                  title={watching ? "Mute — the stories start moving again" : "Listen — the stories hold still"}
+                  onClick={() => setWatching((on) => !on)}
                   className="icon-btn absolute top-3 right-3 z-10 flex size-9 items-center justify-center rounded-full bg-navy/60 text-white backdrop-blur-sm"
                 >
-                  {sound ? <SpeakerOn /> : <SpeakerOff />}
+                  {watching ? <SpeakerOn /> : <SpeakerOff />}
                 </button>
               ) : null}
               </div>
