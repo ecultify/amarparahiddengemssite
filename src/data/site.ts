@@ -1,4 +1,5 @@
 import articles from "@/data/articles.json";
+import gems from "@/data/gems.json";
 import streetStories from "@/data/street-stories.json";
 
 export type Gem = {
@@ -6,43 +7,14 @@ export type Gem = {
   category: string;
   location: string;
   image: string;
+  /** A resident's line about the place. Shown on the card under the name. */
+  description?: string;
   /** Directory cards credit the citizen who submitted the gem. */
   submittedBy?: string;
 };
 
 /** Explore the Gems carousel — homepage (Figma 49:1961). */
-export const GEMS: Gem[] = [
-  {
-    title: "Paramount Sherbets",
-    category: "Food",
-    location: "College Street",
-    image: "/images/gem-paramount.png",
-  },
-  {
-    title: "Mallick Ghat Flower Market",
-    category: "Places",
-    location: "Howrah Bridge",
-    image: "/images/gem-mallick-ghat.png",
-  },
-  {
-    title: "Kumartuli Idol Makers",
-    category: "Traditions",
-    location: "North Kolkata",
-    image: "/images/gem-kumartuli.png",
-  },
-  {
-    title: "Durga Puja Festival",
-    category: "Events",
-    location: "Kolkata",
-    image: "/images/gem-durga-puja.png",
-  },
-  {
-    title: "Puchka",
-    category: "Cuisines",
-    location: "Bengal Street Food",
-    image: "/images/gem-mallick-ghat.png",
-  },
-];
+export const GEMS: Gem[] = gems;
 
 /** Gems Already Discovered carousel — participate & submit pages (Figma 95:376). */
 export const DISCOVERED_GEMS: Gem[] = [

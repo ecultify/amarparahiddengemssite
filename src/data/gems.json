@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Bhukailash Rajbari",
+    "category": "Heritage",
+    "location": "Kidderpore",
+    "image": "/images/gems/bhukailash-rajbari.jpg",
+    "description": "You would not expect to find a grand old rajbari in the middle of Kidderpore, but Bhukailash Rajbari is still standing here with centuries of history behind it."
+  },
+  {
+    "title": "Clive House",
+    "category": "Heritage",
+    "location": "Dum Dum",
+    "image": "/images/gems/clive-house.jpg",
+    "description": "This old house in Dum Dum is easy to miss, but it is believed to be one of the oldest colonial buildings still standing in Kolkata."
+  },
+  {
+    "title": "Armenian Church of the Holy Nazareth",
+    "category": "Heritage",
+    "location": "Armenian Street",
+    "image": "/images/gems/armenian-church.jpg",
+    "description": "Hidden inside the busy old city is a church built by Kolkata’s Armenian community, which was here even before the British."
+  },
+  {
+    "title": "Beth El Synagogue",
+    "category": "Heritage",
+    "location": "Ezra Street",
+    "image": "/images/gems/beth-el-synagogue.jpg",
+    "description": "Right around Kolkata’s busy trading streets is this beautiful synagogue that tells the story of the city’s once-thriving Jewish community."
+  },
+  {
+    "title": "Magen David Synagogue",
+    "category": "Heritage",
+    "location": "Ezra Street",
+    "image": "/images/gems/magen-david-synagogue.jpg",
+    "description": "I had passed through this area many times before realising that one of Kolkata’s most striking old synagogues was right here."
+  },
+  {
+    "title": "Chitreswari Kali Temple",
+    "category": "Heritage",
+    "location": "Chitpur",
+    "image": "/images/gems/chitreswari-kali-temple.jpg",
+    "description": "This old Kali temple in Chitpur comes with a story you do not hear every day—dacoits are said to have prayed here before going on raids."
+  },
+  {
+    "title": "Cossipore Udyanbati",
+    "category": "Heritage",
+    "location": "Kashipur / Cossipore",
+    "image": "/images/gems/cossipore-udyanbati.jpg",
+    "description": "This peaceful garden house in Cossipore is where Sri Ramakrishna spent the last few months of his life."
+  },
+  {
+    "title": "Tiretta Bazaar Chinese Breakfast Market",
+    "category": "Markets",
+    "location": "Tiretta Bazaar",
+    "image": "/images/gems/tiretta-bazaar.jpg",
+    "description": "Come here early enough and you will find one of Kolkata’s most special breakfasts—dumplings, buns and other Chinese favourites being sold before the city fully wakes up."
+  },
+  {
+    "title": "Kumartuli Idol-Makers’ Workshops",
+    "category": "Culture & Craft",
+    "location": "Kumartuli",
+    "image": "/images/gems/kumartuli-workshops.jpg",
+    "description": "Walk into the smaller lanes of Kumartuli and you can actually see bamboo, straw and clay slowly taking the form of the idols we see during Puja."
+  },
+  {
+    "title": "Ahiritola Ghat",
+    "category": "Landmarks",
+    "location": "Ahiritola",
+    "image": "/images/gems/ahiritola-ghat.jpg",
+    "description": "This is one of those ghats that feels like old Kolkata is still alive — people come here every day for rituals."
+  }
+]

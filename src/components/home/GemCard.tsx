@@ -12,9 +12,9 @@ type Props = {
 /** gem-card — Figma 49:1963 / 95:377. 280x360, 180px image, 20px body. */
 export function GemCard({ gem, titleTone = "teal" }: Props) {
   return (
-    <article className="flex h-[360px] w-full shrink-0 snap-start flex-col sm:w-[280px] overflow-hidden rounded-[16px] bg-white shadow-[0_8px_16px_0_rgba(27,42,74,0.06)]">
+    <article className="flex min-h-[360px] w-full shrink-0 snap-start flex-col sm:w-[280px] overflow-hidden rounded-[16px] bg-white shadow-[0_8px_16px_0_rgba(27,42,74,0.06)]">
       <Asset src={gem.image} alt={gem.title} className="h-[180px] w-full shrink-0 object-cover" />
-      <div className="flex min-h-0 flex-1 flex-col justify-between p-5">
+      <div className="flex min-h-0 flex-1 flex-col justify-between gap-3 p-5">
         <div className="flex flex-col items-start gap-2">
           <CategoryTag category={gem.category} />
           <h3
@@ -24,6 +24,12 @@ export function GemCard({ gem, titleTone = "teal" }: Props) {
           >
             {gem.title}
           </h3>
+          {/* A resident's line about the place, where the doc supplies one. */}
+          {gem.description ? (
+            <p className="line-clamp-4 font-body text-[13px] leading-[1.45] text-slate">
+              {gem.description}
+            </p>
+          ) : null}
         </div>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
