@@ -39,6 +39,9 @@ npm ci --omit=dev --ignore-scripts || npm install --omit=dev
 npm install --no-save --ignore-scripts   # build needs the dev deps too
 npm run build
 
+# The schema is created if it is missing, so a fresh box needs no manual step.
+node scripts/db-init.mjs
+
 pm2 delete amarpara 2>/dev/null || true
 pm2 start npm --name amarpara -- start
 pm2 save

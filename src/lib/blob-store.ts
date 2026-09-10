@@ -1,14 +1,27 @@
 import { Redis } from "@upstash/redis";
 import { del, list, put } from "@vercel/blob";
+import {
+  hasPostgres,
+  pgAppendRaw,
+  pgDelRaw,
+  pgGetRaw,
+  pgReadJson,
+  pgReadJsonCollection,
+  pgRemove,
+  pgSetRaw,
+  pgWriteJson,
+} from "@/lib/pg-store";
 
 /**
- * The only place that knows where JSON documents live. Content and
- * submissions are stored in Upstash Redis (sub-ms reads and writes, generous
- * free tier), keyed by the same pathnames the blob store used, so the rest of
- * the app never changed. When the Redis env vars are absent (a fresh clone
- * without `vercel env pull`), everything falls back to the old Vercel Blob
- * JSON storage. Media files live in Redis too, as base64 strings, through
- * the raw helpers at the bottom of this file.
+ * The only place that knows where JSON documents live. Postgres on our own
+ * box holds everything now — content, submissions, quiz users, and the media
+ * uploads as base64 — keyed by the same pathnames every earlier store used,
+ * so the rest of the app never changed.
+ *
+ * The two older backends stay behind it as fallbacks, in the order they were
+ * added: Upstash Redis when there is no DATABASE_URL, and Vercel Blob when
+ * there are no Redis credentials either (a fresh clone without
+ * `vercel env pull`). Which one answers depends only on which env vars exist.
  */
 
 const redis =
@@ -36,6 +49,7 @@ const blobUrlFor = (pathname: string) => {
 
 export async function readJson<T>(pathname: string): Promise<T | null> {
   try {
+    if (hasPostgres()) return await pgReadJson<T>(pathname);
     if (redis) return await redis.get<T>(pathname);
     const url = blobUrlFor(pathname);
     if (!url) return null;
@@ -48,6 +62,10 @@ export async function readJson<T>(pathname: string): Promise<T | null> {
 }
 
 export async function writeJson(pathname: string, value: unknown) {
+  if (hasPostgres()) {
+    await pgWriteJson(pathname, value);
+    return;
+  }
   if (redis) {
     await redis.set(pathname, value);
     return;
@@ -66,6 +84,7 @@ export async function writeJson(pathname: string, value: unknown) {
  *  submissions; move to an index set if the inbox ever gets huge. */
 export async function readJsonCollection<T>(prefix: string): Promise<T[]> {
   try {
+    if (hasPostgres()) return await pgReadJsonCollection<T>(prefix);
     if (redis) {
       const keys = await redis.keys(`${prefix}*`);
       if (keys.length === 0) return [];
@@ -88,6 +107,10 @@ export async function readJsonCollection<T>(prefix: string): Promise<T[]> {
 }
 
 export async function removeBlob(pathname: string) {
+  if (hasPostgres()) {
+    await pgRemove(pathname);
+    return;
+  }
   if (redis) {
     await redis.del(pathname);
     return;
@@ -97,24 +120,27 @@ export async function removeBlob(pathname: string) {
 }
 
 /* ---- Raw string storage for media ----
- * Media files live in Redis as base64 strings, built up with APPEND so a
- * video arrives in chunks that each stay under the 10MB request cap. These
- * bypass the JSON layer and the memo on purpose: a 9MB base64 string has no
- * business sitting in a lambda's memo map.
- * ponytail: the whole store is 256MB, roughly 25 full-size videos. Move
- * media to real file storage before campaign-scale traffic. */
+ * Uploads are base64 strings built up chunk by chunk, so a video arrives in
+ * pieces that each stay under the request cap. These bypass the JSON layer on
+ * purpose: a 9MB base64 string has no business sitting in a memo map.
+ * On Postgres the ceiling is the disk; on Redis it was 256MB for the whole
+ * store, roughly 25 full-size videos. */
 
 function requireRedis() {
-  if (!redis) throw new Error("Media storage needs the database (KV env vars missing).");
+  if (!redis) throw new Error("Media storage needs the database (DATABASE_URL or KV env vars).");
   return redis;
 }
 
 /** Overwrites the key with the first chunk. */
-export const setRaw = (key: string, chunk: string) => requireRedis().set(key, chunk);
+export const setRaw = (key: string, chunk: string) =>
+  hasPostgres() ? pgSetRaw(key, chunk) : requireRedis().set(key, chunk);
 
 /** Appends a chunk; resolves to the new total length. */
-export const appendRaw = (key: string, chunk: string) => requireRedis().append(key, chunk);
+export const appendRaw = (key: string, chunk: string): Promise<number> =>
+  hasPostgres() ? pgAppendRaw(key, chunk) : requireRedis().append(key, chunk);
 
-export const getRaw = (key: string) => requireRedis().get<string>(key);
+export const getRaw = (key: string): Promise<string | null> =>
+  hasPostgres() ? pgGetRaw(key) : requireRedis().get<string>(key);
 
-export const delRaw = (key: string) => requireRedis().del(key);
+export const delRaw = (key: string) =>
+  hasPostgres() ? pgDelRaw(key) : requireRedis().del(key);
