@@ -28,8 +28,9 @@ export default async function GalleryPage() {
           <p className="font-body text-[14px] font-bold uppercase tracking-[0.08em] text-pink">
             Community Gallery
           </p>
-          <h1 className="text-center font-title text-[48px] leading-[1.05] font-black text-navy sm:text-[60px] lg:text-[128px] lg:leading-[0.92]">
-            Gems of Kolkata
+          <h1 className="text-center font-title text-[48px] leading-[1.05] font-black sm:text-[60px] lg:text-[128px] lg:leading-[0.92]">
+            <span className="text-green">Gems</span>{" "}
+            <span className="text-[#8d5ba4]">of Kolkata</span>
           </h1>
           <p className="text-center font-body text-[16px] leading-[1.6] text-slate sm:text-[18px]">
             Welcome to the living archive of our city. Discover, wander, and celebrate the beautiful
