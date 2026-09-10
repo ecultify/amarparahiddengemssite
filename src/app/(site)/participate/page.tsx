@@ -128,7 +128,7 @@ export default async function ParticipatePage() {
                 className="pointer-events-none hidden lg:block absolute top-[59px] left-[calc(50%-246px)] h-[34px] w-[152px] bg-[rgba(233,78,119,0.7)]"
               />
               <h1 className="relative text-center font-title text-[56px] leading-[1.05] font-black sm:text-[78px] lg:text-[128px] lg:leading-[0.78]">
-                <span className="text-purple">500 Gems.</span>
+                <span className="text-purple">Many Gems.</span>
                 <br />
                 <span className="text-orange">One Kolkata.</span>
               </h1>

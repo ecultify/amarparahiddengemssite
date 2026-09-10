@@ -47,7 +47,6 @@ type Props = {
 export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
   const { ref: trackRef, step, pause } = useAutoRail(1);
   const tone = THEMES[theme];
-  const percent = Math.round((gemCount.discovered / gemCount.total) * 100);
 
   return (
     <div className="relative w-full">
@@ -118,16 +117,11 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
             titleClassName={tone.title}
           />
 
-          <div data-reveal="1" className="flex w-full max-w-[520px] flex-col items-center gap-4 rounded-[16px] border border-white/10 bg-red p-5 sm:p-6">
-            <div className="flex w-full items-center justify-between">
-              <span className="font-display text-[14px] font-extrabold text-yellow sm:text-[16px]">Mapping progress</span>
-              <span className="font-display text-[15px] font-black text-white sm:text-[18px]">
-                {gemCount.discovered} / {gemCount.total} GEMS
-              </span>
-            </div>
-            <div className="h-[10px] w-full overflow-hidden rounded-full bg-white/40">
-              <div className="h-full rounded-full bg-yellow" style={{ width: `${percent}%` }} />
-            </div>
+          <div data-reveal="1" className="flex w-full max-w-[520px] items-center justify-between gap-4 rounded-[16px] border border-white/10 bg-red p-5 sm:p-6">
+            <span className="font-display text-[14px] font-extrabold text-yellow sm:text-[16px]">Mapped so far</span>
+            <span className="font-display text-[15px] font-black text-white sm:text-[18px]">
+              {gemCount.discovered} GEMS
+            </span>
           </div>
         </div>
 

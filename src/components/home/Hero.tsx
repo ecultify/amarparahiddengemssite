@@ -22,8 +22,8 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             data-reveal
             className="font-title text-[38px] leading-[1.05] font-black text-navy uppercase sm:text-[60px] lg:text-[88px] lg:leading-[0.9]"
           >
-            Finding 500 Gems
-            <br /> Across Kolkata&apos;s Paras.
+            Finding Hidden Gems
+            <br /> Across Kolkata.
           </h1>
 
           <p
@@ -31,7 +31,7 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             className="mt-4 max-w-[720px] font-body text-[18px] leading-[1.4] text-navy lg:mt-6 lg:text-[30px] lg:leading-[1.3]"
           >
             Every para has a gem only locals know about.
-            <br className="hidden lg:block" /> Help us uncover 500 hidden gems across Kolkata.
+            <br className="hidden lg:block" /> Help us uncover them across Kolkata
           </p>
 
           <div data-reveal="2" className="mt-5 flex w-full flex-row items-center gap-3 sm:w-auto sm:gap-2 lg:mt-8">
@@ -52,7 +52,7 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
                 {gemCount.discovered}
               </span>
               <span className="font-body text-[18px] text-navy sm:text-[20px]">
-                of {gemCount.total} gems discovered
+                gems discovered
               </span>
             </span>
           </div>

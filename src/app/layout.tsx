@@ -9,9 +9,9 @@ import "@fontsource/fira-sans/500.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Amar Para 2.0 — 500 Gems. One Kolkata.",
+  title: "Amar Para 2.0 — Many Gems. One Kolkata.",
   description:
-    "A citizen-driven Times of India initiative mapping 500 hidden gems across Kolkata's paras: the food, the places, the traditions and the people.",
+    "A citizen-driven Times of India initiative mapping the hidden gems across Kolkata's paras: the food, the places, the traditions and the people.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

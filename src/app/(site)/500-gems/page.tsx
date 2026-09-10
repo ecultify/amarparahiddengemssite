@@ -8,7 +8,6 @@ import { getContent } from "@/lib/content";
 export default async function GalleryPage() {
   const content = await getContent();
   const { gemCount } = content;
-  const percent = Math.round((gemCount.discovered / gemCount.total) * 100);
 
   return (
     <>
@@ -30,7 +29,7 @@ export default async function GalleryPage() {
             Community Gallery
           </p>
           <h1 className="text-center font-title text-[48px] leading-[1.05] font-black text-navy sm:text-[60px] lg:text-[128px] lg:leading-[0.92]">
-            500 Gems of Kolkata
+            Gems of Kolkata
           </h1>
           <p className="text-center font-body text-[16px] leading-[1.6] text-slate sm:text-[18px]">
             Welcome to the living archive of our city. Discover, wander, and celebrate the beautiful
@@ -39,16 +38,10 @@ export default async function GalleryPage() {
           </p>
         </div>
 
-        <div data-reveal="1" className="relative flex w-full max-w-[400px] flex-col items-center gap-3">
-          <div className="flex w-full items-start justify-between text-[14px]">
-            <span className="font-ui font-extrabold text-navy">
-              {gemCount.discovered} GEMS DISCOVERED
-            </span>
-            <span className="font-ui font-bold text-grey">Goal: {gemCount.total}</span>
-          </div>
-          <div className="h-4 w-full overflow-hidden rounded-full bg-line">
-            <div className="h-full rounded-full bg-pink" style={{ width: `${percent}%` }} />
-          </div>
+        <div data-reveal="1" className="relative flex w-full max-w-[400px] items-center justify-center">
+          <span className="font-ui text-[14px] font-extrabold text-navy">
+            {gemCount.discovered} GEMS DISCOVERED
+          </span>
         </div>
       </section>
 
