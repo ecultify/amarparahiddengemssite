@@ -70,7 +70,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
             Below sm the track is exactly one tile wide (the 240px tile is
             fixed by the embed scale), so a single reel shows with the arrows
             clear of it on either side. */}
-        <div data-reveal="1" className="relative mt-10 lg:mt-14" {...pause}>
+        <div data-reveal="1" className="relative mt-6" {...pause}>
           <button
             type="button"
             aria-label="Previous trails"
@@ -135,7 +135,7 @@ export function CreatorTrails({ trails }: { trails: Trail[] }) {
           </button>
         </div>
 
-        <div className="mt-10 flex items-center justify-center gap-2 lg:mt-14">
+        <div className="mt-6 flex items-center justify-center gap-2">
           {Array.from({ length: pages }).map((_, index) => (
             <span
               key={index}
