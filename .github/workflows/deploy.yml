@@ -21,7 +21,14 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "${VPS_HOST#*@}" >> ~/.ssh/known_hosts 2>/dev/null
+          # A cold runner sometimes loses the first probe; try a few times
+          # and say so, rather than dying silently on a blip.
+          for attempt in 1 2 3 4 5; do
+            ssh-keyscan -T 10 -H "${VPS_HOST#*@}" >> ~/.ssh/known_hosts && break
+            echo "keyscan attempt $attempt failed; retrying"
+            sleep 5
+          done
+          grep -q . ~/.ssh/known_hosts
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
 
