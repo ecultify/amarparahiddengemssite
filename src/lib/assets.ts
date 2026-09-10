@@ -59,7 +59,9 @@ export const HOME_ACCENT = {
   statue: "/images/home-accents/statue.png", // 178:224
   saxophone: "/images/home-accents/saxophone.png", // 164:22
   horn: "/images/home-accents/horn.png", // 178:245
-  caddie: "/images/home-accents/caddie.png", // 178:287
+  /** The caddie walks now — keyed off its black card and cut to the ink,
+   *  so the box matches the artwork rather than letterboxing it. */
+  caddie: "/images/home-accents/caddie-walk.webp", // 178:287
   golfer: "/images/home-accents/golfer.png", // 178:33
   flag: "/images/home-accents/flag.png", // 178:31
   /** White busker silhouette over the Explore yellow tab. */
