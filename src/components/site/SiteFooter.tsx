@@ -52,7 +52,7 @@ export function SiteFooter() {
             {/* The mark is centred over the masthead below: this box is exactly
                 the masthead's width and starts on the same left edge. It uses
                 the white cut of the artwork, since the band behind it is pink. */}
-            <div className="flex w-[160px] justify-center sm:w-[210px]">
+            <div className="flex w-[135px] justify-center sm:w-[175px]">
               <Asset
                 data-reveal
                 src={IMG.logoIAmKolkataWhite}
@@ -65,7 +65,7 @@ export function SiteFooter() {
               data-reveal
               src={IMG.logoToi}
               alt="The Times of India"
-              className="h-[49px] w-[160px] object-contain object-left sm:h-[64px] sm:w-[210px]"
+              className="h-[41px] w-[135px] object-contain object-left sm:h-[53px] sm:w-[175px]"
             />
 
             <p className="mt-[6px] w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
