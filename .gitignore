@@ -16,3 +16,4 @@ tsconfig.tsbuildinfo
 .env*.local
 .oauth-tmp/
 .figma-tmp/
+scripts/.content-backup.json
