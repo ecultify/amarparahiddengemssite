@@ -9,7 +9,7 @@ import { ShipAnimation } from "@/components/gems/ShipAnimation";
 import { SUBMISSION_CATEGORIES } from "@/lib/tokens";
 import { submitGem, type SubmitState } from "@/app/actions/submissions";
 
-const STEPS = ["Your Para", "Your Gem", "Photo & Verify"];
+const STEPS = ["Your Gem", "Your Details"];
 
 // Photos are compressed before upload; videos have a hard cap in storage.
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
@@ -23,8 +23,8 @@ function Label({ children }: { children: React.ReactNode }) {
 
 type Upload = { url: string; name: string; type: "image" | "video" };
 
-/** form-card — Figma 95:341. Three steps; the last one carries the upload,
- *  phone verification and submit together. */
+/** form-card — Figma 95:341. Two steps: the whole entry on the first, then
+ *  name and mobile verification on the second. */
 export function SubmissionForm() {
   const router = useRouter();
   const [step, setStep] = useState(0);
@@ -119,18 +119,6 @@ export function SubmissionForm() {
           <input name="para" className={FIELD} placeholder="e.g. Bagbazar, Shyambazar, Ballygunge" />
         </label>
 
-        <div className="flex w-full justify-center pt-2">
-          <button
-            type="button"
-            onClick={() => setStep(1)}
-            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
-          >
-            Next
-          </button>
-        </div>
-      </div>
-
-      <div className={step === 1 ? "contents" : "hidden"}>
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
           <Label>Gem Category</Label>
           <select name="category" className={FIELD} defaultValue="">
@@ -159,26 +147,6 @@ export function SubmissionForm() {
             placeholder="Tell us what makes this gem special, why it matters to your para, and what others in Kolkata should know about it."
           />
         </label>
-
-        <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
-          <button
-            type="button"
-            onClick={() => setStep(0)}
-            className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
-          >
-            Back
-          </button>
-          <button
-            type="button"
-            onClick={() => setStep(2)}
-            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
-          >
-            Next
-          </button>
-        </div>
-      </div>
-
-      <div className={step === 2 ? "contents" : "hidden"}>
 
         <div className="flex w-full max-w-[440px] flex-col items-center gap-3">
           <Label>Upload Photo / Video</Label>
@@ -243,21 +211,24 @@ export function SubmissionForm() {
           ) : null}
         </div>
 
-        <input type="hidden" name="upload" value={file?.url ?? ""} />
-        <input type="hidden" name="uploadType" value={file?.type ?? ""} />
-        <input type="hidden" name="uploadName" value={file?.name ?? ""} />
+        <div className="flex w-full justify-center pt-2">
+          <button
+            type="button"
+            onClick={() => setStep(1)}
+            className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
+          >
+            Next
+          </button>
+        </div>
+      </div>
 
-        {state.error ? (
-          <p className="w-full max-w-[440px] text-left font-body text-[14px] text-red">{state.error}</p>
-        ) : null}
+      <input type="hidden" name="upload" value={file?.url ?? ""} />
+      <input type="hidden" name="uploadType" value={file?.type ?? ""} />
+      <input type="hidden" name="uploadName" value={file?.name ?? ""} />
 
-        {/* Verification lives with the upload rather than in a step of its
-            own, so the last screen is: attach a file, verify, submit. */}
-        <div className="flex w-full max-w-[440px] flex-col items-center gap-2 pt-2 text-center">
-          <Label>Verify some details to submit your entry</Label>
-          <p className="font-body text-[14px] leading-[1.5] text-slate">
-            Tell us who you are, then verify your mobile number.
-          </p>
+      <div className={step === 1 ? "contents" : "hidden"}>
+        <div className="flex w-full max-w-[440px] flex-col items-center gap-2 text-center">
+          <Label>Verify your details to submit your entry.</Label>
         </div>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
@@ -276,7 +247,7 @@ export function SubmissionForm() {
         <div className="flex w-full flex-col-reverse items-stretch justify-center gap-3 pt-2 sm:flex-row sm:items-center sm:gap-4">
           <button
             type="button"
-            onClick={() => setStep(1)}
+            onClick={() => setStep(0)}
             className="inline-flex h-14 items-center justify-center rounded-[4px] border-2 border-navy px-8 font-display text-[16px] font-extrabold uppercase text-navy"
           >
             Back
