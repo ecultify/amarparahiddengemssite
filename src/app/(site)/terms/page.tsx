@@ -69,9 +69,8 @@ export default function TermsPage() {
           </p>
           <h3>(b) Campaign Duration</h3>
           <p>
-            The Campaign shall start on 18<sup>th</sup> July 2023 and shall continue till 17
-            <sup>th</sup> September, 2026. BCCL reserves the right to terminate, extend or shorten
-            the Campaign Duration at its sole discretion.
+            The Campaign shall start on 17<sup>th</sup> September, 2026. BCCL reserves the right
+            to terminate, extend or shorten the Campaign Duration at its sole discretion.
           </p>
           <p>
             For participation in any of the contests as part of I am Kolkata, a basic registration
