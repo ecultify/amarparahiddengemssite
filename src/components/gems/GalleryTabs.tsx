@@ -30,7 +30,7 @@ type Card = Gem | GalleryGem;
 
 function GemMeta({ gem }: { gem: Card }) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col justify-between p-5">
+    <div className="flex min-h-0 flex-1 flex-col justify-between gap-4 p-5">
       <div className="flex flex-col items-start gap-1.5">
         <span
           className={`inline-flex rounded-[6px] px-[10px] py-[4px] font-ui text-[11px] font-bold uppercase ${categoryTone(gem.category)}`}
@@ -63,7 +63,7 @@ function GemMeta({ gem }: { gem: Card }) {
 
 function PhotoCard({ gem, index }: { gem: Gem; index: number }) {
   return (
-    <article data-reveal={String(index % 3)} className="flex h-[360px] w-full flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
+    <article data-reveal={String(index % 3)} className="flex h-full min-h-[360px] w-full flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
       <Asset
         src={gem.image}
         alt={gem.title}
@@ -78,7 +78,7 @@ function VideoCard({ gem, index }: { gem: GalleryGem; index: number }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <article data-reveal={String(index % 2)} className="flex h-[400px] w-full flex-col xl:col-span-2 overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
+    <article data-reveal={String(index % 2)} className="flex h-full min-h-[400px] w-full flex-col xl:col-span-2 overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
       <div className="relative flex h-[180px] w-full items-center justify-center bg-navy">
         {playing && gem.video ? (
           <video
