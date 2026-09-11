@@ -48,7 +48,7 @@ export default async function GalleryPage() {
         />
         <section className="flex w-full flex-col items-center gap-8 bg-cream px-5 pt-8 pb-16 md:px-10 lg:px-20 lg:pt-10 lg:pb-[100px]">
           <GalleryTabs
-            photoGems={content.photoGems}
+            gems={content.gems}
             videoGems={content.videoGems}
             streetStories={content.streetStories}
           />

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { MapPin } from "@/components/ui/icons";
 import { categoryTone, quoteTone } from "@/lib/tokens";
-import type { GalleryGem, QuoteCard } from "@/data/site";
+import type { GalleryGem, Gem, QuoteCard } from "@/data/site";
 
-const TABS = ["Written Tales", "Photo Gems", "Video Stories"] as const;
+const TABS = ["Written Tales", "Photo & Video Stories"] as const;
 type Tab = (typeof TABS)[number];
 
 // Four cards to a row; the written tales run to three figures, so a
@@ -24,7 +24,11 @@ function mosaic<T extends { meta: string }>(items: T[]) {
   return out;
 }
 
-function GemMeta({ gem }: { gem: GalleryGem }) {
+/** The homepage gems and the video stories share a card; only the credit
+ *  line is optional, since the community gems carry none yet. */
+type Card = Gem | GalleryGem;
+
+function GemMeta({ gem }: { gem: Card }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col justify-between p-5">
       <div className="flex flex-col items-start gap-1.5">
@@ -47,15 +51,17 @@ function GemMeta({ gem }: { gem: GalleryGem }) {
             {gem.location}
           </span>
         </div>
-        <span className="font-ui text-[13px] font-semibold text-grey">
-          Submitted by: {gem.submittedBy}
-        </span>
+        {gem.submittedBy ? (
+          <span className="font-ui text-[13px] font-semibold text-grey">
+            Submitted by: {gem.submittedBy}
+          </span>
+        ) : null}
       </div>
     </div>
   );
 }
 
-function PhotoCard({ gem, index }: { gem: GalleryGem; index: number }) {
+function PhotoCard({ gem, index }: { gem: Gem; index: number }) {
   return (
     <article data-reveal={String(index % 3)} className="flex h-[360px] w-full flex-col overflow-hidden rounded-[8px] bg-cream shadow-[0_8px_16px_0_rgba(27,42,74,0.07)]">
       <Asset
@@ -120,23 +126,21 @@ function VideoCard({ gem, index }: { gem: GalleryGem; index: number }) {
 
 /** Tabbed gallery — Written Tales / Photo Gems / Video Stories, each with its own "load more". */
 type Props = {
-  photoGems: GalleryGem[];
+  gems: Gem[];
   videoGems: GalleryGem[];
   streetStories: QuoteCard[];
 };
 
-export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
+export function GalleryTabs({ gems, videoGems, streetStories }: Props) {
   const [tab, setTab] = useState<Tab>("Written Tales");
   const [shown, setShown] = useState<Record<Tab, number>>({
     "Written Tales": PAGE,
-    "Photo Gems": PAGE,
-    "Video Stories": PAGE,
+    "Photo & Video Stories": PAGE,
   });
 
   const total = {
     "Written Tales": streetStories.length,
-    "Photo Gems": photoGems.length,
-    "Video Stories": videoGems.length,
+    "Photo & Video Stories": videoGems.length + gems.length,
   }[tab];
   const limit = shown[tab];
 
@@ -194,18 +198,14 @@ export function GalleryTabs({ photoGems, videoGems, streetStories }: Props) {
         </div>
       )}
 
-      {tab === "Photo Gems" && (
+      {tab === "Photo & Video Stories" && (
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {photoGems.slice(0, limit).map((gem, index) => (
-            <PhotoCard key={gem.title} gem={gem} index={index} />
-          ))}
-        </div>
-      )}
-
-      {tab === "Video Stories" && (
-        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {/* Videos lead, then the community gems from the homepage rail. */}
           {videoGems.slice(0, limit).map((gem, index) => (
             <VideoCard key={gem.title} gem={gem} index={index} />
+          ))}
+          {gems.slice(0, Math.max(0, limit - videoGems.length)).map((gem, index) => (
+            <PhotoCard key={gem.title} gem={gem} index={index} />
           ))}
         </div>
       )}
