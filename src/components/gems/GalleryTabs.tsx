@@ -41,7 +41,7 @@ function GemMeta({ gem }: { gem: Card }) {
           {gem.title}
         </h3>
         {gem.description ? (
-          <p className="line-clamp-2 font-body text-[13px] leading-[1.45] text-slate">{gem.description}</p>
+          <p className="line-clamp-3 font-body text-[13px] leading-[1.45] text-slate">{gem.description}</p>
         ) : null}
       </div>
       <div className="flex flex-col gap-2">
