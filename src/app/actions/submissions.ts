@@ -26,8 +26,8 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
   if (!para || !location || !title || !description || !category) {
     return { ok: false, error: "Please fill in your para, location, category, gem name and description." };
   }
-  if (description.length > 500) {
-    return { ok: false, error: "Keep the description under 500 characters." };
+  if (description.length > 250) {
+    return { ok: false, error: "Keep the description under 250 characters." };
   }
 
   const name = value("name");

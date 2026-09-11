@@ -15,7 +15,7 @@ const STEPS = ["Your Gem", "Your Details"];
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
 /** Room for a proper paragraph without letting an essay through. */
-const MAX_DESCRIPTION = 500;
+const MAX_DESCRIPTION = 250;
 
 const FIELD =
   "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[16px] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink";
