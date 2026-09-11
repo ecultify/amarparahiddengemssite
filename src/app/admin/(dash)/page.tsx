@@ -2,15 +2,22 @@ import Link from "next/link";
 import { ArrowRight, Inbox } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AnalyticsPanel } from "@/components/admin/AnalyticsPanel";
 import { collectionIcon } from "@/components/admin/collectionIcons";
+import { computeAnalytics } from "@/lib/analytics";
+import { listUsers } from "@/lib/users";
 import { isDraft } from "@/data/site";
 import { getContent } from "@/lib/content";
 import { COLLECTIONS } from "@/lib/schema";
 import { listSubmissions } from "@/lib/submissions";
 import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
 
+/** Always fresh: the analytics panel refreshes this page every 30s. */
+export const dynamic = "force-dynamic";
+
 export default async function AdminHome() {
-  const [content, submissions] = await Promise.all([getContent(), listSubmissions()]);
+  const [content, submissions, users] = await Promise.all([getContent(), listSubmissions(), listUsers()]);
+  const analytics = computeAnalytics(submissions, users);
   const pending = submissions.filter((entry) => entry.status === "new");
   const counted = submissions.filter((entry) => entry.status === "counted").length;
   const recent = submissions.slice(0, 5);
@@ -25,6 +32,8 @@ export default async function AdminHome() {
           {counted > 0 ? ` · ${counted} pushed into the 500` : ""}
         </p>
       </header>
+
+      <AnalyticsPanel data={analytics} />
 
       <div className="grid items-start gap-8 xl:grid-cols-2">
       <section className="flex flex-col gap-3">

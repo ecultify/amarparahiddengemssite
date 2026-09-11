@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ArrowDown, ArrowUp, ImageIcon, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ImageIcon, Plus, Trash2, Video } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { EntryDialog } from "@/components/admin/EntryDialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { saveCollection } from "@/app/actions/content";
 import { emptyItem, type Collection } from "@/lib/schema";
 
@@ -37,6 +44,16 @@ export function CollectionEditor({
   const [pending, startTransition] = useTransition();
 
   const imageKey = collection.fields.find((f) => f.type === "image")?.key;
+  // A collection that mixes photos and videos gets a kind filter. Rows keep
+  // their real index so reorder and delete still act on the full list.
+  const videoKey = collection.fields.find((f) => f.type === "video")?.key;
+  const [kind, setKind] = useState<"all" | "photo" | "video">("all");
+  const visible = items
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) =>
+      kind === "all" || !videoKey ? true : kind === "video" ? Boolean(item[videoKey]) : !item[videoKey],
+    );
+  const videoCount = videoKey ? items.filter((item) => item[videoKey]).length : 0;
   const subtitleFields = collection.fields
     .filter((f) => (f.type === "text" || f.type === "select") && f.key !== collection.titleKey)
     .slice(0, 2);
@@ -84,9 +101,23 @@ export function CollectionEditor({
         <p className="text-sm text-muted-foreground">
           {items.length} {items.length === 1 ? "entry" : "entries"} · every change publishes straight to the live site
         </p>
-        <Button size="sm" onClick={() => setEditing(-1)}>
-          <Plus className="size-3.5" /> Add {collection.singular.toLowerCase()}
-        </Button>
+        <div className="flex items-center gap-2">
+          {videoKey ? (
+            <Select value={kind} onValueChange={(value) => setKind(value as typeof kind)}>
+              <SelectTrigger size="sm" className="w-[150px]" aria-label="Show">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All ({items.length})</SelectItem>
+                <SelectItem value="photo">Photos ({items.length - videoCount})</SelectItem>
+                <SelectItem value="video">Videos ({videoCount})</SelectItem>
+              </SelectContent>
+            </Select>
+          ) : null}
+          <Button size="sm" onClick={() => setEditing(-1)}>
+            <Plus className="size-3.5" /> Add {collection.singular.toLowerCase()}
+          </Button>
+        </div>
       </div>
 
       {items.length === 0 ? (
@@ -101,7 +132,12 @@ export function CollectionEditor({
         </div>
       ) : (
         <div className="flex flex-col divide-y rounded-lg border bg-card">
-          {items.map((item, index) => {
+          {visible.length === 0 ? (
+            <p className="p-6 text-center text-sm text-muted-foreground">
+              No {kind === "video" ? "video" : "photo"} stories yet.
+            </p>
+          ) : null}
+          {visible.map(({ item, index }) => {
             const subtitle = subtitleFields
               .map((f) => item[f.key])
               .filter(Boolean)
@@ -126,8 +162,15 @@ export function CollectionEditor({
                   onClick={() => setEditing(index)}
                   className="flex min-w-0 flex-1 flex-col gap-0.5 rounded-sm text-left outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <span className="truncate text-sm font-semibold">
-                    {item[collection.titleKey] || `Untitled ${collection.singular.toLowerCase()}`}
+                  <span className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+                    <span className="truncate">
+                      {item[collection.titleKey] || `Untitled ${collection.singular.toLowerCase()}`}
+                    </span>
+                    {videoKey && item[videoKey] ? (
+                      <span className="inline-flex shrink-0 items-center gap-1 rounded-sm border px-1.5 py-px text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                        <Video className="size-3" /> Video
+                      </span>
+                    ) : null}
                   </span>
                   {subtitle ? (
                     <span className="truncate text-xs text-muted-foreground">{subtitle}</span>
