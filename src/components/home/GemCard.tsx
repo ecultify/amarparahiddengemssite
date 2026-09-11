@@ -17,6 +17,11 @@ export function GemCard({ gem, titleTone = "teal" }: Props) {
       <div className="flex min-h-0 flex-1 flex-col justify-between gap-3 p-5">
         <div className="flex flex-col items-start gap-2">
           <CategoryTag category={gem.category} />
+          {gem.submittedBy ? (
+            <span className="truncate font-ui text-[12px] text-slate/80">
+              Uncovered by {gem.submittedBy}
+            </span>
+          ) : null}
           <h3
             className={`font-display text-[18px] leading-tight font-extrabold ${
               titleTone === "teal" ? "text-teal" : "text-navy"
@@ -31,16 +36,9 @@ export function GemCard({ gem, titleTone = "teal" }: Props) {
             </p>
           ) : null}
         </div>
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <MapPin className="size-4 shrink-0 text-pink" />
-            <span className="truncate font-ui text-[13px] font-semibold text-slate">{gem.location}</span>
-          </div>
-          {gem.submittedBy ? (
-            <span className="truncate font-ui text-[12px] text-slate/80">
-              Uncovered by {gem.submittedBy}
-            </span>
-          ) : null}
+        <div className="flex items-center gap-2">
+          <MapPin className="size-4 shrink-0 text-pink" />
+          <span className="truncate font-ui text-[13px] font-semibold text-slate">{gem.location}</span>
         </div>
       </div>
     </article>

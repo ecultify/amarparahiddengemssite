@@ -16,7 +16,7 @@ import {
   type GalleryGem,
   type Gem,
   slugOf,
-  type QuoteCard,
+  type Tale,
   type Story,
 } from "@/data/site";
 
@@ -52,7 +52,7 @@ export type SiteContent = {
   creatorTrails: Trail[];
   photoGems: GalleryGem[];
   videoGems: GalleryGem[];
-  streetStories: QuoteCard[];
+  streetStories: Tale[];
   quiz: QuizEntry[];
 };
 

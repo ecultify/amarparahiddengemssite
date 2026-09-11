@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { MapPin } from "@/components/ui/icons";
 import { categoryTone, quoteTone } from "@/lib/tokens";
-import type { GalleryGem, Gem, QuoteCard } from "@/data/site";
+import type { GalleryGem, Gem, Tale } from "@/data/site";
 
 const TABS = ["Written Tales", "Photo & Video Stories"] as const;
 type Tab = (typeof TABS)[number];
@@ -13,22 +13,22 @@ type Tab = (typeof TABS)[number];
 // click loads two rows rather than one.
 const PAGE = 8;   // two full rows of four
 
-/** The tales arrive grouped four to a para. Dealing them round-robin turns
+/** The tales arrive grouped two to a para. Dealing them round-robin turns
  *  a run of one neighbourhood into a mosaic of many. */
-function mosaic<T extends { meta: string }>(items: T[]) {
+function mosaic<T extends { location: string }>(items: T[]) {
   const byPara = new Map<string, T[]>();
-  for (const item of items) byPara.set(item.meta, [...(byPara.get(item.meta) ?? []), item]);
+  for (const item of items) byPara.set(item.location, [...(byPara.get(item.location) ?? []), item]);
   const rounds = [...byPara.values()];
   const out: T[] = [];
   for (let i = 0; rounds.some((r) => r[i]); i++) for (const r of rounds) if (r[i]) out.push(r[i]);
   return out;
 }
 
-/** The homepage gems and the video stories share a card; only the credit
- *  line is optional, since the community gems carry none yet. */
-type Card = Gem | GalleryGem;
+/** Every card reads the same way: category, who found it, the gem, their
+ *  line about it, and the para. Tales are the same card without a photo. */
+type Card = Gem | GalleryGem | Tale;
 
-function GemMeta({ gem }: { gem: Card }) {
+function GemMeta({ gem, clamp = true }: { gem: Card; clamp?: boolean }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col justify-between gap-4 p-5">
       <div className="flex flex-col items-start gap-1.5">
@@ -37,25 +37,25 @@ function GemMeta({ gem }: { gem: Card }) {
         >
           {gem.category}
         </span>
-        <h3 className="font-body text-[18px] leading-tight font-bold text-navy">
-          {gem.title}
-        </h3>
-        {gem.description ? (
-          <p className="line-clamp-3 font-body text-[13px] leading-[1.45] text-slate">{gem.description}</p>
-        ) : null}
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <MapPin className="size-3.5 shrink-0 text-pink" />
-          <span className="font-ui text-[13px] font-semibold text-slate">
-            {gem.location}
-          </span>
-        </div>
         {gem.submittedBy ? (
           <span className="font-ui text-[13px] font-semibold text-grey">
             Submitted by: {gem.submittedBy}
           </span>
         ) : null}
+        <h3 className="font-body text-[18px] leading-tight font-bold text-navy">
+          {gem.title}
+        </h3>
+        {gem.description ? (
+          <p className={`${clamp ? "line-clamp-3 " : ""}font-body text-[13px] leading-[1.45] text-slate`}>
+            {gem.description}
+          </p>
+        ) : null}
+      </div>
+      <div className="flex items-center gap-2">
+        <MapPin className="size-3.5 shrink-0 text-pink" />
+        <span className="font-ui text-[13px] font-semibold text-slate">
+          {gem.location}
+        </span>
       </div>
     </div>
   );
@@ -128,7 +128,7 @@ function VideoCard({ gem, index }: { gem: GalleryGem; index: number }) {
 type Props = {
   gems: Gem[];
   videoGems: GalleryGem[];
-  streetStories: QuoteCard[];
+  streetStories: Tale[];
 };
 
 export function GalleryTabs({ gems, videoGems, streetStories }: Props) {
@@ -169,30 +169,13 @@ export function GalleryTabs({ gems, videoGems, streetStories }: Props) {
 
       {tab === "Written Tales" && (
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {mosaic(streetStories).slice(0, limit).map((story, index) => (
+          {mosaic(streetStories).slice(0, limit).map((tale, index) => (
             <article
-              key={story.title}
+              key={tale.title}
               data-reveal={String(index % 3)}
-              className={`flex w-full flex-col justify-between gap-8 rounded-[8px] border p-6 shadow-[0_8px_8px_rgba(27,42,74,0.07)] sm:h-[360px] sm:gap-4 ${quoteTone(index).card}`}
+              className={`flex h-full min-h-[300px] w-full flex-col overflow-hidden rounded-[8px] border shadow-[0_8px_8px_rgba(27,42,74,0.07)] ${quoteTone(index).card}`}
             >
-              <div className="flex flex-col gap-3">
-                <span
-                  className={`font-display text-[48px] leading-[20px] font-black ${quoteTone(index).mark}`}
-                >
-                  &ldquo;
-                </span>
-                <p className="line-clamp-7 font-display text-[16px] leading-[1.5] font-semibold text-navy">
-                  {story.quote}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="font-body text-[16px] font-bold text-navy">
-                  {story.title}
-                </h3>
-                <p className="font-ui text-[13px] font-semibold text-grey">
-                  {story.meta}
-                </p>
-              </div>
+              <GemMeta gem={tale} clamp={false} />
             </article>
           ))}
         </div>

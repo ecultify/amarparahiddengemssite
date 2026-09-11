@@ -202,12 +202,9 @@ export const PHOTO_GEMS: GalleryGem[] = [
  *  community videos come in. */
 export const VIDEO_GEMS: GalleryGem[] = [];
 
-export type QuoteCard = {
-  quote: string;
-  title: string;
-  meta: string;
-};
+/** A tale is a gem without a photo: same card fields, text-only. */
+export type Tale = Omit<Gem, "image">;
 
-/** Written Tales — the Amar Para 2 deck: four things worth knowing about each
- *  of 28 paras, the headline as the card's title and the note as its quote. */
-export const STREET_STORIES: QuoteCard[] = streetStories;
+/** Written Tales — two lesser-known finds from each of the 27 paras in the
+ *  Amar Para 2 deck, written up the way a resident would submit them. */
+export const STREET_STORIES: Tale[] = streetStories;
