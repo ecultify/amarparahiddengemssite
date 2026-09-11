@@ -9,16 +9,16 @@ import type { Analytics, Bucket, Granularity } from "@/lib/analytics";
 const REFRESH_MS = 30_000;
 
 const RANGES: { key: Granularity; label: string; hint: string }[] = [
-  { key: "minute", label: "Last hour", hint: "per minute" },
-  { key: "day", label: "30 days", hint: "per day" },
-  { key: "week", label: "12 weeks", hint: "per week" },
-  { key: "month", label: "6 months", hint: "per month" },
+  { key: "minute", label: "Last hour", hint: "in the last hour" },
+  { key: "day", label: "30 days", hint: "in the last 30 days" },
+  { key: "week", label: "12 weeks", hint: "in the last 12 weeks" },
+  { key: "month", label: "6 months", hint: "in the last 6 months" },
 ];
 
 const SERIES: { key: keyof Pick<Bucket, "submissions" | "users" | "guesses">; label: string; color: string }[] = [
-  { key: "submissions", label: "Gem submissions", color: "var(--chart-1, #e11d74)" },
-  { key: "users", label: "New verified users", color: "var(--chart-2, #0ea5e9)" },
-  { key: "guesses", label: "Guess the Para plays", color: "var(--chart-3, #22c55e)" },
+  { key: "submissions", label: "Gem submissions", color: "var(--color-pink, #e6007e)" },
+  { key: "users", label: "New verified users", color: "var(--color-cyan, #00a9ce)" },
+  { key: "guesses", label: "Guess the Para plays", color: "var(--color-grass, #5aa02c)" },
 ];
 
 /** Overview analytics: KPI tiles and one bar chart per series. Refreshes
@@ -79,7 +79,7 @@ export function AnalyticsPanel({ data }: { data: Analytics }) {
               <CardTitle className="flex items-baseline justify-between text-sm">
                 <span>{series.label}</span>
                 <span className="text-xs font-normal text-muted-foreground">
-                  {buckets.reduce((sum, b) => sum + b[series.key], 0)} {RANGES.find((r) => r.key === range)?.hint.replace("per", "in this")}
+                  {buckets.reduce((sum, b) => sum + b[series.key], 0)} {RANGES.find((r) => r.key === range)?.hint}
                 </span>
               </CardTitle>
             </CardHeader>
