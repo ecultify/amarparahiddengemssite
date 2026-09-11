@@ -48,17 +48,14 @@ export function QuizCard({
 
   return (
     <div className="flex w-full max-w-[640px] flex-col items-center gap-6">
+      {/* The poster is the whole clue: shown at its own aspect, nothing under it. */}
       {question.image ? (
         <Asset
           src={question.image}
-          alt="Today's para clue"
-          className="h-[210px] w-full rounded-[12px] object-cover sm:h-[280px]"
+          alt="Guess the name of this para"
+          className="w-full max-w-[480px] rounded-[12px] object-contain"
         />
       ) : null}
-
-      <p className="text-center font-display text-[20px] leading-snug font-extrabold text-navy sm:text-[24px]">
-        {question.question}
-      </p>
 
       <div className="grid w-full gap-3 sm:grid-cols-2">
         {options.map((option) => {
@@ -93,7 +90,7 @@ export function QuizCard({
             {correct ? "Spot on! You know your paras!" : `Not quite. It's ${answerLabel}.`}
           </p>
           <p className="font-body text-[14px] text-slate">
-            Come back again for a new para to guess
+            Come back soon for the next para
           </p>
         </div>
       ) : (

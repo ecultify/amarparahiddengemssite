@@ -31,7 +31,8 @@ export type Trail = {
 export type ArticleEntry = Article & { row: "1" | "2" };
 
 /** One Guess the Para question. Flat strings so the generic admin editor
- *  can manage the collection without a custom form. */
+ *  can manage the collection without a custom form. `question` is only a
+ *  label for the CMS list — the poster carries the ask, so it isn't shown. */
 export type QuizEntry = {
   question: string;
   image?: string;
@@ -74,40 +75,13 @@ export const DEFAULT_CONTENT: SiteContent = {
   streetStories: STREET_STORIES,
   quiz: [
     {
-      question: "Marigolds arrive by the sackful before dawn at this market under a famous bridge. Which para is it?",
-      image: "/images/gem-mallick-ghat.png",
-      option1: "Gariahat",
-      option2: "Mallick Ghat",
-      option3: "Shyambazar",
-      option4: "Ballygunge",
+      question: "Park Street poster",
+      image: "/images/quiz-park-street.jpg",
+      option1: "Sudder Street",
+      option2: "Park Street",
+      option3: "Bow Barracks",
+      option4: "Camac Street",
       answer: "2",
-    },
-    {
-      question: "River clay becomes the goddess every year in these lanes of idol makers. Name the para.",
-      image: "/images/gem-kumartuli.png",
-      option1: "Kumartuli",
-      option2: "Bagbazar",
-      option3: "College Street",
-      option4: "Bowbazar",
-      answer: "1",
-    },
-    {
-      question: "A century-old sherbet counter still serves daab sherbet a few steps from the boi para. Where are you?",
-      image: "/images/gem-paramount.png",
-      option1: "Dalhousie",
-      option2: "Maidan",
-      option3: "College Street",
-      option4: "Kumartuli",
-      answer: "3",
-    },
-    {
-      question: "The tram bell at dawn is the alarm clock of this North Kolkata para. Which one?",
-      image: "/images/gem-heritage-library.png",
-      option1: "Gariahat",
-      option2: "Ballygunge",
-      option3: "Behala",
-      option4: "Shyambazar",
-      answer: "4",
     },
   ],
 };

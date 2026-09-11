@@ -114,8 +114,8 @@ export const COLLECTIONS: Collection[] = [
     singular: "Question",
     titleKey: "question",
     fields: [
-      { key: "question", label: "Question", type: "text" },
-      { key: "image", label: "Photo clue", type: "image", help: "Optional. A photo of the para to identify." },
+      { key: "question", label: "Label", type: "text", help: "Only shown here in the CMS. The poster carries the question on the site." },
+      { key: "image", label: "Poster", type: "image", help: "The creative visitors guess from. Shown at its own proportions." },
       { key: "option1", label: "Option 1", type: "text" },
       { key: "option2", label: "Option 2", type: "text" },
       { key: "option3", label: "Option 3", type: "text" },
