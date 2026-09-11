@@ -97,11 +97,12 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
 
   // A successful action lands on the thank-you page rather than swapping the
   // card out in place, so the confirmation is a URL the visitor can sit on.
+  // React resets the form's fields the moment the action succeeds, so the
+  // values for the analytics push are captured on the way past step one.
+  const entry = useRef({ category: "", para: "" });
   useEffect(() => {
     if (!state.ok) return;
-    const form = formRef.current;
-    const read = (name: string) => (form?.elements.namedItem(name) as HTMLInputElement | null)?.value ?? "";
-    track({ event: "gem_submitted", category: read("category"), para: read("para"), has_upload: Boolean(file) });
+    track({ event: "gem_submitted", ...entry.current, has_upload: Boolean(file) });
     router.push("/thank-you");
   }, [state.ok, router, file]);
 
@@ -125,7 +126,8 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
     }
     setStepError(null);
     const read = (name: string) => (form?.elements.namedItem(name) as HTMLInputElement | null)?.value ?? "";
-    track({ event: "gem_form_step2", category: read("category"), para: read("para") });
+    entry.current = { category: read("category"), para: read("para") };
+    track({ event: "gem_form_step2", ...entry.current });
     setStep(1);
   }
 
