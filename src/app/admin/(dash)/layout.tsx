@@ -20,7 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <SidebarProvider>
       <AdminSidebar collections={collections} newCount={newCount} />
       <SidebarInset>
-        <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
+        <header className="sticky top-0 z-30 flex h-12 shrink-0 items-center gap-2 border-b bg-background px-4">
           <SidebarTrigger className="-ml-1" />
           <span className="text-sm font-semibold">Amar Para content desk</span>
         </header>
