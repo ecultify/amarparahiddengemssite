@@ -14,6 +14,7 @@ export default async function UsersPage() {
     .filter((s) => s.phone && !known.has(s.phone.replace(/\D/g, "")))
     .map((s) => ({
       phone: s.phone!.replace(/\D/g, ""),
+      name: s.name,
       firstSeen: s.createdAt,
       lastSeen: s.createdAt,
       guesses: {},
@@ -21,11 +22,16 @@ export default async function UsersPage() {
     .filter((user, index, all) => all.findIndex((u) => u.phone === user.phone) === index);
 
   const rows = [...users, ...legacy]
-    .map((user) => ({
-      ...user,
-      gems: submissions.filter((s) => (s.phone ?? "").replace(/\D/g, "") === user.phone),
-      guesses: Object.values(user.guesses ?? {}).sort((a, b) => b.day - a.day),
-    }))
+    .map((user) => {
+      const gems = submissions.filter((s) => (s.phone ?? "").replace(/\D/g, "") === user.phone);
+      return {
+        ...user,
+        // Older records never stored a name; the newest submission has it.
+        name: user.name ?? gems.find((s) => s.name)?.name,
+        gems,
+        guesses: Object.values(user.guesses ?? {}).sort((a, b) => b.day - a.day),
+      };
+    })
     .sort((a, b) => b.lastSeen.localeCompare(a.lastSeen));
 
   return (

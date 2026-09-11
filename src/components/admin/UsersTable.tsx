@@ -19,6 +19,7 @@ import type { Guess } from "@/lib/users";
 
 export type UserRow = {
   phone: string;
+  name?: string;
   lastSeen: string;
   gems: Submission[];
   guesses: Guess[];
@@ -35,6 +36,7 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
         <TableHeader>
           <TableRow>
             <TableHead className="w-10" />
+            <TableHead>Name</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead className="hidden lg:table-cell">Last seen</TableHead>
             <TableHead>Gem submissions</TableHead>
@@ -56,7 +58,10 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
                       className={`size-4 text-muted-foreground transition-transform ${isOpen ? "rotate-90" : ""}`}
                     />
                   </TableCell>
-                  <TableCell className="font-medium tabular-nums">{user.phone}</TableCell>
+                  <TableCell className="font-medium">
+                    {user.name ?? <span className="text-muted-foreground">—</span>}
+                  </TableCell>
+                  <TableCell className="tabular-nums">{user.phone}</TableCell>
                   <TableCell className="hidden text-muted-foreground tabular-nums lg:table-cell">
                     {formatDate(user.lastSeen)}
                   </TableCell>
@@ -74,7 +79,7 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
 
                 {isOpen ? (
                   <TableRow className="hover:bg-transparent">
-                    <TableCell colSpan={5} className="bg-muted/40 p-0">
+                    <TableCell colSpan={6} className="bg-muted/40 p-0">
                       <div className="grid gap-6 px-6 py-5 md:grid-cols-2">
                         <div className="flex flex-col gap-2">
                           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">

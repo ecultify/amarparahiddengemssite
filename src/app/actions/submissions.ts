@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getGemPhone, requireAdmin } from "@/lib/auth";
+import { touchUser } from "@/lib/users";
 import { getContent, saveContent } from "@/lib/content";
 import {
   createSubmission,
@@ -56,8 +57,12 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
     uploadName: value("uploadName") || undefined,
   });
 
+  // The name goes on the user record too, so the Users desk can show it.
+  await touchUser(phone, name);
+
   revalidatePath("/admin");
   revalidatePath("/admin/submissions");
+  revalidatePath("/admin/users");
   return { ok: true };
 }
 

@@ -14,6 +14,8 @@ export type Guess = {
 /** A visitor who verified their number — shared by the gem form and the quiz. */
 export type QuizUser = {
   phone: string;
+  /** Given on the gem form alongside the verified number. */
+  name?: string;
   firstSeen: string;
   lastSeen: string;
   /** Keyed by IST day number: one guess per day. */
@@ -27,13 +29,14 @@ export const getUser = (phone: string) => readJson<QuizUser>(pathFor(phone));
 
 export const listUsers = () => readJsonCollection<QuizUser>(PREFIX);
 
-/** Creates the user on first sight, refreshes lastSeen after. */
-export async function touchUser(phone: string): Promise<QuizUser> {
+/** Creates the user on first sight, refreshes lastSeen after. A name, when
+ *  given, replaces whatever was on record — the latest form wins. */
+export async function touchUser(phone: string, name?: string): Promise<QuizUser> {
   const now = new Date().toISOString();
   const existing = await getUser(phone);
   const user: QuizUser = existing
-    ? { ...existing, lastSeen: now }
-    : { phone: phone.replace(/\D/g, ""), firstSeen: now, lastSeen: now, guesses: {} };
+    ? { ...existing, lastSeen: now, ...(name ? { name } : {}) }
+    : { phone: phone.replace(/\D/g, ""), name, firstSeen: now, lastSeen: now, guesses: {} };
   await writeJson(pathFor(phone), user);
   return user;
 }
