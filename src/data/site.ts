@@ -198,35 +198,9 @@ export const PHOTO_GEMS: GalleryGem[] = [
   },
 ];
 
-export const VIDEO_GEMS: GalleryGem[] = [
-  {
-    title: "Pintu Pohan's Paan Shop",
-    category: "Stories",
-    location: "Behala",
-    submittedBy: "TOI Kolkata",
-    image: "/images/stories/pintu-pohan.jpg",
-    video: "/videos/stories/pintu-pohan.mp4",
-    description: "A paan-shop owner who has written 11 novels between customers.",
-  },
-  {
-    title: "Kake di Hatti & Balwant Singh Dhaba",
-    category: "Food",
-    location: "Bhawanipore",
-    submittedBy: "TOI Kolkata",
-    image: "/images/stories/kake-di-hatti.jpg",
-    video: "/videos/stories/kake-di-hatti.mp4",
-    description: "Legendary bites and late-night chai in the para locals call Netaji Para.",
-  },
-  {
-    title: "Bhaskar Chitrakar's Patachitra",
-    category: "Culture & Craft",
-    location: "Kalighat",
-    submittedBy: "TOI Kolkata",
-    image: "/images/stories/bhaskar-chitrakar.jpg",
-    video: "/videos/stories/bhaskar-chitrakar.mp4",
-    description: "Four generations of Kalighat scroll painting, still alive in one studio.",
-  },
-];
+/** No video entries yet — the three story clips were pulled until real
+ *  community videos come in. */
+export const VIDEO_GEMS: GalleryGem[] = [];
 
 export type QuoteCard = {
   quote: string;

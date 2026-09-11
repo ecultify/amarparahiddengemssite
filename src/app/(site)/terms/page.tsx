@@ -73,7 +73,7 @@ export default function TermsPage() {
             to terminate, extend or shorten the Campaign Duration at its sole discretion.
           </p>
           <p>
-            For participation in any of the contests as part of I am Kolkata, a basic registration
+            For participation in any of the contests as part of I am Kolkata - Amar Para Hidden Gems, a basic registration
             by the Visitor is mandatory. A valid mobile number and an email address would be
             required to register on the website, along with your full name. To complete the process,
             a one time password (&ldquo;OTP&rdquo;) will be sent to you on the mobile number
@@ -87,7 +87,7 @@ export default function TermsPage() {
           <h2>Participation and other terms</h2>
           <p>
             (a) No entry fee is required to participate in any of the contests and other interactive
-            features of I am Kolkata Campaign.
+            features of I am Kolkata - Amar Para Hidden Gems Campaign.
           </p>
           <p>
             (b) The Visitor hereby grants BCCL, by participating in the Campaign, the right to use,
