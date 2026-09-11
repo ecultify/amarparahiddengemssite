@@ -41,8 +41,21 @@ export type QuizEntry = {
   answer: "1" | "2" | "3" | "4";
 };
 
+/** Google tags. Either ID loads the public site's tracking; the property ID
+ *  is what the Overview reads reports from (with the service-account key in
+ *  the server env). All optional — nothing loads until they are set. */
+export type AnalyticsSettings = {
+  /** GTM-XXXXXXX. Wins over gaId when both are set (put GA4 inside GTM). */
+  gtmId?: string;
+  /** G-XXXXXXXXXX. Loads gtag.js directly. */
+  gaId?: string;
+  /** The numeric GA4 property ID (Admin → Property details). */
+  gaPropertyId?: string;
+};
+
 export type SiteContent = {
   gemCount: { discovered: number; total: number };
+  analytics?: AnalyticsSettings;
   gems: Gem[];
   discoveredGems: Gem[];
   stories: Story[];

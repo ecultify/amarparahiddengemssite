@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { articleSlug, slugOf } from "@/data/site";
-import { getContent, saveContent, type ArticleEntry, type SiteContent } from "@/lib/content";
+import { getContent, saveContent, type AnalyticsSettings, type ArticleEntry, type SiteContent } from "@/lib/content";
 import type { CollectionKey } from "@/lib/schema";
 
 const PUBLIC_PATHS = ["/", "/500-gems", "/participate", "/submit", "/guess-the-para"];
@@ -78,6 +78,31 @@ export async function moveArticle(slug: string, direction: -1 | 1) {
   [articles[index], articles[target]] = [articles[target], articles[index]];
   await commit({ ...content, articles });
   revalidatePath("/admin/content/articles");
+}
+
+export type SaveAnalyticsResult = { ok: true } | { ok: false; error: string };
+
+/** Tag IDs are validated by shape so a typo can't ship a broken script tag. */
+export async function saveAnalyticsSettings(input: AnalyticsSettings): Promise<SaveAnalyticsResult> {
+  await requireAdmin();
+  const gtmId = (input.gtmId ?? "").trim().toUpperCase();
+  const gaId = (input.gaId ?? "").trim().toUpperCase();
+  const gaPropertyId = (input.gaPropertyId ?? "").trim();
+  if (gtmId && !/^GTM-[A-Z0-9]{4,10}$/.test(gtmId)) return { ok: false, error: "The GTM container ID looks like GTM-XXXXXXX." };
+  if (gaId && !/^G-[A-Z0-9]{6,14}$/.test(gaId)) return { ok: false, error: "The GA4 measurement ID looks like G-XXXXXXXXXX." };
+  if (gaPropertyId && !/^\d{6,15}$/.test(gaPropertyId)) return { ok: false, error: "The GA4 property ID is the number under Admin → Property details." };
+  const content = await getContent();
+  await commit({
+    ...content,
+    analytics: {
+      ...(gtmId ? { gtmId } : {}),
+      ...(gaId ? { gaId } : {}),
+      ...(gaPropertyId ? { gaPropertyId } : {}),
+    },
+  });
+  revalidatePath("/admin/settings");
+  revalidatePath("/admin");
+  return { ok: true };
 }
 
 export async function saveGemCount(discovered: number, total: number) {

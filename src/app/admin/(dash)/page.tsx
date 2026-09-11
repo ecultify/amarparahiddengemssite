@@ -3,6 +3,7 @@ import { ArrowRight, Inbox } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AnalyticsPanel } from "@/components/admin/AnalyticsPanel";
+import { GoogleAnalyticsPanel } from "@/components/admin/GoogleAnalyticsPanel";
 import { collectionIcon } from "@/components/admin/collectionIcons";
 import { computeAnalytics } from "@/lib/analytics";
 import { listUsers } from "@/lib/users";
@@ -34,6 +35,8 @@ export default async function AdminHome() {
       </header>
 
       <AnalyticsPanel data={analytics} />
+
+      <GoogleAnalyticsPanel settings={content.analytics} />
 
       <div className="grid items-start gap-8 xl:grid-cols-2">
       <section className="flex flex-col gap-3">

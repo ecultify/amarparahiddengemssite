@@ -20,7 +20,7 @@ export type Collection = {
   fields: Field[];
 };
 
-export type CollectionKey = Exclude<keyof SiteContent, "gemCount">;
+export type CollectionKey = Exclude<keyof SiteContent, "gemCount" | "analytics">;
 
 const CATEGORY_FIELD: Field = { key: "category", label: "Category", type: "select", options: CATEGORIES };
 

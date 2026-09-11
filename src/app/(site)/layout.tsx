@@ -2,6 +2,8 @@ import { Reveal } from "@/components/site/Reveal";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { GoogleTags } from "@/components/site/GoogleTags";
+import { getContent } from "@/lib/content";
 
 /**
  * Every public page reads the CMS, so none of them may be answered from a
@@ -11,9 +13,11 @@ import { SiteFooter } from "@/components/site/SiteFooter";
  */
 export const dynamic = "force-dynamic";
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const { analytics } = await getContent();
   return (
     <>
+      <GoogleTags settings={analytics} />
       <ScrollToTop />
       <Reveal />
       <SiteHeader />
