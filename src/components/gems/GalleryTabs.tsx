@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { MapPin } from "@/components/ui/icons";
 import { categoryTone, quoteTone } from "@/lib/tokens";
+import { track } from "@/lib/track";
 import type { Gem, Tale } from "@/data/site";
 
 const TABS = ["Written Tales", "Photo & Video Stories"] as const;
@@ -103,7 +104,10 @@ function VideoCard({ gem, index }: { gem: Gem; index: number }) {
                   ? `Play ${gem.title}`
                   : `${gem.title} — video coming soon`
               }
-              onClick={() => setPlaying(true)}
+              onClick={() => {
+                track({ event: "video_play", video_title: gem.title });
+                setPlaying(true);
+              }}
               disabled={!gem.video}
               className="btn-3d relative flex size-12 items-center justify-center rounded-full bg-yellow text-navy disabled:cursor-not-allowed disabled:opacity-60"
             >

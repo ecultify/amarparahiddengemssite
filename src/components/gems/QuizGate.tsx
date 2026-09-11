@@ -20,7 +20,7 @@ export function QuizGate() {
           a gem, you&apos;re already in.
         </p>
       </div>
-      <PhoneVerify onVerified={() => router.refresh()} />
+      <PhoneVerify source="quiz" onVerified={() => router.refresh()} />
     </div>
   );
 }

@@ -17,3 +17,6 @@ tsconfig.tsbuildinfo
 .oauth-tmp/
 .figma-tmp/
 scripts/.content-backup.json
+
+# service-account keys never belong in the tree
+*-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].json

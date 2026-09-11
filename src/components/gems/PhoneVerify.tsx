@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { clearPhone, requestPhoneOtp, verifyPhone } from "@/app/actions/auth";
+import { track } from "@/lib/track";
 
 const OTP_LENGTH = 6;
 const FIELD =
@@ -26,10 +27,13 @@ export function PhoneVerify({
   initialPhone = null,
   onVerified,
   onCleared,
+  source = "submit",
 }: {
   initialPhone?: string | null;
   onVerified: (phone: string) => void;
   onCleared?: () => void;
+  /** Which flow this sits in, for analytics. */
+  source?: "submit" | "quiz";
 }) {
   const [verifiedPhone, setVerifiedPhone] = useState<string | null>(initialPhone);
   const [phone, setPhone] = useState("");
@@ -69,6 +73,7 @@ export function PhoneVerify({
         if (result.cooldown) setCooldown(result.cooldown);
         return;
       }
+      track({ event: "otp_requested" });
       setSent(true);
       setBurned(false);
       setDigits(Array(OTP_LENGTH).fill(""));
@@ -126,6 +131,7 @@ export function PhoneVerify({
         else requestAnimationFrame(() => slots.current[0]?.focus());
         return;
       }
+      track({ event: "otp_verified", source });
       setVerifiedPhone(ten);
       setNotice(null);
       onVerified(ten);

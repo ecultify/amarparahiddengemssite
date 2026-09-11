@@ -8,6 +8,7 @@ import { PhoneVerify } from "@/components/gems/PhoneVerify";
 import { ShipAnimation } from "@/components/gems/ShipAnimation";
 import { SUBMISSION_CATEGORIES } from "@/lib/tokens";
 import { submitGem, type SubmitState } from "@/app/actions/submissions";
+import { track } from "@/lib/track";
 
 const STEPS = ["Your Gem", "Your Details"];
 
@@ -97,8 +98,17 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
   // A successful action lands on the thank-you page rather than swapping the
   // card out in place, so the confirmation is a URL the visitor can sit on.
   useEffect(() => {
-    if (state.ok) router.push("/thank-you");
-  }, [state.ok, router]);
+    if (!state.ok) return;
+    const form = formRef.current;
+    const read = (name: string) => (form?.elements.namedItem(name) as HTMLInputElement | null)?.value ?? "";
+    track({ event: "gem_submitted", category: read("category"), para: read("para"), has_upload: Boolean(file) });
+    router.push("/thank-you");
+  }, [state.ok, router, file]);
+
+  // One "started" per visit to the form.
+  useEffect(() => {
+    track({ event: "gem_form_started" });
+  }, []);
 
   // The step-one fields stay mounted but hidden on step two, and a hidden
   // `required` control blocks submit without any message — so the check
@@ -114,6 +124,8 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
       return;
     }
     setStepError(null);
+    const read = (name: string) => (form?.elements.namedItem(name) as HTMLInputElement | null)?.value ?? "";
+    track({ event: "gem_form_step2", category: read("category"), para: read("para") });
     setStep(1);
   }
 

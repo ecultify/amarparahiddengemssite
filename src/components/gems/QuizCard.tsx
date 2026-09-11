@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { submitGuess } from "@/app/actions/quiz";
+import { track } from "@/lib/track";
 import type { QuizEntry } from "@/lib/content";
 import type { Guess } from "@/lib/users";
 
@@ -42,6 +43,7 @@ export function QuizCard({
         return;
       }
       // The server's answer wins — a repeat play shows the original guess.
+      if (!initialGuess) track({ event: "quiz_played", correct: result.guess.correct });
       setPicked(result.guess.choice);
     });
   }

@@ -1,5 +1,7 @@
 "use client";
 
+import { track } from "@/lib/track";
+
 import { useEffect, useRef, useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
@@ -239,7 +241,12 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
                   aria-label={watching ? "Mute this story" : "Listen to this story"}
                   aria-pressed={watching}
                   title={watching ? "Mute — the stories start moving again" : "Listen — the stories hold still"}
-                  onClick={() => setWatching((on) => !on)}
+                  onClick={() =>
+                    setWatching((on) => {
+                      if (!on) track({ event: "video_play", video_title: featured.name });
+                      return !on;
+                    })
+                  }
                   className="icon-btn absolute top-3 right-3 z-10 flex size-9 items-center justify-center rounded-full bg-navy/60 text-white backdrop-blur-sm"
                 >
                   {watching ? <SpeakerOn /> : <SpeakerOff />}

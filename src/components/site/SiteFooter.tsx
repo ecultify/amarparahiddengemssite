@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Asset } from "@/components/ui/Asset";
 import { IMG } from "@/lib/assets";
 import { Facebook, Instagram, Twitter } from "@/components/ui/icons";
+import { OutboundLink } from "@/components/site/OutboundLink";
 
 /** Two titled columns give the right side the vertical mass the paragraph has
  *  on the left; the social tray closes that same column. */
@@ -112,16 +113,14 @@ export function SiteFooter() {
             {/* White discs, since a pink disc would disappear into the band. */}
             <div className="flex gap-5 border-t border-white/20 pt-6">
               {SOCIALS.map(({ label, href, Icon }) => (
-                <a
+                <OutboundLink
                   key={label}
                   href={href}
-                  aria-label={label}
-                  target="_blank"
-                  rel="noreferrer"
+                  label={label}
                   className="flex size-10 items-center justify-center rounded-full bg-white text-pink transition-opacity hover:opacity-80"
                 >
                   <Icon />
-                </a>
+                </OutboundLink>
               ))}
             </div>
           </div>
