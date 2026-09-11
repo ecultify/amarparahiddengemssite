@@ -21,9 +21,13 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
   const location = value("location");
   const title = value("title");
   const description = value("description");
+  const category = value("category");
 
-  if (!para || !location || !title || !description) {
-    return { ok: false, error: "Please fill in your para, location, gem name and description." };
+  if (!para || !location || !title || !description || !category) {
+    return { ok: false, error: "Please fill in your para, location, category, gem name and description." };
+  }
+  if (description.length > 500) {
+    return { ok: false, error: "Keep the description under 500 characters." };
   }
 
   const name = value("name");

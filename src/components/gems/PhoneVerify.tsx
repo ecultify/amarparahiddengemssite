@@ -118,7 +118,7 @@ export function PhoneVerify({
   return (
     <div className="flex w-full max-w-[440px] flex-col items-center gap-3">
       <label className="flex w-full flex-col items-start gap-2">
-        <span className="font-display text-[16px] font-bold text-navy">Mobile Number</span>
+        <span className="font-display text-[16px] font-bold text-navy">Mobile Number<span className="text-red"> *</span></span>
         {/* Number and its Verify button share the row. */}
         <div className="flex w-full gap-2">
           <input

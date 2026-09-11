@@ -12,7 +12,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero gemCount={content.gemCount} />
+      <Hero />
       <ExploreGems gems={content.gems} />
       <StoriesFromParas stories={content.stories} />
       <ArticlesFeatures

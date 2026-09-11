@@ -90,7 +90,7 @@ export default async function SubmitPage() {
         </div>
       </section>
 
-      <GemsDiscovered theme="cyan" gems={content.discoveredGems} gemCount={content.gemCount} />
+      <GemsDiscovered theme="cyan" gems={content.discoveredGems} />
     </>
   );
 }

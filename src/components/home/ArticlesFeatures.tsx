@@ -53,7 +53,7 @@ export function ArticlesFeatures({ rowOne, rowTwo }: { rowOne: Article[]; rowTwo
         <SectionHeading
           eyebrow="Articles & Features"
           eyebrowClassName="text-pink"
-          title="Deep into the fascinating stories behind the Gems"
+          title="Dive Deep into the Fascinating Stories Behind the Gems"
           titleClassName="text-white"
           blurb="Discover the history, culture and people behind some of Kolkata's most interesting para finds."
           blurbWidth={788}

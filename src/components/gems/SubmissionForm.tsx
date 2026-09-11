@@ -14,12 +14,23 @@ const STEPS = ["Your Gem", "Your Details"];
 // Photos are compressed before upload; videos have a hard cap in storage.
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
+/** Room for a proper paragraph without letting an essay through. */
+const MAX_DESCRIPTION = 500;
+
 const FIELD =
   "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[16px] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink";
 
-function Label({ children }: { children: React.ReactNode }) {
-  return <span className="w-full text-left font-display text-[16px] font-bold text-navy">{children}</span>;
+function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
+  return (
+    <span className="w-full text-left font-display text-[16px] font-bold text-navy">
+      {children}
+      {required ? <span className="text-red"> *</span> : null}
+    </span>
+  );
 }
+
+/** The fields the first step must have before the visitor moves on. */
+const STEP_ONE = ["location", "para", "category", "title", "description"];
 
 type Upload = { url: string; name: string; type: "image" | "video" };
 
@@ -44,6 +55,8 @@ export function SubmissionForm() {
     formRef.current?.requestSubmit();
   }, [verifiedPhone, uploading]);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [stepError, setStepError] = useState<string | null>(null);
+  const [descriptionLength, setDescriptionLength] = useState(0);
   const [state, formAction, pending] = useActionState<SubmitState, FormData>(submitGem, { ok: false });
 
   async function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
@@ -83,6 +96,23 @@ export function SubmissionForm() {
     if (state.ok) router.push("/thank-you");
   }, [state.ok, router]);
 
+  // The step-one fields stay mounted but hidden on step two, and a hidden
+  // `required` control blocks submit without any message — so the check
+  // happens here, before the visitor leaves the step.
+  function next() {
+    const form = formRef.current;
+    const missing = STEP_ONE.find(
+      (name) => !(form?.elements.namedItem(name) as HTMLInputElement | null)?.value.trim(),
+    );
+    if (missing) {
+      (form?.elements.namedItem(missing) as HTMLElement | null)?.focus();
+      setStepError("Please fill in every field marked *.");
+      return;
+    }
+    setStepError(null);
+    setStep(1);
+  }
+
   return (
     <form
       action={formAction}
@@ -110,17 +140,17 @@ export function SubmissionForm() {
       {/* Every step stays mounted so all values still post with the form. */}
       <div className={step === 0 ? "contents" : "hidden"}>
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Para Location</Label>
+          <Label required>Para Location</Label>
           <input name="location" className={FIELD} placeholder="Enter the area or locality" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Para Name</Label>
+          <Label required>Para Name</Label>
           <input name="para" className={FIELD} placeholder="e.g. Bagbazar, Shyambazar, Ballygunge" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Gem Category</Label>
+          <Label required>Gem Category</Label>
           <select name="category" className={FIELD} defaultValue="">
             <option value="" disabled>
               Select a category
@@ -134,22 +164,27 @@ export function SubmissionForm() {
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Hidden Gem&apos;s Name</Label>
+          <Label required>Hidden Gem&apos;s Name</Label>
           <input name="title" className={FIELD} placeholder="Enter the name of the place" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Describe Your Hidden Gem</Label>
+          <Label required>Describe Your Hidden Gem</Label>
           <textarea
             name="description"
             rows={5}
+            maxLength={MAX_DESCRIPTION}
+            onChange={(event) => setDescriptionLength(event.target.value.length)}
             className="h-[140px] w-full resize-none rounded-[8px] border border-line bg-white p-4 font-body text-[16px] leading-[1.5] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink"
             placeholder="Tell us what makes this gem special, why it matters to your para, and what others in Kolkata should know about it."
           />
+          <span className="w-full text-right font-ui text-[12px] text-slate">
+            {descriptionLength}/{MAX_DESCRIPTION} characters
+          </span>
         </label>
 
         <div className="flex w-full max-w-[440px] flex-col items-center gap-3">
-          <Label>Upload Photo / Video</Label>
+          <Label>Upload Photo / Video (optional)</Label>
           {file ? (
             /* Not a <label>: wrapping this in one would make the Remove button
                re-open the file picker on the way back up. */
@@ -211,10 +246,14 @@ export function SubmissionForm() {
           ) : null}
         </div>
 
+        {stepError ? (
+          <p className="w-full max-w-[440px] text-left font-body text-[14px] text-red">{stepError}</p>
+        ) : null}
+
         <div className="flex w-full justify-center pt-2">
           <button
             type="button"
-            onClick={() => setStep(1)}
+            onClick={next}
             className="btn-3d inline-flex h-14 w-full items-center justify-center rounded-[4px] bg-yellow font-display text-[16px] font-extrabold uppercase text-navy sm:w-[300px]"
           >
             Next
@@ -232,7 +271,7 @@ export function SubmissionForm() {
         </div>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
-          <Label>Your Name</Label>
+          <Label required>Your Name</Label>
           <input name="name" required autoComplete="name" className={FIELD} placeholder="Enter your full name" />
         </label>
 

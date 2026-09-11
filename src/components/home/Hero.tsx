@@ -1,5 +1,4 @@
 import { Button3D } from "@/components/ui/Button3D";
-import { Gem } from "@/components/ui/icons";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 
 /**
@@ -11,7 +10,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
  * Below lg everything centres and the spacing tightens so most of the collage
  * is on screen at first glance.
  */
-export function Hero({ gemCount }: { gemCount: { discovered: number; total: number } }) {
+export function Hero() {
   return (
     <section className="relative w-full overflow-hidden bg-cream">
       <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-6 px-5 pt-12 pb-10 md:px-10 sm:pt-[60px] lg:min-h-[713px] lg:pt-[100px] lg:grid-cols-[minmax(0,780px)_minmax(0,1fr)] lg:gap-6 lg:px-20 lg:py-0">
@@ -43,19 +42,6 @@ export function Hero({ gemCount }: { gemCount: { discovered: number; total: numb
             </Button3D>
           </div>
 
-          <div data-reveal="3" className="mt-5 flex items-center gap-3 lg:mt-8">
-            <span className="flex size-10 items-center justify-center rounded-full bg-yellow text-navy">
-              <Gem />
-            </span>
-            <span className="flex items-baseline gap-1.5">
-              <span className="font-display text-[28px] leading-none font-black text-navy sm:text-[32px]">
-                {gemCount.discovered}
-              </span>
-              <span className="font-body text-[18px] text-navy sm:text-[20px]">
-                gems discovered
-              </span>
-            </span>
-          </div>
         </div>
 
         {/* From lg up the collage leaves the grid entirely (its cell was only

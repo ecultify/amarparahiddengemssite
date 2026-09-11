@@ -7,7 +7,6 @@ import { getContent } from "@/lib/content";
 /** 500 Gems of Kolkata — Figma node 106:272 (gallery-page-final). */
 export default async function GalleryPage() {
   const content = await getContent();
-  const { gemCount } = content;
 
   return (
     <>
@@ -37,12 +36,6 @@ export default async function GalleryPage() {
             architectural nooks, local tea joints, and cultural cornerstones suggested and documented
             by citizens.
           </p>
-        </div>
-
-        <div data-reveal="1" className="relative flex w-full max-w-[400px] items-center justify-center">
-          <span className="font-ui text-[14px] font-extrabold text-navy">
-            {gemCount.discovered} GEMS DISCOVERED
-          </span>
         </div>
       </section>
 

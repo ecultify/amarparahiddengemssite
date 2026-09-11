@@ -52,11 +52,6 @@ export default function ThankYouPage() {
             places, people and stories that make Kolkata&apos;s paras distinctive.
           </p>
 
-          <p className="max-w-[680px] font-body text-[15px] leading-[1.7] text-slate sm:text-[16px]">
-            If selected, your hidden gem may be featured by The Times of India, with credit to
-            you for the submission.
-          </p>
-
           <div className="mt-4 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-4">
             <Button3D href="/500-gems" className="w-full px-6 sm:w-auto">
               Explore more hidden gems

@@ -41,10 +41,9 @@ const THEMES: Record<
 type Props = {
   theme?: Theme;
   gems: Gem[];
-  gemCount: { discovered: number; total: number };
 };
 
-export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
+export function GemsDiscovered({ theme = "cream", gems }: Props) {
   const { ref: trackRef, step, pause } = useAutoRail(1);
   const tone = THEMES[theme];
 
@@ -116,13 +115,6 @@ export function GemsDiscovered({ theme = "cream", gems, gemCount }: Props) {
             title="Hidden Gems Discovered So Far"
             titleClassName={tone.title}
           />
-
-          <div data-reveal="1" className="flex w-full max-w-[520px] items-center justify-between gap-4 rounded-[16px] border border-white/10 bg-red p-5 sm:p-6">
-            <span className="font-display text-[14px] font-extrabold text-yellow sm:text-[16px]">Mapped so far</span>
-            <span className="font-display text-[15px] font-black text-white sm:text-[18px]">
-              {gemCount.discovered} GEMS
-            </span>
-          </div>
         </div>
 
         <div data-reveal className="mt-8 flex items-center gap-6 lg:mt-10" {...pause}>

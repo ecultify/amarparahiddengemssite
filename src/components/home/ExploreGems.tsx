@@ -7,6 +7,7 @@ import { GemCard } from "@/components/home/GemCard";
 import { useAutoRail } from "@/hooks/use-auto-rail";
 import type { Gem } from "@/data/site";
 import { HOME_ACCENT, IMG } from "@/lib/assets";
+import { SUBMISSION_CATEGORIES } from "@/lib/tokens";
 
 /** Explore the Gems of Kolkata — Figma 49:1946 + 49:1950. */
 export function ExploreGems({ gems }: { gems: Gem[] }) {
@@ -46,7 +47,7 @@ export function ExploreGems({ gems }: { gems: Gem[] }) {
           eyebrowClassName="text-yellow"
           title="Explore the Gems of Kolkata"
           titleClassName="text-white"
-          blurb="Submissions may come in these categories: Food & Mishti, Heritage & History, Culture & Craft, Green & Hidden Corners."
+          blurb={`Submissions may come in these categories: ${SUBMISSION_CATEGORIES.join(", ")}.`}
           blurbClassName="text-white"
         />
 

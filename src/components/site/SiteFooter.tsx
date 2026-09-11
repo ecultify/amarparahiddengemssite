@@ -30,9 +30,9 @@ const COLUMNS = [
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
-  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
-  { label: "X", href: "https://x.com", Icon: Twitter },
+  { label: "Instagram", href: "https://www.instagram.com/toikolkata/", Icon: Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/TOIKolkata", Icon: Facebook },
+  { label: "X", href: "https://x.com/TOIKolkata", Icon: Twitter },
 ];
 
 export function SiteFooter() {
@@ -70,9 +70,9 @@ export function SiteFooter() {
 
             <p className="mt-[6px] w-full max-w-[360px] font-body text-[14px] leading-[1.6] text-white/80">
               Amar Para Hidden Gems is a citizen-led initiative by{" "}
-              <span className="whitespace-nowrap">The Times of India</span>, celebrating the places,
-              people and stories that define Kolkata&apos;s paras (neighbourhoods) and bringing
-              their lesser-known gems to a wider audience.
+              <span className="whitespace-nowrap">The Times of India</span>. It celebrates the
+              places, people, and stories that define Kolkata&apos;s paras (neighbourhoods) and
+              brings their lesser-known gems to a wider audience.
             </p>
           </div>
 

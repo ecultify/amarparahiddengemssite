@@ -24,6 +24,7 @@ export const DISCOVERED_GEMS: Gem[] = [
     category: "Food",
     location: "College Street",
     image: "/images/gem-paramount.png",
+    description: "A century-old counter still pouring daab sherbet a few steps from the boi para.",
     submittedBy: "Souvik Banerjee",
   },
   {
@@ -38,6 +39,7 @@ export const DISCOVERED_GEMS: Gem[] = [
     category: "Traditions",
     location: "North Kolkata",
     image: "/images/gem-kumartuli-2.png",
+    description: "Bamboo, straw and river clay turning into the goddess, lane by lane.",
     submittedBy: "Rimi Sen",
   },
   {
@@ -141,6 +143,8 @@ export type GalleryGem = {
   location: string;
   submittedBy: string;
   image: string;
+  /** One line about the place, shown on the card under the name. */
+  description?: string;
   /** Videos only: the file that plays when the poster is clicked. */
   video?: string;
 };
@@ -166,6 +170,7 @@ export const PHOTO_GEMS: GalleryGem[] = [
     location: "Howrah Bridge",
     submittedBy: "Sagnik D.",
     image: "/images/gallery-mallick-ghat.png",
+    description: "Marigolds arrive by the sackful before dawn under the Howrah Bridge.",
   },
   {
     title: "Victoria Memorial at Dawn",
@@ -173,6 +178,7 @@ export const PHOTO_GEMS: GalleryGem[] = [
     location: "Maidan",
     submittedBy: "Arpita B.",
     image: "/images/gallery-victoria.png",
+    description: "The marble catches first light before the Maidan's walkers arrive.",
   },
   {
     title: "Durga Puja Pandal Art",
@@ -180,30 +186,45 @@ export const PHOTO_GEMS: GalleryGem[] = [
     location: "Kolkata",
     submittedBy: "Rohan S.",
     image: "/images/gallery-durga-pandal.png",
+    description: "Bamboo and cloth become a new artwork every autumn, then vanish.",
   },
   {
     title: "Princep Ghat at Sunset",
     category: "Places",
     location: "Princep Ghat",
-    submittedBy: "Amar Para 2.0",
+    submittedBy: "TOI Kolkata",
     image: "/images/gallery-princep-ghat.png",
+    description: "The Palladian monument on the Hooghly, best seen as the sun drops.",
   },
 ];
 
 export const VIDEO_GEMS: GalleryGem[] = [
   {
-    title: "Morning Chai at Bagbazar Ghat",
-    category: "Customs",
-    location: "Bagbazar",
-    submittedBy: "Ananya D.",
-    image: "/images/video-bagbazar.png",
+    title: "Pintu Pohan's Paan Shop",
+    category: "Stories",
+    location: "Behala",
+    submittedBy: "TOI Kolkata",
+    image: "/images/stories/pintu-pohan.jpg",
+    video: "/videos/stories/pintu-pohan.mp4",
+    description: "A paan-shop owner who has written 11 novels between customers.",
   },
   {
-    title: "Tram Ride through Esplanade",
-    category: "Places",
-    location: "Esplanade, Central Kolkata",
-    submittedBy: "Nandini G.",
-    image: "/images/video-tram.png",
+    title: "Kake di Hatti & Balwant Singh Dhaba",
+    category: "Food",
+    location: "Bhawanipore",
+    submittedBy: "TOI Kolkata",
+    image: "/images/stories/kake-di-hatti.jpg",
+    video: "/videos/stories/kake-di-hatti.mp4",
+    description: "Legendary bites and late-night chai in the para locals call Netaji Para.",
+  },
+  {
+    title: "Bhaskar Chitrakar's Patachitra",
+    category: "Culture & Craft",
+    location: "Kalighat",
+    submittedBy: "TOI Kolkata",
+    image: "/images/stories/bhaskar-chitrakar.jpg",
+    video: "/videos/stories/bhaskar-chitrakar.mp4",
+    description: "Four generations of Kalighat scroll painting, still alive in one studio.",
   },
 ];
 

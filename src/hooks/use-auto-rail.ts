@@ -4,6 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 const EVERY_MS = 3000;
 
+/** Crawl mode: how long the rail rests on each card before creeping on. */
+const HOLD_MS = 2200;
+
 /**
  * Drives a horizontal card rail: auto-advances one card every 3s, wraps at
  * either end, and pauses while hovered, touched or focused (spread `pause`
@@ -15,8 +18,11 @@ const EVERY_MS = 3000;
  * the whole way at the end, it rebases into the first copy before each step,
  * so the rail runs on and on and the seam is never seen. Cards must be
  * duplicated in the markup for it, and the dots count the real ones.
+ *
+ * `crawl` (px/second) swaps the 3s hop for a slow continuous creep that rests
+ * HOLD_MS on each card before moving on. Needs `loop` and duplicated cards.
  */
-export function useAutoRail(direction: 1 | -1 = 1, loop = false) {
+export function useAutoRail(direction: 1 | -1 = 1, loop = false, crawl = 0) {
   const ref = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [pages, setPages] = useState(0);
@@ -95,12 +101,53 @@ export function useAutoRail(direction: 1 | -1 = 1, loop = false) {
   }, [loop]);
 
   useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (crawl || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setInterval(() => {
       if (!document.hidden) step(direction);
     }, EVERY_MS);
     return () => clearInterval(id);
-  }, [paused, nonce, direction, step]);
+  }, [crawl, paused, nonce, direction, step]);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!crawl || !node) return;
+    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    let last = performance.now();
+    // Rest first, so a manual arrow step's smooth scroll finishes undisturbed.
+    let holdUntil = last + HOLD_MS;
+    // Kept off the DOM: scrollLeft rounds to whole pixels, and a sub-pixel
+    // creep written straight to it rounds back to where it was every frame.
+    let pos = node.scrollLeft;
+
+    const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
+      const delta = now - last;
+      last = now;
+      if (document.hidden || now < holdUntil) return;
+
+      const [a, b] = node.children as unknown as HTMLElement[];
+      const stride = b ? b.offsetLeft - a.offsetLeft : node.clientWidth;
+      if (!stride) return;
+      // One copy measured in whole cards — scrollWidth/2 lands half a gap off,
+      // and that error would accumulate on every wrap.
+      const copy = Math.round(node.scrollWidth / 2 / stride) * stride;
+
+      if (Math.abs(node.scrollLeft - pos) > 1) pos = node.scrollLeft; // dragged or stepped
+      const edge = (Math.floor(pos / stride) + 1) * stride;
+      pos += (crawl * delta) / 1000;
+      if (pos >= edge) {
+        pos = edge;
+        holdUntil = now + HOLD_MS;
+      }
+      if (pos >= copy) pos -= copy;
+      node.scrollLeft = pos;
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [crawl, paused, nonce]);
 
   const pause = {
     onMouseEnter: () => setPaused(true),

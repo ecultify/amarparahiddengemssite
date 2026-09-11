@@ -37,7 +37,7 @@ export default function TermsPage() {
             India Building, Dr. D. N. Road, Fort, Mumbai &ndash; 400 001 and corporate office at
             9-10, Express Building, Bahadurshah Zafar Marg, New Delhi &ndash; 110 102, from time to
             time without notice to Visitor (as defined below). The Visitor confirms to have read the
-            T&amp;C at iamkolkata.co.in The Visitor is participating in the Campaign at his/her sole
+            T&amp;C at amarpara.in. The Visitor is participating in the Campaign at his/her sole
             discretion and free will. The Participation shall be deemed as the acceptance of the
             T&amp;C by the Visitor.
           </p>
@@ -125,7 +125,7 @@ export default function TermsPage() {
             contests within, and/or the terms &amp; conditions without prior notice in the event of
             circumstances arising beyond its control that makes it necessary to do so. However, any
             changes to the terms &amp; conditions or cancellation of the Campaign, will be
-            updated/posted on website www.iamkolkata.co.in. It would be the exclusive responsibility
+            updated/posted on website amarpara.in. It would be the exclusive responsibility
             of the Visitor alone to keep themselves informed as to any changes in the terms &amp;
             conditions stated for this Campaign.
           </p>
@@ -152,7 +152,7 @@ export default function TermsPage() {
           <p>(h) All disputes shall be subject to exclusive jurisdiction of New Delhi courts only.</p>
           <p>
             (i) In accordance with the applicable laws, for any grievance, you may reach the
-            grievance officer of BCCL [Insert Mail ID]
+            grievance officer of BCCL at times.interact@timesofindia.com
           </p>
           <p>
             (j) The Privacy Policy located on the website, shall form an integral part of this

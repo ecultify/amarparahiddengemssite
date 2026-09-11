@@ -16,6 +16,7 @@ const CATEGORY_TONES: Record<string, string> = {
   "Nature Spot": "bg-grass/8 text-grass",
   Landmarks: "bg-cyan/8 text-cyan",
   Markets: "bg-cyan/8 text-cyan",
+  Others: "bg-navy/8 text-navy",
 };
 
 /** Everything an admin may tag content with, new vocabulary and legacy alike. */
@@ -30,6 +31,7 @@ export const SUBMISSION_CATEGORIES = [
   "Landmarks",
   "Traditions",
   "Markets",
+  "Others",
 ];
 
 export function categoryTone(category: string) {

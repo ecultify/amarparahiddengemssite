@@ -26,14 +26,14 @@ const STEPS = [
     n: 3,
     Icon: CircleQuestionMark,
     title: "Guess the Para",
-    body: "Can you recognise a para from just a few clues? Play Guess the Para and stand a chance to win cool merchandise.",
+    body: "Can you recognise a para from just a few clues? Play Guess the Para and test how well you know the city.",
   },
 ];
 
 const GUIDELINES = [
   "Your hidden gem must be a real place, street, food stall, or building from Kolkata.",
   "Upload clear, relevant photos or videos. Avoid blurry, out-of-focus or stock images.",
-  "All entries will be reviewed. Only genuine, original submissions that meet the campaign guidelines will be considered for publication.",
+  "All entries will be reviewed. Only genuine, original submissions that meet the campaign guidelines will be considered.",
   "Keep it respectful and authentic. Share accurate local context and celebrate your para with pride.",
   "Multiple submissions are welcome. Nominate as many deserving hidden gems from your para as you like.",
 ];
@@ -242,7 +242,7 @@ export default async function ParticipatePage() {
       </section>
       </div>
 
-      <GemsDiscovered theme="cream" gems={content.discoveredGems} gemCount={content.gemCount} />
+      <GemsDiscovered theme="cream" gems={content.discoveredGems} />
     </>
   );
 }
