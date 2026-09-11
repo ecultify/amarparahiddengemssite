@@ -36,24 +36,28 @@ type Upload = { url: string; name: string; type: "image" | "video" };
 
 /** form-card — Figma 95:341. Two steps: the whole entry on the first, then
  *  name and mobile verification on the second. */
-export function SubmissionForm() {
+/** `initialPhone` is the number from an existing visitor session, read
+ *  server-side by the page: with one, step two opens already verified. */
+export function SubmissionForm({ initialPhone = null }: { initialPhone?: string | null }) {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [verifiedPhone, setVerifiedPhone] = useState<string | null>(null);
+  const [verifiedPhone, setVerifiedPhone] = useState<string | null>(initialPhone);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Verifying is the last thing on the last step, so a verified number sends
-  // the form straight away (after any upload still in flight). The hidden
-  // phone input has to render first, hence the effect rather than a callback.
+  // Verifying is the last thing on the last step, so a number verified just
+  // now sends the form straight away (after any upload still in flight). A
+  // session carried in from earlier doesn't: the visitor still has to press
+  // Submit, since they may only just have landed on the page.
+  const [justVerified, setJustVerified] = useState(false);
   const autoSent = useRef(false);
   const [file, setFile] = useState<Upload | null>(null);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    if (!verifiedPhone || uploading || autoSent.current) return;
+    if (!justVerified || uploading || autoSent.current) return;
     autoSent.current = true;
     formRef.current?.requestSubmit();
-  }, [verifiedPhone, uploading]);
+  }, [justVerified, uploading]);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [stepError, setStepError] = useState<string | null>(null);
   const [descriptionLength, setDescriptionLength] = useState(0);
@@ -261,6 +265,7 @@ export function SubmissionForm() {
         </div>
       </div>
 
+      {/* The verified number is never posted: the server reads the session cookie. */}
       <input type="hidden" name="upload" value={file?.url ?? ""} />
       <input type="hidden" name="uploadType" value={file?.type ?? ""} />
       <input type="hidden" name="uploadName" value={file?.name ?? ""} />
@@ -275,9 +280,18 @@ export function SubmissionForm() {
           <input name="name" required autoComplete="name" className={FIELD} placeholder="Enter your full name" />
         </label>
 
-        <PhoneVerify verified={Boolean(verifiedPhone)} onVerified={setVerifiedPhone} />
-
-        <input type="hidden" name="phone" value={verifiedPhone ?? ""} />
+        <PhoneVerify
+          initialPhone={initialPhone}
+          onVerified={(phone) => {
+            setVerifiedPhone(phone);
+            setJustVerified(true);
+          }}
+          onCleared={() => {
+            setVerifiedPhone(null);
+            setJustVerified(false);
+            autoSent.current = false;
+          }}
+        />
 
         {state.error ? (
           <p className="w-full max-w-[440px] text-left font-body text-[14px] text-red">{state.error}</p>

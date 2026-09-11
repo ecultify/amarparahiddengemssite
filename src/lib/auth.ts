@@ -79,6 +79,10 @@ export async function startGemSession(phone: string) {
   });
 }
 
+export async function endGemSession() {
+  (await cookies()).delete(GEM_COOKIE);
+}
+
 /** The verified phone number, or null when there is no valid session. */
 export async function getGemPhone(): Promise<string | null> {
   const token = (await cookies()).get(GEM_COOKIE)?.value;

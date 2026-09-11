@@ -2,11 +2,14 @@ import { Asset } from "@/components/ui/Asset";
 import { GemsDiscovered } from "@/components/gems/GemsDiscovered";
 import { SubmissionForm } from "@/components/gems/SubmissionForm";
 import { IMG, SUBMIT_ACCENT } from "@/lib/assets";
+import { getGemPhone } from "@/lib/auth";
 import { getContent } from "@/lib/content";
 
 /** Share Your Para's Hidden Gem — Figma node 95:309 (entry-submission-page). */
 export default async function SubmitPage() {
-  const content = await getContent();
+  // The visitor session is read here so a number verified anywhere on the
+  // site (Guess the Para included) opens step two already verified.
+  const [content, phone] = await Promise.all([getContent(), getGemPhone()]);
   return (
     <>
       {/* Below lg the two visible accents sit in the band above the eyebrow. */}
@@ -85,7 +88,7 @@ export default async function SubmitPage() {
           </div>
 
           <div data-reveal="1" className="flex w-full justify-center">
-            <SubmissionForm />
+            <SubmissionForm initialPhone={phone} />
           </div>
         </div>
       </section>

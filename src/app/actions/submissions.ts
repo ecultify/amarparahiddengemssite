@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth";
+import { getGemPhone, requireAdmin } from "@/lib/auth";
 import { getContent, saveContent } from "@/lib/content";
 import {
   createSubmission,
@@ -35,7 +35,9 @@ export async function submitGem(_prev: SubmitState, formData: FormData): Promise
     return { ok: false, error: "Please enter your name." };
   }
 
-  const phone = value("phone");
+  // The verified number comes from the signed session cookie, never from the
+  // form: a direct POST without a session is refused here.
+  const phone = await getGemPhone();
   if (!phone) {
     return { ok: false, error: "Verify your mobile number before submitting." };
   }

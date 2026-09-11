@@ -77,6 +77,29 @@ export async function pgRemove(path: string) {
   await pool().query("DELETE FROM documents WHERE path = $1", [path]);
 }
 
+/** Adds one to a top-level numeric field in a single UPDATE, so two
+ *  concurrent calls can never both read the same old value. Resolves to the
+ *  new value, or null when there is no such document. */
+export async function pgIncrementField(path: string, field: string): Promise<number | null> {
+  const { rows } = await pool().query<{ value: number }>(
+    `UPDATE documents
+       SET data = jsonb_set(data, $2::text[], to_jsonb(COALESCE((data->>$3)::int, 0) + 1)),
+           updated_at = now()
+     WHERE path = $1
+     RETURNING (data->>$3)::int AS value`,
+    [path, `{${field}}`, field],
+  );
+  return rows[0]?.value ?? null;
+}
+
+/** Drops every document under a prefix not touched in the last `ms`. */
+export async function pgRemoveStale(prefix: string, ms: number) {
+  await pool().query(
+    "DELETE FROM documents WHERE path LIKE $1 AND updated_at < now() - ($2::text || ' milliseconds')::interval",
+    [`${prefix}%`, String(ms)],
+  );
+}
+
 /* ---- media, as base64 text ---- */
 
 export async function pgSetRaw(key: string, chunk: string) {

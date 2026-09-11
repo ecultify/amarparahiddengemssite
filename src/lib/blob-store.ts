@@ -5,9 +5,11 @@ import {
   pgAppendRaw,
   pgDelRaw,
   pgGetRaw,
+  pgIncrementField,
   pgReadJson,
   pgReadJsonCollection,
   pgRemove,
+  pgRemoveStale,
   pgSetRaw,
   pgWriteJson,
 } from "@/lib/pg-store";
@@ -117,6 +119,24 @@ export async function removeBlob(pathname: string) {
   }
   const url = blobUrlFor(pathname);
   if (url) await del(url);
+}
+
+/** Atomic +1 on a numeric field; the new value, or null if the document is
+ *  missing. Only Postgres does this in one statement — the fallbacks
+ *  read-then-write, which is fine on the single process they ever ran on. */
+export async function incrementJson(pathname: string, field: string): Promise<number | null> {
+  if (hasPostgres()) return pgIncrementField(pathname, field);
+  const doc = await readJson<Record<string, unknown>>(pathname);
+  if (!doc) return null;
+  const next = Number(doc[field] ?? 0) + 1;
+  await writeJson(pathname, { ...doc, [field]: next });
+  return next;
+}
+
+/** Housekeeping for short-lived documents (OTP rows). Postgres only — the
+ *  fallbacks were never used in production and have no cheap age query. */
+export async function removeStale(prefix: string, ms: number) {
+  if (hasPostgres()) await pgRemoveStale(prefix, ms);
 }
 
 /* ---- Raw string storage for media ----

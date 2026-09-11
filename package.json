@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "assets": "node scripts/fetch-figma-assets.mjs",
+    "test": "node --test src/lib/*.test.ts",
+    "predeploy": "npm test",
     "deploy": "bash scripts/deploy-vps.sh"
   },
   "dependencies": {
