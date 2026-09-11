@@ -30,7 +30,7 @@ import { logout } from "@/app/actions/auth";
 export type NavCollection = { key: string; label: string };
 
 /** The gallery-only collections live together under one nav group. */
-const GALLERY_KEYS = ["videoGems", "streetStories"];
+const GALLERY_KEYS = ["gems", "streetStories"];
 
 /** The content desk's navigation rail, on the shadcn sidebar. Collapses to
  *  icons on desktop and becomes a drawer on mobile. */

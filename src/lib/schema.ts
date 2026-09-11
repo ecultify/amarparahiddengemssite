@@ -27,9 +27,9 @@ const CATEGORY_FIELD: Field = { key: "category", label: "Category", type: "selec
 export const COLLECTIONS: Collection[] = [
   {
     key: "gems",
-    label: "Community gems",
-    where: "Shows on the homepage carousel and on the 500 Gems page, under Photo & Video Stories",
-    singular: "Gem",
+    label: "Photo & Video Stories",
+    where: "The Photo & Video Stories tab on the 500 Gems page, and the Explore the Gems carousel on the homepage",
+    singular: "Story",
     titleKey: "title",
     fields: [
       CATEGORY_FIELD,
@@ -37,7 +37,8 @@ export const COLLECTIONS: Collection[] = [
       { key: "title", label: "Gem name", type: "text" },
       { key: "description", label: "Description", type: "textarea", help: "One or two lines, in the submitter's voice." },
       { key: "location", label: "Para location", type: "text" },
-      { key: "image", label: "Photo", type: "image" },
+      { key: "image", label: "Photo", type: "image", help: "For a video entry this is the poster frame." },
+      { key: "video", label: "Video file", type: "video", help: "Optional. Attach an MP4 to make this a video story; it plays on the page and leads the tab." },
     ],
   },
   {
@@ -89,22 +90,6 @@ export const COLLECTIONS: Collection[] = [
       { key: "location", label: "Location", type: "text" },
       { key: "submittedBy", label: "Uncovered by", type: "text" },
       { key: "image", label: "Photo", type: "image" },
-    ],
-  },
-  {
-    key: "videoGems",
-    label: "Video stories",
-    where: "Shows on the 500 Gems page, under Photo & Video Stories, ahead of the community gems",
-    singular: "Video story",
-    titleKey: "title",
-    fields: [
-      CATEGORY_FIELD,
-      { key: "submittedBy", label: "Submitted by", type: "text" },
-      { key: "title", label: "Gem name", type: "text" },
-      { key: "description", label: "Description", type: "textarea", help: "One or two lines, in the submitter's voice." },
-      { key: "location", label: "Para location", type: "text" },
-      { key: "image", label: "Poster image", type: "image" },
-      { key: "video", label: "Video file", type: "video", help: "MP4 file. It plays right on the page when a visitor hits play." },
     ],
   },
   {

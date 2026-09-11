@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Asset } from "@/components/ui/Asset";
 import { MapPin } from "@/components/ui/icons";
 import { categoryTone, quoteTone } from "@/lib/tokens";
-import type { GalleryGem, Gem, Tale } from "@/data/site";
+import type { Gem, Tale } from "@/data/site";
 
 const TABS = ["Written Tales", "Photo & Video Stories"] as const;
 type Tab = (typeof TABS)[number];
@@ -26,7 +26,7 @@ function mosaic<T extends { location: string }>(items: T[]) {
 
 /** Every card reads the same way: category, who found it, the gem, their
  *  line about it, and the para. Tales are the same card without a photo. */
-type Card = Gem | GalleryGem | Tale;
+type Card = Gem | Tale;
 
 function GemMeta({ gem, clamp = true }: { gem: Card; clamp?: boolean }) {
   return (
@@ -74,7 +74,7 @@ function PhotoCard({ gem, index }: { gem: Gem; index: number }) {
   );
 }
 
-function VideoCard({ gem, index }: { gem: GalleryGem; index: number }) {
+function VideoCard({ gem, index }: { gem: Gem; index: number }) {
   const [playing, setPlaying] = useState(false);
 
   return (
@@ -127,11 +127,13 @@ function VideoCard({ gem, index }: { gem: GalleryGem; index: number }) {
 /** Tabbed gallery — Written Tales / Photo Gems / Video Stories, each with its own "load more". */
 type Props = {
   gems: Gem[];
-  videoGems: GalleryGem[];
   streetStories: Tale[];
 };
 
-export function GalleryTabs({ gems, videoGems, streetStories }: Props) {
+export function GalleryTabs({ gems, streetStories }: Props) {
+  // One collection feeds the tab: entries with a video lead, photos follow.
+  const videos = gems.filter((gem) => gem.video);
+  const photos = gems.filter((gem) => !gem.video);
   const [tab, setTab] = useState<Tab>("Written Tales");
   const [shown, setShown] = useState<Record<Tab, number>>({
     "Written Tales": PAGE,
@@ -140,7 +142,7 @@ export function GalleryTabs({ gems, videoGems, streetStories }: Props) {
 
   const total = {
     "Written Tales": streetStories.length,
-    "Photo & Video Stories": videoGems.length + gems.length,
+    "Photo & Video Stories": gems.length,
   }[tab];
   const limit = shown[tab];
 
@@ -184,10 +186,10 @@ export function GalleryTabs({ gems, videoGems, streetStories }: Props) {
       {tab === "Photo & Video Stories" && (
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {/* Videos lead, then the community gems from the homepage rail. */}
-          {videoGems.slice(0, limit).map((gem, index) => (
+          {videos.slice(0, limit).map((gem, index) => (
             <VideoCard key={gem.title} gem={gem} index={index} />
           ))}
-          {gems.slice(0, Math.max(0, limit - videoGems.length)).map((gem, index) => (
+          {photos.slice(0, Math.max(0, limit - videos.length)).map((gem, index) => (
             <PhotoCard key={gem.title} gem={gem} index={index} />
           ))}
         </div>

@@ -12,6 +12,9 @@ export type Gem = {
   description?: string;
   /** Directory cards credit the citizen who submitted the gem. */
   submittedBy?: string;
+  /** Set for a video entry: the MP4 that plays when the poster is clicked.
+   *  `image` is then the poster. Video entries lead the gallery tab. */
+  video?: string;
 };
 
 /** Explore the Gems carousel — homepage (Figma 49:1961). */
@@ -136,23 +139,6 @@ export const GEM_COUNT = { discovered: 236, total: 500 };
 /* ------------------------------------------------------------------ */
 /* 500 Gems gallery page — Figma 106:272                               */
 /* ------------------------------------------------------------------ */
-
-export type GalleryGem = {
-  title: string;
-  category: string;
-  location: string;
-  submittedBy: string;
-  image: string;
-  /** One line about the place, shown on the card under the name. */
-  description?: string;
-  /** Videos only: the file that plays when the poster is clicked. */
-  video?: string;
-};
-
-
-/** No video entries yet — the three story clips were pulled until real
- *  community videos come in. */
-export const VIDEO_GEMS: GalleryGem[] = [];
 
 /** A tale is a gem without a photo: same card fields, text-only. */
 export type Tale = Omit<Gem, "image">;
