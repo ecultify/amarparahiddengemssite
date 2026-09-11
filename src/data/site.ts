@@ -149,54 +149,6 @@ export type GalleryGem = {
   video?: string;
 };
 
-export const PHOTO_GEMS: GalleryGem[] = [
-  {
-    title: "Paramount Sherbets",
-    category: "Food",
-    location: "College Street",
-    submittedBy: "Souvik Banerjee",
-    image: "/images/gallery-paramount.png",
-  },
-  {
-    title: "Kumartuli Idol Makers",
-    category: "Traditions",
-    location: "North Kolkata",
-    submittedBy: "Rimi Sen",
-    image: "/images/gallery-kumartuli.png",
-  },
-  {
-    title: "Mallick Ghat Flower Market",
-    category: "Places",
-    location: "Howrah Bridge",
-    submittedBy: "Sagnik D.",
-    image: "/images/gallery-mallick-ghat.png",
-    description: "Marigolds arrive by the sackful before dawn under the Howrah Bridge.",
-  },
-  {
-    title: "Victoria Memorial at Dawn",
-    category: "Places",
-    location: "Maidan",
-    submittedBy: "Arpita B.",
-    image: "/images/gallery-victoria.png",
-    description: "The marble catches first light before the Maidan's walkers arrive.",
-  },
-  {
-    title: "Durga Puja Pandal Art",
-    category: "Events",
-    location: "Kolkata",
-    submittedBy: "Rohan S.",
-    image: "/images/gallery-durga-pandal.png",
-    description: "Bamboo and cloth become a new artwork every autumn, then vanish.",
-  },
-  {
-    title: "Princep Ghat at Sunset",
-    category: "Places",
-    location: "Princep Ghat",
-    submittedBy: "TOI Kolkata",
-    image: "/images/gallery-princep-ghat.png",
-    description: "The Palladian monument on the Hooghly, best seen as the sun drops.",
-  },
-];
 
 /** No video entries yet — the three story clips were pulled until real
  *  community videos come in. */

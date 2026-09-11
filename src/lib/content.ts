@@ -8,7 +8,6 @@ import {
   DISCOVERED_GEMS,
   GEMS,
   GEM_COUNT,
-  PHOTO_GEMS,
   STORIES,
   STREET_STORIES,
   VIDEO_GEMS,
@@ -50,7 +49,6 @@ export type SiteContent = {
   stories: Story[];
   articles: ArticleEntry[];
   creatorTrails: Trail[];
-  photoGems: GalleryGem[];
   videoGems: GalleryGem[];
   streetStories: Tale[];
   quiz: QuizEntry[];
@@ -72,7 +70,6 @@ export const DEFAULT_CONTENT: SiteContent = {
     caption: `Creator trail ${index + 1}`,
     reel: CREATOR_REELS[index],
   })),
-  photoGems: PHOTO_GEMS,
   videoGems: VIDEO_GEMS,
   streetStories: STREET_STORIES,
   quiz: [

@@ -1,5 +1,4 @@
 import {
-  FileImage,
   Images,
   MessageSquareQuote,
   Newspaper,
@@ -16,7 +15,6 @@ export const COLLECTION_ICONS: Record<string, React.ComponentType<{ className?: 
   articles: Newspaper,
   creatorTrails: Footprints,
   discoveredGems: Images,
-  photoGems: FileImage,
   videoGems: Video,
   streetStories: MessageSquareQuote,
   quiz: Puzzle,
