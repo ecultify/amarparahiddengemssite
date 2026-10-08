@@ -53,7 +53,7 @@ export function AnalyticsSettingsForm({ initial, serviceAccount }: { initial: An
           Reports need a service-account key on the server:{" "}
           {serviceAccount ? (
             <>
-              found, <span className="font-mono">{serviceAccount}</span> — add this email as a Viewer on the GA property.
+              found, <span className="font-mono">{serviceAccount}</span>, add this email as a Viewer on the GA property.
             </>
           ) : (
             <>

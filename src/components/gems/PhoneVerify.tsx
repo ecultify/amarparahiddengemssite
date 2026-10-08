@@ -121,7 +121,7 @@ export function PhoneVerify({
     setError(null);
     setChecking(true);
     try {
-      const result = await verifyPhone(ten, code);
+      const result = await verifyPhone(ten, code, source);
       if (!result.ok) {
         setError(result.error ?? "That code didn't match. Try again.");
         // Clear the slots either way: a miss gets a fresh go at typing, and
@@ -131,7 +131,7 @@ export function PhoneVerify({
         else requestAnimationFrame(() => slots.current[0]?.focus());
         return;
       }
-      track({ event: "otp_verified", source });
+      track({ event: "otp_verified", source, event_id: result.eventId });
       setVerifiedPhone(ten);
       setNotice(null);
       onVerified(ten);

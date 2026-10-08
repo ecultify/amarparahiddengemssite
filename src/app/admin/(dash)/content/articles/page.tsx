@@ -14,10 +14,10 @@ export default async function ArticlesPage() {
   const live = rows.length - drafts;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold tracking-tight">Articles</h1>
+          <h1 className="text-xl font-semibold tracking-tight">Articles</h1>
           <p className="text-sm text-muted-foreground">
             {live} live on the site{drafts > 0 ? `, ${drafts} saved as ${drafts === 1 ? "a draft" : "drafts"}` : ""}.
             Click a piece to edit it.
@@ -31,7 +31,7 @@ export default async function ArticlesPage() {
       </header>
 
       {rows.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-10 text-center">
+        <div className="rounded-lg border border-dashed p-6 text-center">
           <p className="text-sm font-medium">No articles yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
             The homepage rows stay hidden until you publish one.

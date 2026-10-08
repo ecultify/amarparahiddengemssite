@@ -240,7 +240,7 @@ export function StoriesFromParas({ stories }: { stories: Story[] }) {
                   type="button"
                   aria-label={watching ? "Mute this story" : "Listen to this story"}
                   aria-pressed={watching}
-                  title={watching ? "Mute — the stories start moving again" : "Listen — the stories hold still"}
+                  title={watching ? "Mute, and the stories start moving again" : "Listen, and the stories hold still"}
                   onClick={() =>
                     setWatching((on) => {
                       if (!on) track({ event: "video_play", video_title: featured.name });

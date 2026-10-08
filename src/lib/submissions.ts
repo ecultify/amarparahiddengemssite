@@ -21,6 +21,9 @@ export type Submission = {
   upload?: string;
   uploadType?: "image" | "video";
   uploadName?: string;
+  /** Set only on entries imported from outside the site form, e.g. "meta-ads"
+   *  for Meta lead-form leads. The Google Sheet mirror leaves these out. */
+  source?: string;
 };
 
 const PREFIX = "submissions/";

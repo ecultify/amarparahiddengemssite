@@ -4,7 +4,7 @@
  */
 
 /**
- * The DLT-registered OTP text (Airtel template 1077283460037519774). Indian
+ * The DLT-registered OTP text (Airtel template 1077585670050706128). Indian
  * operators reject any message that differs from the approved template by a
  * single character — and they do it silently: the send reports success and
  * the status endpoint later says REJECTED. Only the digits may vary.
@@ -13,7 +13,7 @@
  * reformat it. `sms.test.ts` pins the length and a key phrase.
  */
 export function otpMessage(otp: string): string {
-  return `Welcome to Amar Para Hidden Gems! Your OTP is ${otp}. Enter it to verify your mobile number and share your para's hidden gem. - ECLTFY`;
+  return `Welcome to TOI Kolkata - Amar Para Hidden Gems! Your OTP is ${otp}. Enter it to verify your mobile number and share your para's hidden gem. - ECLTFY`;
 }
 
 /** Indian mobiles only: tolerate +91 / 91 / 0 prefixes and any punctuation,

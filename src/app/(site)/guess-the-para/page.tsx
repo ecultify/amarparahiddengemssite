@@ -10,7 +10,9 @@ import { getUser } from "@/lib/users";
 /** Unlisted daily quiz — reached only from the thank-you page, never linked
  *  in the site nav, and kept out of search indexes. */
 export const metadata = {
-  title: "Guess the Para — Amar Para Hidden Gems",
+  title: "Guess the Para",
+  description:
+    "One picture, one para, one guess a day. Test how well you really know Kolkata's neighbourhoods.",
   robots: { index: false, follow: false },
 };
 
@@ -60,7 +62,7 @@ export default async function GuessTheParaPage() {
               Para Quiz
             </span>
             <h1 className="font-title text-[44px] leading-[1.05] font-black uppercase sm:text-[56px] lg:text-[128px] lg:leading-[0.94]">
-              <span className="text-cyan">Can you guess </span>
+              <span className="text-cyan">Can you guess</span>{" "}<br className="hidden lg:block" />
               <span className="text-pink">this para?</span>
             </h1>
             <p className="max-w-[680px] font-body text-[15px] leading-[1.7] text-slate sm:text-[16px]">

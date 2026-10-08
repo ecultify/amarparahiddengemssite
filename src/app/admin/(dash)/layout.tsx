@@ -24,7 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <SidebarTrigger className="-ml-1" />
           <span className="text-sm font-semibold">Amar Para content desk</span>
         </header>
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8">{children}</div>
+        <div className="w-full px-4 py-5 sm:px-6">{children}</div>
       </SidebarInset>
       <Toaster position="top-right" />
     </SidebarProvider>

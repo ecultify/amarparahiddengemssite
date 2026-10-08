@@ -4,6 +4,7 @@ import { Asset } from "@/components/ui/Asset";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
 import { useAutoRail } from "@/hooks/use-auto-rail";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { HOME_ACCENT, IMG } from "@/lib/assets";
 import type { Trail } from "@/lib/content";
 
@@ -23,7 +24,10 @@ const SCALE = 240 / EMBED_W;
 
 /** Creator Trails — Figma 49:2139. Five-up 240x380 mosaic. */
 export function CreatorTrails({ trails }: { trails: Trail[] }) {
-  const { ref: trackRef, index: active, pages, step, pause } = useAutoRail(1, true, 28);
+  // Phones show a single reel, so the rail hops one reel every 3s instead of
+  // creeping — a creep would leave a half-cut reel on screen most of the time.
+  const mobile = useIsMobile();
+  const { ref: trackRef, index: active, pages, step, pause } = useAutoRail(1, true, mobile ? 0 : 28);
 
   return (
     <div className="relative w-full">

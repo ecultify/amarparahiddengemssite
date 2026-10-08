@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "@/components/ui/icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useAutoRail } from "@/hooks/use-auto-rail";
 import type { Gem } from "@/data/site";
+import { columns } from "@/lib/rail-columns";
 
 type Theme = "cream" | "cyan";
 
@@ -44,8 +45,11 @@ type Props = {
 };
 
 export function GemsDiscovered({ theme = "cream", gems }: Props) {
-  const { ref: trackRef, step, pause } = useAutoRail(1);
+  // One column every 3s with a rest between. The columns are printed twice
+  // so the rail runs on for ever instead of rewinding when it runs out.
+  const { ref: trackRef, step, pause } = useAutoRail(1, true);
   const tone = THEMES[theme];
+  const cols = columns(gems);
 
   return (
     <div className="relative w-full">
@@ -127,10 +131,29 @@ export function GemsDiscovered({ theme = "cream", gems }: Props) {
             <ChevronLeft className="size-5" />
           </button>
 
-          <div ref={trackRef} className="no-scrollbar flex w-full flex-1 snap-x snap-mandatory gap-6 overflow-x-auto">
-            {gems.map((gem) => (
-              <GemCard key={gem.title} gem={gem} titleTone="navy" />
-            ))}
+          {/* Twice through: the second run is what the rail crawls into at the
+              end, so the wrap back to the first card is never seen. */}
+          <div ref={trackRef} className="no-scrollbar flex w-full flex-1 items-stretch gap-6 overflow-x-auto">
+            {[...cols, ...cols].map((col, index) =>
+              col.length === 1 ? (
+                <GemCard
+                  key={index}
+                  gem={col[0]}
+                  titleTone="navy"
+                  aria-hidden={index >= cols.length || undefined}
+                />
+              ) : (
+                <div
+                  key={index}
+                  aria-hidden={index >= cols.length || undefined}
+                  className="flex w-full shrink-0 snap-start flex-col gap-6 sm:w-[280px]"
+                >
+                  {col.map((gem) => (
+                    <GemCard key={gem.title} gem={gem} titleTone="navy" size="half" />
+                  ))}
+                </div>
+              ),
+            )}
           </div>
 
           <button

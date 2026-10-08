@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 const EVERY_MS = 3000;
 
-/** Crawl mode: how long the rail rests on each card before creeping on. */
+/** Crawl mode: how long the rail rests before it starts creeping, so a
+ *  manual arrow step's smooth scroll finishes before the creep takes over. */
 const HOLD_MS = 2200;
 
 /**
@@ -19,8 +20,9 @@ const HOLD_MS = 2200;
  * so the rail runs on and on and the seam is never seen. Cards must be
  * duplicated in the markup for it, and the dots count the real ones.
  *
- * `crawl` (px/second) swaps the 3s hop for a slow continuous creep that rests
- * HOLD_MS on each card before moving on. Needs `loop` and duplicated cards.
+ * `crawl` (px/second) swaps the 3s hop for a slow continuous creep that never
+ * stops on a card. Needs `loop` and duplicated cards; `direction` -1 creeps
+ * right to left.
  */
 export function useAutoRail(direction: 1 | -1 = 1, loop = false, crawl = 0) {
   const ref = useRef<HTMLDivElement>(null);
@@ -116,7 +118,7 @@ export function useAutoRail(direction: 1 | -1 = 1, loop = false, crawl = 0) {
     let frame = 0;
     let last = performance.now();
     // Rest first, so a manual arrow step's smooth scroll finishes undisturbed.
-    let holdUntil = last + HOLD_MS;
+    const holdUntil = last + HOLD_MS;
     // Kept off the DOM: scrollLeft rounds to whole pixels, and a sub-pixel
     // creep written straight to it rounds back to where it was every frame.
     let pos = node.scrollLeft;
@@ -135,19 +137,15 @@ export function useAutoRail(direction: 1 | -1 = 1, loop = false, crawl = 0) {
       const copy = Math.round(node.scrollWidth / 2 / stride) * stride;
 
       if (Math.abs(node.scrollLeft - pos) > 1) pos = node.scrollLeft; // dragged or stepped
-      const edge = (Math.floor(pos / stride) + 1) * stride;
-      pos += (crawl * delta) / 1000;
-      if (pos >= edge) {
-        pos = edge;
-        holdUntil = now + HOLD_MS;
-      }
+      pos += (direction * crawl * delta) / 1000;
       if (pos >= copy) pos -= copy;
+      else if (pos < 0) pos += copy;
       node.scrollLeft = pos;
     };
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [crawl, paused, nonce]);
+  }, [crawl, paused, nonce, direction]);
 
   const pause = {
     onMouseEnter: () => setPaused(true),

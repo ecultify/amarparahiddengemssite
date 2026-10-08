@@ -1,21 +1,34 @@
-/* One-off: replace the CMS article list with the scraped Amar Para archive.
-   Backs the old value up to scripts/.content-backup.json first. */
-import { readFileSync, writeFileSync } from "node:fs";
-import { Redis } from "@upstash/redis";
+/* Replace the CMS article list with src/data/articles.json — run on the box,
+   where DATABASE_URL points at the live Postgres. Backs the old value up to
+   scripts/.content-backup.json first. Idempotent: re-running is harmless. */
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import pg from "pg";
 
-for (const line of readFileSync(".env.local", "utf8").split("\n")) {
-  const m = line.match(/^([A-Z_]+)="?([^"]*)"?$/);
-  if (m) process.env[m[1]] ??= m[2];
+if (existsSync(".env.local")) {
+  for (const line of readFileSync(".env.local", "utf8").split("\n")) {
+    const m = line.match(/^([A-Z_]+)="?([^"]*)"?$/);
+    if (m) process.env[m[1]] ??= m[2];
+  }
 }
-const redis = new Redis({ url: process.env.KV_REST_API_URL, token: process.env.KV_REST_API_TOKEN });
+if (!process.env.DATABASE_URL) throw new Error("push-articles: no DATABASE_URL");
 
-const stored = await redis.get("content.json");
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
+await client.connect();
+
+const { rows } = await client.query("SELECT data FROM documents WHERE path = 'content.json'");
+const stored = rows[0]?.data ?? {};
 writeFileSync("scripts/.content-backup.json", JSON.stringify(stored, null, 2));
 
 const articles = JSON.parse(readFileSync("src/data/articles.json", "utf8"));
-await redis.set("content.json", { ...stored, articles });
+await client.query(
+  `INSERT INTO documents (path, data, updated_at) VALUES ('content.json', $1, now())
+   ON CONFLICT (path) DO UPDATE SET data = $1, updated_at = now()`,
+  [JSON.stringify({ ...stored, articles })],
+);
 
-const check = await redis.get("content.json");
-console.log("backed up", stored.articles.length, "-> wrote", check.articles.length, "articles");
-console.log("first:", check.articles[0].title, "|", check.articles[0].image);
+const { rows: after } = await client.query("SELECT data FROM documents WHERE path = 'content.json'");
+const check = after[0].data;
+console.log(`backed up ${stored.articles?.length ?? 0} -> wrote ${check.articles.length} articles`);
+console.log("order:", check.articles.map((a) => a.title).join(" | "));
 console.log("other keys untouched:", Object.keys(check).length === Object.keys(stored).length);
+await client.end();

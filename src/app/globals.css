@@ -212,40 +212,37 @@ body {
   }
 }
 
-/* Submit button: the entry drops into a parcel, the lid shuts, the parcel is
-   carried off. Loops while the server action is in flight. Transform-box is
-   fill-box so the origins below are relative to each shape, not the viewBox. */
-@keyframes ship-note {
-  0%, 8%    { transform: translateY(-9px) scaleY(0.9); opacity: 0; }
-  18%       { transform: translateY(-9px) scaleY(1);   opacity: 1; }
-  40%       { transform: translateY(0);   opacity: 1; }
-  50%, 100% { transform: translateY(0);   opacity: 0; }
-}
+/* Submit button: the logo chest shuts its lid on the words and reopens.
+   Loops while the server action is in flight. The lid pivots on the box's
+   back-top edge, a line at -8.09deg; CSS only scales along an axis, so the
+   hinge transforms un-rotate that line, scale, and rotate back. Mirrors the
+   "shut" stage on /dev/logo. */
+.ship-lid, .ship-lidshut, .ship-amarpara { transform-origin: 48.8% 48.7%; }
+.ship-lid, .ship-amarpara { animation: ship-lid 3s ease-in-out infinite; }
+.ship-lidshut { animation: ship-shut 3s ease-in-out infinite; }
+.ship-hidden  { animation: ship-hidden 3s ease-in-out infinite; }
+.ship-spark   { animation: ship-spark 3s ease-in-out infinite; }
 
 @keyframes ship-lid {
-  0%, 44%   { transform: rotate(-52deg); }
-  58%, 100% { transform: rotate(0deg); }
+  0%, 20% { transform: rotate(-8.09deg) scaleY(1) rotate(8.09deg); }
+  30%, 74% { transform: rotate(-8.09deg) scaleY(0) rotate(8.09deg); }
+  84%, 100% { transform: rotate(-8.09deg) scaleY(1) rotate(8.09deg); }
 }
-
-@keyframes ship-off {
-  0%, 62%  { transform: translateX(0);    opacity: 1; }
-  86%      { transform: translateX(13px); opacity: 0; }
-  87%      { transform: translateX(-13px); opacity: 0; }
-  100%     { transform: translateX(0);    opacity: 1; }
+@keyframes ship-shut {
+  0%, 27% { transform: rotate(-8.09deg) scaleY(0) rotate(8.09deg); }
+  36%, 70% { transform: none; }
+  78%, 100% { transform: rotate(-8.09deg) scaleY(0) rotate(8.09deg); }
 }
-
-@keyframes ship-track {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-6px); }
+@keyframes ship-hidden {
+  0%, 18% { transform: none; opacity: 1; }
+  28%, 76% { transform: translateY(7%) scale(0.88); opacity: 0; }
+  88%, 100% { transform: none; opacity: 1; }
 }
-
-.ship [data-part] {
-  transform-box: fill-box;
+@keyframes ship-spark {
+  0%, 33% { transform: none; }
+  38% { transform: scale(1.5); }
+  43%, 100% { transform: none; }
 }
-.ship-parcel { animation: ship-off 1.9s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-.ship-note   { animation: ship-note 1.9s cubic-bezier(0.65, 0, 0.35, 1) infinite; transform-origin: 50% 100%; }
-.ship-lid    { animation: ship-lid 1.9s cubic-bezier(0.65, 0, 0.35, 1) infinite; transform-origin: 8% 100%; }
-.ship-line   { animation: ship-track 0.6s linear infinite; }
 
 /* Hide scrollbars on the horizontal carousels while keeping them scrollable. */
 @utility no-scrollbar {
@@ -389,6 +386,7 @@ body {
   margin-top: 0.9em;
 }
 .article-prose h2 {
+  scroll-margin-top: 110px; /* clears the sticky header when jumped to */
   font-size: 1.5em;
   font-weight: 800;
   line-height: 1.25;
@@ -436,40 +434,6 @@ body {
 /* Tiptap's selected-node outline inside the admin editor. */
 .article-prose img.ProseMirror-selectednode {
   outline: 2px solid var(--color-pink);
-}
-
-/* Articles & Features counter-scrolling rows. Content is rendered twice, so
-   sliding half the track's width loops seamlessly. */
-.marquee-track {
-  display: flex;
-  gap: 20px;
-  width: max-content;
-  padding-right: 20px;
-  animation: marquee-left 70s linear infinite;
-}
-.marquee-reverse {
-  animation-name: marquee-right;
-}
-.marquee-track:hover {
-  animation-play-state: paused;
-}
-@keyframes marquee-left {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes marquee-right {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
 }
 
 /* Scroll reveals. Anything carrying data-reveal starts faded and lifted, and

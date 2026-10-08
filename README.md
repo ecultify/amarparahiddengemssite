@@ -27,6 +27,23 @@ script starts failing, the manifest needs regenerating from the Figma file. Unti
 assets are downloaded the site renders with neutral placeholder blocks where the
 artwork goes; nothing breaks.
 
+## Meta Conversions API
+
+`gem_submitted` and `otp_verified` are also sent server-side to Meta (`Lead` and
+`CompleteRegistration`) from `src/lib/meta-capi.ts`, with the same `event_id` the
+browser pixel gets via the dataLayer, so Meta counts each once. Needs
+`META_PIXEL_ID` and `META_CAPI_TOKEN` in `.env.local` (server only, never
+`NEXT_PUBLIC_`).
+
+To check the wiring without polluting real conversions:
+
+1. Events Manager → the pixel → **Test events** → copy the `TEST…` code.
+2. Add `META_TEST_EVENT_CODE=TEST…` to `.env.local` and `npm run deploy`.
+3. Run one real submission on the site; the `Lead` and `CompleteRegistration`
+   events appear in the Test events stream within a few seconds.
+4. **Remove the line and `npm run deploy` again.** While it is set, every event goes
+   to Test events and none count as conversions.
+
 ## Routes
 
 | Route | Figma node | Frame |

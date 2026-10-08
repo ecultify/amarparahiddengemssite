@@ -6,11 +6,13 @@
 export const IMG = {
   heroCollage: "/images/hero-collage.png",
 
-  /** Hero carousel — one editorial collage panel per slide. */
+
+  /** Hero collage slides, in rotation order. Each is the poster's collage
+   *  cropped clean of logos, on the section's own cream so the edge vanishes. */
   heroSlides: [
-    "/images/hero-section/carousel1.png",
-    "/images/hero-section/carousel2.png",
-    "/images/hero-section/carousel3.png",
+    { src: "/images/hero-section/carousel2.png", alt: "From the sound of silence in an ancient cemetery to the sound of music playing out at resto bars" },
+    { src: "/images/hero-section/carousel3.jpg", alt: "From the oldest Jagaddhatri temple in Kolkata to 'Golakata Gali' where robbers slit their victim's throat" },
+    { src: "/images/hero-section/carousel1.png", alt: "From a gigantic tower that fed signals to tree-lined avenues that serve global fare" },
   ],
 
   accentKites: "/images/accent-kites.png",

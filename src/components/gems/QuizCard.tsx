@@ -92,12 +92,12 @@ export function QuizCard({
             {correct ? "Spot on! You know your paras!" : `Not quite. It's ${answerLabel}.`}
           </p>
           <p className="font-body text-[14px] text-slate">
-            Come back soon for the next para
+            Come back soon for the next quiz.
           </p>
         </div>
       ) : (
         <p className="font-body text-[13px] text-slate/70">
-          {pending ? "Locking in your guess…" : "One guess per day — choose carefully."}
+          {pending ? "Locking in your guess…" : "One guess per day, so choose carefully."}
         </p>
       )}
     </div>

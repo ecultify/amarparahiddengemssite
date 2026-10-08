@@ -1,4 +1,4 @@
-import { readJson, readJsonCollection, writeJson } from "@/lib/blob-store";
+import { readJson, readJsonCollection, removeBlob, writeJson } from "@/lib/blob-store";
 
 /** One guess in Guess the Para, snapshotted so the admin table can show it
  *  even after the question is edited. */
@@ -47,3 +47,5 @@ export async function saveGuess(phone: string, guess: Guess) {
   user.lastSeen = guess.at;
   await writeJson(pathFor(phone), user);
 }
+
+export const deleteUser = (phone: string) => removeBlob(pathFor(phone));

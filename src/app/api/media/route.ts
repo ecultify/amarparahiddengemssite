@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { appendRaw, delRaw, setRaw, writeJson } from "@/lib/blob-store";
+import { asMB, base64CharsFor, limitFor } from "@/lib/media-limits";
 
 /**
- * Chunked media upload into Redis. The browser sends base64 chunks small
- * enough for Vercel's 4.5MB request cap; Redis APPEND rebuilds the file.
+ * Chunked media upload into Postgres. The browser sends base64 chunks small
+ * enough to clear nginx's body cap; the append rebuilds the file server-side.
  * Public route (the visitor form uploads through it), so every input is
  * validated here: type whitelist, chunk shape, and a hard total-size cap
- * enforced on APPEND's returned length.
+ * enforced on the running length the append returns.
  */
 
 const ALLOWED = [
@@ -20,8 +21,8 @@ const ALLOWED = [
   "video/mp4",
   "video/quicktime",
 ];
-// 7MB of raw media is ~9.4MB of base64, just under the store's request cap.
-const MAX_BASE64_CHARS = 9_800_000;
+// Chunks stay well under nginx's 25MB client_max_body_size, JSON envelope
+// and all. The per-file ceiling comes from media-limits, by type.
 const MAX_CHUNK_CHARS = 4_000_000;
 
 type Body = {
@@ -58,10 +59,14 @@ export async function POST(request: Request) {
 
   const key = `media/${id}`;
   try {
+    const limit = limitFor(contentType);
     const length = index === 0 ? (await setRaw(key, chunk), chunk.length) : await appendRaw(key, chunk);
-    if (length > MAX_BASE64_CHARS) {
+    if (length > base64CharsFor(limit)) {
       await delRaw(key);
-      return NextResponse.json({ error: "That file is over the 7 MB limit." }, { status: 413 });
+      return NextResponse.json(
+        { error: `That file is over the ${asMB(limit)} limit.` },
+        { status: 413 },
+      );
     }
     if (last) await writeJson(`${key}.meta`, { contentType });
     return NextResponse.json({ id, url: last ? `/api/media/${id}` : undefined });

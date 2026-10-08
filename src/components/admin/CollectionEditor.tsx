@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Pager } from "@/components/admin/Pager";
+import { paginate } from "@/lib/paginate";
 import { ArrowDown, ArrowUp, ImageIcon, Plus, Trash2, Video } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -25,6 +27,8 @@ import {
 } from "@/components/ui/select";
 import { saveCollection } from "@/app/actions/content";
 import { emptyItem, type Collection } from "@/lib/schema";
+
+const PER_PAGE = 20;
 
 type Item = Record<string, string>;
 
@@ -54,6 +58,10 @@ export function CollectionEditor({
       kind === "all" || !videoKey ? true : kind === "video" ? Boolean(item[videoKey]) : !item[videoKey],
     );
   const videoCount = videoKey ? items.filter((item) => item[videoKey]).length : 0;
+  // Paged over the filtered view. `visible` keeps real indexes, so the
+  // reorder and delete buttons on a later page still hit the right entry.
+  const [requested, setRequested] = useState(1);
+  const { page, pageCount, slice } = paginate(visible, requested, PER_PAGE);
   const subtitleFields = collection.fields
     .filter((f) => (f.type === "text" || f.type === "select") && f.key !== collection.titleKey)
     .slice(0, 2);
@@ -103,7 +111,13 @@ export function CollectionEditor({
         </p>
         <div className="flex items-center gap-2">
           {videoKey ? (
-            <Select value={kind} onValueChange={(value) => setKind(value as typeof kind)}>
+            <Select
+              value={kind}
+              onValueChange={(value) => {
+                setKind(value as typeof kind);
+                setRequested(1);
+              }}
+            >
               <SelectTrigger size="sm" className="w-[150px]" aria-label="Show">
                 <SelectValue />
               </SelectTrigger>
@@ -121,7 +135,7 @@ export function CollectionEditor({
       </div>
 
       {items.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-10 text-center">
+        <div className="rounded-lg border border-dashed p-6 text-center">
           <p className="text-sm font-medium">No entries yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
             This section stays hidden on the site until you add one.
@@ -137,22 +151,22 @@ export function CollectionEditor({
               No {kind === "video" ? "video" : "photo"} stories yet.
             </p>
           ) : null}
-          {visible.map(({ item, index }) => {
+          {slice.map(({ item, index }) => {
             const subtitle = subtitleFields
               .map((f) => item[f.key])
               .filter(Boolean)
               .join(" · ");
             return (
-              <div key={index} className="flex items-center gap-3 px-4 py-3">
+              <div key={index} className="flex items-center gap-3 px-3 py-2">
                 {imageKey && item[imageKey] ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={item[imageKey]}
                     alt=""
-                    className="size-12 shrink-0 rounded-md border object-cover"
+                    className="size-10 shrink-0 rounded-md border object-cover"
                   />
                 ) : (
-                  <div className="flex size-12 shrink-0 items-center justify-center rounded-md border bg-muted">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-md border bg-muted">
                     <ImageIcon className="size-4 text-muted-foreground" />
                   </div>
                 )}
@@ -231,6 +245,14 @@ export function CollectionEditor({
               </div>
             );
           })}
+          <Pager
+            page={page}
+            pageCount={pageCount}
+            total={visible.length}
+            perPage={PER_PAGE}
+            noun="entries"
+            onChange={setRequested}
+          />
         </div>
       )}
 

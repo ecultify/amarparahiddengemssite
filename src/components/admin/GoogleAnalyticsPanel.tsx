@@ -23,7 +23,7 @@ export async function GoogleAnalyticsPanel({ settings }: { settings?: AnalyticsS
     report = await fetchGaReport(propertyId);
   } catch (error) {
     return (
-      <section className="flex flex-col gap-3">
+      <section className="flex flex-col gap-2.5">
         <Heading />
         <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm">
           <p className="font-medium">Google Analytics isn&apos;t answering.</p>
@@ -43,7 +43,7 @@ export async function GoogleAnalyticsPanel({ settings }: { settings?: AnalyticsS
   const seconds = Math.round(totals.avgSessionSeconds % 60);
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2.5">
       <Heading fetchedAt={report.fetchedAt} />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -65,7 +65,7 @@ export async function GoogleAnalyticsPanel({ settings }: { settings?: AnalyticsS
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <RowsCard title="Right now · pages" rows={realtime.byPage} unit="users" />
         <RowsCard title="Right now · countries" rows={realtime.byCountry} unit="users" />
         <RowsCard title="Devices" rows={report.byDevice} unit="users" />
@@ -107,11 +107,11 @@ function Step({ done, children }: { done: boolean; children: React.ReactNode }) 
 
 function Setup({ tagSet, propertySet, serviceEmail }: { tagSet: boolean; propertySet: boolean; serviceEmail: string | null }) {
   return (
-    <section className="flex flex-col gap-3">
+    <section className="flex flex-col gap-2.5">
       <Heading />
-      <div className="rounded-lg border border-dashed p-5 text-sm">
+      <div className="rounded-lg border border-dashed bg-card p-3.5 text-[13px]">
         <p className="font-medium">Connect Google Analytics to see devices, platforms, countries, pages and sources here.</p>
-        <ol className="mt-3 flex flex-col gap-2">
+        <ol className="mt-2 flex flex-col gap-1.5">
           <Step done={tagSet}>
             Add your GTM container ID or GA4 measurement ID in{" "}
             <Link href="/admin/settings" className="underline">Settings</Link>. The public site starts sending data to Google.
@@ -135,7 +135,7 @@ function Setup({ tagSet, propertySet, serviceEmail }: { tagSet: boolean; propert
           href="https://developers.google.com/analytics/devguides/reporting/data/v1/quickstart"
           target="_blank"
           rel="noreferrer"
-          className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground underline"
+          className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground underline"
         >
           Google&apos;s quickstart for the service account <ExternalLink className="size-3" />
         </a>
@@ -147,12 +147,12 @@ function Setup({ tagSet, propertySet, serviceEmail }: { tagSet: boolean; propert
 function Kpi({ label, value, sub, live }: { label: string; value: number | string; sub: string; live?: boolean }) {
   return (
     <Card size="sm">
-      <CardContent className="flex flex-col gap-1">
+      <CardContent className="flex flex-col gap-0.5">
         <p className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
           {live ? <span className="inline-flex size-2 rounded-full bg-green-500" /> : null}
           {label}
         </p>
-        <p className="text-3xl font-bold tabular-nums tracking-tight">{value}</p>
+        <p className="text-2xl font-semibold tabular-nums tracking-tight">{value}</p>
         <p className="truncate text-xs text-muted-foreground">{sub}</p>
       </CardContent>
     </Card>
@@ -160,7 +160,9 @@ function Kpi({ label, value, sub, live }: { label: string; value: number | strin
 }
 
 /** Horizontal bars, share of the top row. */
-function RowsCard({ title, rows, unit }: { title: string; rows: Row[]; unit: string }) {
+function RowsCard({ title, rows: all, unit }: { title: string; rows: Row[]; unit: string }) {
+  // Top five only, so every card in the grid is the same height.
+  const rows = all.slice(0, 5);
   const max = Math.max(1, ...rows.map((r) => r.value));
   return (
     <Card size="sm">
@@ -171,13 +173,13 @@ function RowsCard({ title, rows, unit }: { title: string; rows: Row[]; unit: str
         {rows.length === 0 ? (
           <p className="text-xs text-muted-foreground">Nothing yet.</p>
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-1.5">
             {rows.map((row) => (
               <li key={row.label} className="flex flex-col gap-1">
                 <div className="flex items-baseline justify-between gap-3 text-xs">
                   <span className="truncate">{row.label}</span>
                   <span className="shrink-0 tabular-nums text-muted-foreground">
-                    {row.value} {unit}
+                    {row.value} {row.value === 1 ? unit.slice(0, -1) : unit}
                   </span>
                 </div>
                 <div className="h-1.5 w-full rounded-full bg-muted">
@@ -195,7 +197,7 @@ function RowsCard({ title, rows, unit }: { title: string; rows: Row[]; unit: str
 /** Users, sessions and page views per day as grouped bars. */
 function DailyChart({ data }: { data: GaReport["byDate"] }) {
   const W = 900;
-  const H = 180;
+  const H = 128;
   const PAD = 4;
   const max = Math.max(1, ...data.map((d) => Math.max(d.users, d.sessions, d.pageViews)));
   const group = W / Math.max(1, data.length);
@@ -208,7 +210,7 @@ function DailyChart({ data }: { data: GaReport["byDate"] }) {
   const fmt = (d: string) => `${Number(d.slice(6, 8))}/${Number(d.slice(4, 6))}`;
   return (
     <div className="flex flex-col gap-2">
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-44 w-full" role="img" aria-label="Daily traffic">
+      <svg viewBox={`0 0 ${W} ${H}`} className="h-32 w-full" preserveAspectRatio="none" role="img" aria-label="Daily traffic">
         {[0.5, 1].map((f) => (
           <line key={f} x1={0} x2={W} y1={H - PAD - (H - 2 * PAD) * f} y2={H - PAD - (H - 2 * PAD) * f} stroke="currentColor" strokeOpacity={0.08} />
         ))}

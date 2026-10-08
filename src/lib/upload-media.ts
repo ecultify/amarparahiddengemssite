@@ -1,13 +1,13 @@
 import { downscaleImage } from "@/lib/resize-image";
+import { MAX_IMAGE_BYTES, MAX_VIDEO_BYTES, asMB } from "@/lib/media-limits";
 
 /**
  * Browser-side media upload into the site's database. Images are downscaled
  * to web size first; everything is base64-encoded and sent in chunks small
  * enough for the platform's request caps, then served back from
- * /api/media/<id>. Videos are capped at 7MB — the store's hard ceiling.
+ * /api/media/<id>. Sizes come from media-limits, which the API enforces too.
  */
 
-export const MAX_VIDEO_BYTES = 7 * 1024 * 1024;
 const CHUNK_CHARS = 3_000_000;
 
 const HEIC = /heic|heif/i;
@@ -25,8 +25,13 @@ export async function uploadMedia(file: File): Promise<{ url: string; type: "ima
     );
   }
 
+  // Checked here as well as in the API so an oversized file is refused before
+  // the browser spends time encoding it.
   if (isVideo && prepared.size > MAX_VIDEO_BYTES) {
-    throw new Error("Videos can be up to 7 MB. Trim it or upload a photo instead.");
+    throw new Error(`Videos can be up to ${asMB(MAX_VIDEO_BYTES)}. Trim it and try again.`);
+  }
+  if (!isVideo && prepared.size > MAX_IMAGE_BYTES) {
+    throw new Error(`Photos can be up to ${asMB(MAX_IMAGE_BYTES)}. Try a smaller one.`);
   }
 
   const base64 = await toBase64(prepared);

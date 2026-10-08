@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,64 +34,64 @@ export function ArticlesList({ initialArticles }: { initialArticles: Row[] }) {
     });
   };
 
+  // A card grid reads left to right, so "up/down" becomes "earlier/later".
   return (
-    <div className="flex flex-col divide-y rounded-lg border bg-card">
+    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
       {articles.map((article, index) => (
-        <div key={article.slug} className="flex items-center gap-3 px-4 py-3">
-          {article.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={article.image}
-              alt=""
-              className="size-12 shrink-0 rounded-md border object-cover"
-            />
-          ) : (
-            <div className="size-12 shrink-0 rounded-md border bg-muted" />
-          )}
-          <Link
-            href={`/admin/content/articles/${article.slug}`}
-            className="flex min-w-0 flex-1 flex-col gap-0.5 hover:underline"
-          >
-            <span className="truncate text-sm font-semibold">
-              {article.title || "Untitled article"}
-            </span>
-            <span className="truncate text-xs text-muted-foreground">
-              /articles/{article.slug}
-              {article.date ? ` · ${article.date}` : ""}
-            </span>
-          </Link>
-          <Badge
-            variant="outline"
-            className={`shrink-0 ${
-              article.status === "draft"
-                ? "border-yellow/60 bg-yellow/15 text-navy"
-                : "border-grass/30 bg-grass/10 text-grass"
-            }`}
-          >
-            {article.status === "draft" ? "Draft" : "Live"}
-          </Badge>
-          <Badge variant="outline" className="shrink-0">
-            Row {article.row}
-          </Badge>
-          <div className="flex shrink-0 items-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Move up"
-              disabled={index === 0 || pending}
-              onClick={() => move(index, -1)}
+        <div
+          key={article.slug}
+          className="flex flex-col gap-2.5 rounded-lg border bg-card p-3 transition-colors hover:border-foreground/25"
+        >
+          <div className="flex items-start gap-3">
+            {article.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={article.image} alt="" className="size-10 shrink-0 rounded-md border object-cover" />
+            ) : (
+              <div className="size-10 shrink-0 rounded-md border bg-muted" />
+            )}
+            <Link
+              href={`/admin/content/articles/${article.slug}`}
+              className="flex min-w-0 flex-1 flex-col gap-0.5 hover:underline"
             >
-              <ArrowUp className="size-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Move down"
-              disabled={index === articles.length - 1 || pending}
-              onClick={() => move(index, 1)}
+              <span className="truncate text-[13px] font-semibold">{article.title || "Untitled article"}</span>
+              <span className="truncate text-xs text-muted-foreground">/articles/{article.slug}</span>
+            </Link>
+            <div className="-mr-1 -mt-1 flex shrink-0 items-center">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Move earlier"
+                disabled={index === 0 || pending}
+                onClick={() => move(index, -1)}
+              >
+                <ArrowLeft className="size-3.5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Move later"
+                disabled={index === articles.length - 1 || pending}
+                onClick={() => move(index, 1)}
+              >
+                <ArrowRight className="size-3.5" />
+              </Button>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Badge
+              variant="outline"
+              className={
+                article.status === "draft"
+                  ? "border-yellow/60 bg-yellow/15 text-navy"
+                  : "border-grass/30 bg-grass/10 text-grass"
+              }
             >
-              <ArrowDown className="size-4" />
-            </Button>
+              {article.status === "draft" ? "Draft" : "Live"}
+            </Badge>
+            <Badge variant="outline">Row {article.row}</Badge>
+            {article.date ? (
+              <span className="ml-auto truncate text-xs text-muted-foreground">{article.date}</span>
+            ) : null}
           </div>
         </div>
       ))}

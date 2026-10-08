@@ -4,6 +4,12 @@ import { GalleryTabs } from "@/components/gems/GalleryTabs";
 import { GALLERY_IMG, IMG } from "@/lib/assets";
 import { getContent } from "@/lib/content";
 
+export const metadata = {
+  title: "Gems of Kolkata",
+  description:
+    "The living archive of Kolkata, para by para. Browse the tea joints, temples, markets and traditions that residents have documented in their own words.",
+};
+
 /** 500 Gems of Kolkata — Figma node 106:272 (gallery-page-final). */
 export default async function GalleryPage() {
   const content = await getContent();

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Logo motion — Amar Para Hidden Gems",
+  title: "Logo Motion",
   robots: { index: false, follow: false },
 };
 

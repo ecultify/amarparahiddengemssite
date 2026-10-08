@@ -5,7 +5,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
  * Hero — Figma 49:1944.
  *
  * Two columns from lg up: the headline stack on the left, the editorial
- * collage carousel on the right. The header sits transparently on top of this
+ * collage on the right. The header sits transparently on top of this
  * section on the homepage, so the left column starts below the oversized logo.
  * Below lg everything centres and the spacing tightens so most of the collage
  * is on screen at first glance.
@@ -21,8 +21,8 @@ export function Hero() {
             data-reveal
             className="font-title text-[38px] leading-[1.05] font-black text-navy uppercase sm:text-[60px] lg:text-[88px] lg:leading-[0.9]"
           >
-            Finding Hidden Gems
-            <br /> Across Kolkata.
+            Finding 500 Gems
+            <br /> Across Kolkata’s Paras.
           </h1>
 
           <p
@@ -30,7 +30,7 @@ export function Hero() {
             className="mt-4 max-w-[720px] font-body text-[18px] leading-[1.4] text-navy lg:mt-6 lg:text-[30px] lg:leading-[1.3]"
           >
             Every para has a gem only locals know about.
-            <br className="hidden lg:block" /> Help us uncover them across Kolkata.
+            <br className="hidden lg:block" /> Help us uncover 500 hidden gems across Kolkata.
           </p>
 
           <div data-reveal="2" className="mt-5 flex w-full flex-row items-center gap-3 sm:w-auto sm:gap-2 lg:mt-8">

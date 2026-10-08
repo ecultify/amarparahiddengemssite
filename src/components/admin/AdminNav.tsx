@@ -67,7 +67,7 @@ export function AdminSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="gap-1.5">
+            <SidebarMenu className="gap-0.5">
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/admin"} tooltip="Overview">
                   <Link href="/admin">
@@ -112,7 +112,7 @@ export function AdminSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Site content</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="gap-1.5">
+            <SidebarMenu className="gap-0.5">
               {collections
                 .filter((c) => !GALLERY_KEYS.includes(c.key))
                 .map((collection) => {
@@ -173,7 +173,7 @@ export function AdminSidebar({
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarMenu className="gap-1.5">
+        <SidebarMenu className="gap-0.5">
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild

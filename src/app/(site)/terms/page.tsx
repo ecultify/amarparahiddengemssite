@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms & Conditions — Amar Para Hidden Gems",
+  title: "Terms & Conditions",
   description:
     "The terms and conditions governing participation in the I am Kolkata - Amar Para Hidden Gems campaign.",
 };
@@ -16,7 +16,7 @@ export default function TermsPage() {
           data-reveal
           className="font-ui text-[12px] font-extrabold uppercase tracking-[0.1em] text-pink sm:text-[13px]"
         >
-          I am Kolkata — Amar Para Hidden Gems
+          I am Kolkata, Amar Para Hidden Gems
         </p>
         <h1
           data-reveal="1"
@@ -34,8 +34,8 @@ export default function TermsPage() {
             This Campaign (as defined below) is subject to the following terms &amp; conditions
             (&ldquo;T&amp;C&rdquo;), which may be updated by Bennett, Coleman and Company Limited
             (&ldquo;BCCL&rdquo;/ &ldquo;Company&rdquo;) having its registered office at The Times of
-            India Building, Dr. D. N. Road, Fort, Mumbai &ndash; 400 001 and corporate office at
-            9-10, Express Building, Bahadurshah Zafar Marg, New Delhi &ndash; 110 102, from time to
+            India Building, Dr. D. N. Road, Fort, Mumbai - 400 001 and corporate office at
+            9-10, Express Building, Bahadurshah Zafar Marg, New Delhi - 110 102, from time to
             time without notice to Visitor (as defined below). The Visitor confirms to have read the
             T&amp;C at amarpara.in. The Visitor is participating in the Campaign at his/her sole
             discretion and free will. The Participation shall be deemed as the acceptance of the

@@ -50,7 +50,8 @@ export const COLLECTIONS: Collection[] = [
     fields: [
       { key: "name", label: "Person", type: "text" },
       { key: "para", label: "Para", type: "text" },
-      { key: "image", label: "Portrait", type: "image" },
+      { key: "image", label: "Portrait", type: "image", help: "Also the poster frame behind the clip." },
+      { key: "video", label: "Video clip", type: "video", help: "Optional. The centre card plays this; leave it blank and the portrait shows instead." },
       { key: "quote", label: "Quote", type: "textarea" },
       { key: "attribution", label: "Attribution", type: "text", help: "Shown under the quote, like: Riya Sen, Gariahat." },
     ],

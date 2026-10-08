@@ -35,16 +35,16 @@ export default async function UsersPage() {
     .sort((a, b) => b.lastSeen.localeCompare(a.lastSeen));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight">Users</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Users</h1>
         <p className="text-sm text-muted-foreground">
           Everyone who verified a number. Click a row to see what they submitted and guessed.
         </p>
       </header>
 
       {rows.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed p-12 text-center">
+        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed p-6 text-center">
           <UsersRound className="size-5 text-muted-foreground" />
           <p className="text-sm font-medium">No verified users yet</p>
           <p className="max-w-sm text-sm text-muted-foreground">

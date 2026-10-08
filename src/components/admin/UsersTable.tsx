@@ -1,9 +1,22 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useTransition } from "react";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,9 +26,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
+import { Pager } from "@/components/admin/Pager";
+import { paginate } from "@/lib/paginate";
 import { istDateLabel } from "@/lib/quiz";
 import type { Submission } from "@/lib/submissions";
 import type { Guess } from "@/lib/users";
+import { removeUser } from "@/app/actions/submissions";
 
 export type UserRow = {
   phone: string;
@@ -27,8 +43,13 @@ export type UserRow = {
 
 /** One row per verified number. Everything that number did is folded away
  *  until the row is opened, so the table stays one line per person. */
+const PER_PAGE = 25;
+
 export function UsersTable({ rows }: { rows: UserRow[] }) {
   const [open, setOpen] = useState<string | null>(null);
+  const [requested, setRequested] = useState(1);
+  const [pending, startTransition] = useTransition();
+  const { page, pageCount, slice } = paginate(rows, requested, PER_PAGE);
 
   return (
     <div className="overflow-x-auto rounded-lg border bg-card">
@@ -44,7 +65,7 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((user) => {
+          {slice.map((user) => {
             const isOpen = open === user.phone;
             return (
               <Fragment key={user.phone}>
@@ -138,6 +159,46 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
                           )}
                         </div>
                       </div>
+                      <div className="flex justify-end border-t px-6 py-3">
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="text-destructive hover:text-destructive"
+                              disabled={pending}
+                            >
+                              <Trash2 className="size-3.5" /> Delete user
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete {user.name ?? user.phone}?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Their record, quiz answers and{" "}
+                                {user.gems.length === 0
+                                  ? "any submissions"
+                                  : `all ${user.gems.length} of their ${user.gems.length === 1 ? "submission" : "submissions"}`}{" "}
+                                are removed permanently. Uploaded files stay in storage.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Keep them</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() =>
+                                  startTransition(async () => {
+                                    await removeUser(user.phone);
+                                    setOpen(null);
+                                    toast.success("User deleted");
+                                  })
+                                }
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ) : null}
@@ -146,6 +207,17 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
           })}
         </TableBody>
       </Table>
+      <Pager
+        page={page}
+        pageCount={pageCount}
+        total={rows.length}
+        perPage={PER_PAGE}
+        noun="people"
+        onChange={(next) => {
+          setRequested(next);
+          setOpen(null); // an open row belongs to the page you are leaving
+        }}
+      />
     </div>
   );
 }

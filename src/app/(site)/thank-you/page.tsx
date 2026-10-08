@@ -1,9 +1,12 @@
 import { Asset } from "@/components/ui/Asset";
 import { Button3D } from "@/components/ui/Button3D";
+import { ChestVideo } from "@/components/gems/ChestVideo";
 import { IMG, PARTICIPATE_ACCENT, SUBMIT_ACCENT } from "@/lib/assets";
 
 export const metadata = {
-  title: "Thank you — Amar Para Hidden Gems",
+  title: "Thank You",
+  description:
+    "Your gem is in. Our team reads every entry before it joins the Amarpara archive of Kolkata's neighbourhoods.",
 };
 
 /** Landed on after a successful submission. Dressed with accents already in
@@ -32,15 +35,20 @@ export default function ThankYouPage() {
           src={PARTICIPATE_ACCENT.tower}
           className="pointer-events-none hidden lg:block absolute right-0 bottom-0 h-[240px] w-[109px] object-contain object-right-bottom"
         />
-        <Asset
-          data-reveal
-          src={PARTICIPATE_ACCENT.kingfisher}
-          className="pointer-events-none hidden lg:block absolute top-[40px] left-[calc(50%+252px)] z-40 h-[38px] w-[36px] object-contain"
-        />
 
         <div data-reveal className="relative flex w-full max-w-[1000px] flex-col items-center gap-4 text-center">
+          <ChestVideo className="-mb-2 h-[180px] w-auto sm:h-[240px] lg:h-[300px]" />
           <h1 className="font-title text-[40px] leading-[1.05] font-black text-navy uppercase sm:text-[56px] lg:text-[128px] lg:leading-[0.94]">
-            Thank You for Sharing Your Hidden Gem
+            Thank You{" "}
+            <span className="relative inline-block">
+              for
+              {/* Perched on the R. */}
+              <Asset
+                src={PARTICIPATE_ACCENT.kingfisher}
+                className="pointer-events-none absolute -top-[22px] right-[2px] hidden h-[38px] w-[36px] object-contain lg:block"
+              />
+            </span>{" "}
+            Sharing Your Hidden Gem
           </h1>
 
           <p className="font-display text-[18px] leading-tight font-extrabold text-red sm:text-[20px]">

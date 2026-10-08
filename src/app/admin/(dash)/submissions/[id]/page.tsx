@@ -23,7 +23,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
   if (!entry) notFound();
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <Button asChild variant="ghost" size="sm" className="w-fit -ml-2">
         <Link href="/admin/submissions">
           <ArrowLeft className="size-3.5" /> All submissions
@@ -32,7 +32,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
 
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold tracking-tight">{entry.title}</h1>
+          <h1 className="text-xl font-semibold tracking-tight">{entry.title}</h1>
           <p className="text-sm text-muted-foreground">
             {entry.para} · received {formatDate(entry.createdAt)}
           </p>
@@ -48,7 +48,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
 
       {/* Two columns from lg up: the entry's details beside its upload. */}
       <div className="grid items-start gap-8 lg:grid-cols-2">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           <dl className="flex flex-col gap-3">
             <Row label="Para" value={entry.para} />
             <Row label="Location" value={entry.location} />

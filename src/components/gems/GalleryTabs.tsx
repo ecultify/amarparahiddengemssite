@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Asset } from "@/components/ui/Asset";
-import { MapPin } from "@/components/ui/icons";
+import { ChevronLeft, ChevronRight, MapPin } from "@/components/ui/icons";
+import { pageList } from "@/lib/paginate";
 import { categoryTone, quoteTone } from "@/lib/tokens";
 import { track } from "@/lib/track";
 import type { Gem, Tale } from "@/data/site";
@@ -10,9 +11,10 @@ import type { Gem, Tale } from "@/data/site";
 const TABS = ["Written Tales", "Photo & Video Stories"] as const;
 type Tab = (typeof TABS)[number];
 
-// Four cards to a row; the written tales run to three figures, so a
-// click loads two rows rather than one.
-const PAGE = 8;   // two full rows of four
+// Four cards to a row, five rows to a page.
+const PAGE = 20;
+
+const ALL = "All";
 
 /** The tales arrive grouped two to a para. Dealing them round-robin turns
  *  a run of one neighbourhood into a mosaic of many. */
@@ -102,7 +104,7 @@ function VideoCard({ gem, index }: { gem: Gem; index: number }) {
               aria-label={
                 gem.video
                   ? `Play ${gem.title}`
-                  : `${gem.title} — video coming soon`
+                  : `${gem.title}: video coming soon`
               }
               onClick={() => {
                 track({ event: "video_play", video_title: gem.title });
@@ -135,20 +137,38 @@ type Props = {
 };
 
 export function GalleryTabs({ gems, streetStories }: Props) {
-  // One collection feeds the tab: entries with a video lead, photos follow.
-  const videos = gems.filter((gem) => gem.video);
-  const photos = gems.filter((gem) => !gem.video);
   const [tab, setTab] = useState<Tab>("Written Tales");
-  const [shown, setShown] = useState<Record<Tab, number>>({
-    "Written Tales": PAGE,
-    "Photo & Video Stories": PAGE,
-  });
+  const [category, setCategory] = useState(ALL);
+  const [page, setPage] = useState(1);
 
-  const total = {
-    "Written Tales": streetStories.length,
-    "Photo & Video Stories": gems.length,
-  }[tab];
-  const limit = shown[tab];
+  // One collection feeds each tab. Video entries lead the photo tab; the
+  // tales arrive grouped by para, so they get dealt out into a mosaic.
+  const all: Card[] =
+    tab === "Written Tales"
+      ? mosaic(streetStories)
+      : [...gems.filter((gem) => gem.video), ...gems.filter((gem) => !gem.video)];
+
+  // Only offer categories that actually have entries in this tab, so a
+  // filter can never lead to an empty grid.
+  const categories = [ALL, ...new Set(all.map((entry) => entry.category))];
+  const shown = category === ALL ? all : all.filter((entry) => entry.category === category);
+
+  const last = Math.max(1, Math.ceil(shown.length / PAGE));
+  // A filter that shrinks the list can strand you past the end.
+  const current = Math.min(page, last);
+  const slice = shown.slice((current - 1) * PAGE, current * PAGE);
+
+  /** Paging while scrolled down lands you mid-grid, so every move returns to the top. */
+  function goTo(next: number) {
+    setPage(Math.min(Math.max(1, next), last));
+    document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function pickTab(name: Tab) {
+    setTab(name);
+    setCategory(ALL);
+    setPage(1);
+  }
 
   return (
     <div className="flex w-full max-w-[1280px] flex-col items-center gap-8">
@@ -163,7 +183,7 @@ export function GalleryTabs({ gems, streetStories }: Props) {
             role="tab"
             type="button"
             aria-selected={tab === name}
-            onClick={() => setTab(name)}
+            onClick={() => pickTab(name)}
             className={`flex-1 rounded-[8px] px-4 py-2.5 font-display text-[14px] font-extrabold uppercase tracking-[0.04em] transition sm:flex-none sm:px-7 sm:text-[15px] ${
               tab === name ? "bg-navy text-white" : "text-slate hover:text-navy"
             }`}
@@ -173,9 +193,34 @@ export function GalleryTabs({ gems, streetStories }: Props) {
         ))}
       </div>
 
-      {tab === "Written Tales" && (
+      {/* Category filter — the same tags that sit on the cards, made clickable. */}
+      <div data-reveal className="flex w-full flex-wrap items-center justify-center gap-2">
+        {categories.map((name) => {
+          const active = category === name;
+          return (
+            <button
+              key={name}
+              type="button"
+              aria-pressed={active}
+              onClick={() => {
+                setCategory(name);
+                setPage(1);
+              }}
+              className={`rounded-[6px] px-[14px] py-[7px] font-ui text-[11px] font-bold uppercase tracking-[0.04em] transition ${
+                active
+                  ? "bg-navy text-white"
+                  : `${categoryTone(name)} hover:opacity-70`
+              }`}
+            >
+              {name}
+            </button>
+          );
+        })}
+      </div>
+
+      {tab === "Written Tales" ? (
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {mosaic(streetStories).slice(0, limit).map((tale, index) => (
+          {slice.map((tale, index) => (
             <article
               key={tale.title}
               data-reveal={String(index % 3)}
@@ -185,28 +230,67 @@ export function GalleryTabs({ gems, streetStories }: Props) {
             </article>
           ))}
         </div>
-      )}
-
-      {tab === "Photo & Video Stories" && (
+      ) : (
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {/* Videos lead, then the community gems from the homepage rail. */}
-          {videos.slice(0, limit).map((gem, index) => (
-            <VideoCard key={gem.title} gem={gem} index={index} />
-          ))}
-          {photos.slice(0, Math.max(0, limit - videos.length)).map((gem, index) => (
-            <PhotoCard key={gem.title} gem={gem} index={index} />
-          ))}
+          {slice.map((gem, index) =>
+            (gem as Gem).video ? (
+              <VideoCard key={gem.title} gem={gem as Gem} index={index} />
+            ) : (
+              <PhotoCard key={gem.title} gem={gem as Gem} index={index} />
+            ),
+          )}
         </div>
       )}
 
-      {limit < total && (
-        <button
-          type="button"
-          onClick={() => setShown({ ...shown, [tab]: limit + PAGE })}
-          className="btn-3d inline-flex h-14 items-center justify-center rounded-[8px] bg-yellow px-8 font-display text-[16px] font-extrabold uppercase text-navy"
+      {last > 1 && (
+        <nav
+          data-reveal
+          aria-label="Gallery pages"
+          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
         >
-          Load more gems
-        </button>
+          <button
+            type="button"
+            aria-label="Previous page"
+            disabled={current === 1}
+            onClick={() => goTo(current - 1)}
+            className="icon-btn flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-line bg-white text-navy disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ChevronLeft className="size-5" />
+          </button>
+
+          {pageList(current, last).map((entry, index) =>
+            entry === "gap" ? (
+              <span key={`gap-${index}`} className="px-1 font-display text-[16px] text-slate">
+                &hellip;
+              </span>
+            ) : (
+              <button
+                key={entry}
+                type="button"
+                aria-label={`Page ${entry}`}
+                aria-current={entry === current ? "page" : undefined}
+                onClick={() => goTo(entry)}
+                className={`icon-btn flex size-11 shrink-0 items-center justify-center rounded-[8px] border-2 font-display text-[16px] font-extrabold transition ${
+                  entry === current
+                    ? "border-navy bg-navy text-white"
+                    : "border-line bg-white text-navy"
+                }`}
+              >
+                {entry}
+              </button>
+            ),
+          )}
+
+          <button
+            type="button"
+            disabled={current === last}
+            onClick={() => goTo(current + 1)}
+            className="btn-3d inline-flex h-11 items-center justify-center gap-2 rounded-[8px] bg-yellow px-5 font-display text-[15px] font-extrabold uppercase text-navy"
+          >
+            Next
+            <ChevronRight className="size-4" />
+          </button>
+        </nav>
       )}
     </div>
   );

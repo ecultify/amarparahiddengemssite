@@ -116,8 +116,8 @@ export function ArticleEditor({
     });
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="sticky top-0 z-30 -mx-5 flex items-center justify-between gap-3 border-b bg-background/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:-mt-4">
+    <div className="flex flex-col gap-4">
+      <div className="sticky top-0 z-30 -mx-4 -mt-5 flex items-center justify-between gap-3 border-b bg-background/95 px-4 py-2.5 backdrop-blur sm:-mx-6 sm:px-6">
         {dirty ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>

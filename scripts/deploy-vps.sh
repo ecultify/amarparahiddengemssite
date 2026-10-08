@@ -79,6 +79,14 @@ CONF
 fi
 nginx -t && systemctl reload nginx
 
+# Daily 06:00 IST (00:30 UTC): mirror submissions and ME-QR scans into the
+# team's Google Sheet. Rewritten every deploy so a rotated secret lands too.
+if [ -n "${CRON_SECRET:-}" ]; then
+  cat >/etc/cron.d/amarpara-sheet <<CRON
+30 0 * * * root curl -fsS -m 120 -X POST -H "Authorization: Bearer $CRON_SECRET" http://127.0.0.1:3000/api/sync-sheet >/var/log/amarpara-sheet.log 2>&1
+CRON
+fi
+
 pm2 status amarpara
 REMOTE
 

@@ -5,6 +5,12 @@ import { IMG, SUBMIT_ACCENT } from "@/lib/assets";
 import { getGemPhone } from "@/lib/auth";
 import { getContent } from "@/lib/content";
 
+export const metadata = {
+  title: "Submit Your Gem",
+  description:
+    "Share the place, story or tradition that makes your para special. Every submission is read by our team before it joins the Amarpara archive.",
+};
+
 /** Share Your Para's Hidden Gem — Figma node 95:309 (entry-submission-page). */
 export default async function SubmitPage() {
   // The visitor session is read here so a number verified anywhere on the
@@ -81,9 +87,8 @@ export default async function SubmitPage() {
               </h1>
             </div>
             <p className="text-center font-body text-[16px] leading-[24px] text-slate sm:text-[17px] sm:leading-[26px]">
-              Tell us about the special places, stories, and memories that make your neighborhood
-              unique. Stand up for your community and place your neighborhood&apos;s legacy on
-              TOI&apos;s historic directory.
+              Every para has places, stories and traditions that make it special.
+              Share the hidden gems and local memories that deserve to be discovered.
             </p>
           </div>
 

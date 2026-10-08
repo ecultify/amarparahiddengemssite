@@ -1,17 +1,12 @@
 import Link from "next/link";
 import { Inbox } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listSubmissions, type SubmissionStatus } from "@/lib/submissions";
-import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
+import { SubmissionsTable } from "@/components/admin/SubmissionsTable";
+import { Pager } from "@/components/admin/Pager";
+import { paginate } from "@/lib/paginate";
+
+const PER_PAGE = 25;
 
 const FILTERS: { key: string; label: string }[] = [
   { key: "all", label: "All" },
@@ -24,17 +19,21 @@ const FILTERS: { key: string; label: string }[] = [
 export default async function SubmissionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; page?: string }>;
 }) {
-  const { status } = await searchParams;
+  const { status, page: pageParam } = await searchParams;
   const active = FILTERS.some((filter) => filter.key === status) ? status! : "all";
   const all = await listSubmissions();
   const rows = active === "all" ? all : all.filter((entry) => entry.status === active);
+  const { page, pageCount, slice } = paginate(rows, Number(pageParam) || 1, PER_PAGE);
+
+  // The filter lives in the URL too, so the pager's links start from it.
+  const listHref = active === "all" ? "/admin/submissions" : `/admin/submissions?status=${active}`;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight">Submissions</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Submissions</h1>
         <p className="text-sm text-muted-foreground">
           Every entry from the public form, newest first.
         </p>
@@ -58,7 +57,7 @@ export default async function SubmissionsPage({
       </Tabs>
 
       {rows.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed p-12 text-center">
+        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed p-6 text-center">
           <Inbox className="size-5 text-muted-foreground" />
           <p className="text-sm font-medium">Nothing here</p>
           <p className="max-w-sm text-sm text-muted-foreground">
@@ -69,48 +68,15 @@ export default async function SubmissionsPage({
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border bg-card">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Gem</TableHead>
-                <TableHead className="hidden sm:table-cell">Para</TableHead>
-                <TableHead className="hidden md:table-cell">Category</TableHead>
-                <TableHead className="hidden lg:table-cell">Received</TableHead>
-                <TableHead>Media</TableHead>
-                <TableHead className="text-right">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {rows.map((entry) => (
-                <TableRow key={entry.id} className="cursor-pointer">
-                  <TableCell className="font-medium">
-                    <Link href={`/admin/submissions/${entry.id}`} className="block">
-                      {entry.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    <Link href={`/admin/submissions/${entry.id}`} className="block text-muted-foreground">
-                      {entry.para}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell text-muted-foreground">
-                    {entry.category}
-                  </TableCell>
-                  <TableCell className="hidden lg:table-cell text-muted-foreground tabular-nums">
-                    {formatDate(entry.createdAt)}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {entry.upload ? (entry.uploadType === "video" ? "Video" : "Photo") : "None"}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Badge variant="outline" className={STATUS_TONE[entry.status]}>
-                      {STATUS_LABEL[entry.status]}
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <SubmissionsTable rows={slice} />
+          <Pager
+            page={page}
+            pageCount={pageCount}
+            total={rows.length}
+            perPage={PER_PAGE}
+            noun="submissions"
+            href={listHref}
+          />
         </div>
       )}
     </div>

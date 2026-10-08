@@ -7,9 +7,9 @@ export default async function SettingsPage() {
   const content = await getContent();
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-5">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
         <p className="text-sm text-muted-foreground">Campaign counter and Google Analytics.</p>
       </header>
 

@@ -2,7 +2,8 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { uploadMedia, MAX_VIDEO_BYTES } from "@/lib/upload-media";
+import { uploadMedia } from "@/lib/upload-media";
+import { MAX_IMAGE_BYTES, MAX_VIDEO_BYTES, asMB } from "@/lib/media-limits";
 import { UploadCloud } from "@/components/ui/icons";
 import { PhoneVerify } from "@/components/gems/PhoneVerify";
 import { ShipAnimation } from "@/components/gems/ShipAnimation";
@@ -12,11 +13,9 @@ import { track } from "@/lib/track";
 
 const STEPS = ["Your Gem", "Your Details"];
 
-// Photos are compressed before upload; videos have a hard cap in storage.
-const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
-
 /** Room for a proper paragraph without letting an essay through. */
 const MAX_DESCRIPTION = 250;
+const MAX_TITLE = 100;
 
 const FIELD =
   "h-[52px] w-full rounded-[8px] border border-line bg-white px-4 font-body text-[16px] text-navy transition-colors duration-150 placeholder:text-slate focus:border-pink";
@@ -69,12 +68,12 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
     if (!picked) return;
     setUploadError(null);
     if (picked.type.startsWith("video") && picked.size > MAX_VIDEO_BYTES) {
-      setUploadError("Videos can be up to 7 MB. Trim it or upload a photo instead.");
+      setUploadError(`Videos can be up to ${asMB(MAX_VIDEO_BYTES)}. Trim it and try again.`);
       event.target.value = "";
       return;
     }
-    if (picked.size > MAX_UPLOAD_BYTES) {
-      setUploadError("Photos can be up to 25 MB. Try a smaller one.");
+    if (!picked.type.startsWith("video") && picked.size > MAX_IMAGE_BYTES) {
+      setUploadError(`Photos can be up to ${asMB(MAX_IMAGE_BYTES)}. Try a smaller one.`);
       event.target.value = "";
       return;
     }
@@ -102,9 +101,9 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
   const entry = useRef({ category: "", para: "" });
   useEffect(() => {
     if (!state.ok) return;
-    track({ event: "gem_submitted", ...entry.current, has_upload: Boolean(file) });
+    track({ event: "gem_submitted", ...entry.current, has_upload: Boolean(file), event_id: state.eventId, user_data: state.userData });
     router.push("/thank-you");
-  }, [state.ok, router, file]);
+  }, [state.ok, state.eventId, state.userData, router, file]);
 
   // One "started" per visit to the form.
   useEffect(() => {
@@ -114,6 +113,8 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
   // The step-one fields stay mounted but hidden on step two, and a hidden
   // `required` control blocks submit without any message — so the check
   // happens here, before the visitor leaves the step.
+
+
   function next() {
     const form = formRef.current;
     const missing = STEP_ONE.find(
@@ -159,12 +160,12 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
       <div className={step === 0 ? "contents" : "hidden"}>
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
           <Label required>Para Location</Label>
-          <input name="location" className={FIELD} placeholder="Enter the area or locality" />
+          <input name="location" className={FIELD} placeholder="e.g. Ballygunge, Alipore, Gariahat, College Street" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
           <Label required>Para Name</Label>
-          <input name="para" className={FIELD} placeholder="e.g. Bagbazar, Shyambazar, Ballygunge" />
+          <input name="para" className={FIELD} placeholder="e.g. Posh Para, Bungalow Para, Shopping Para, Boi Para" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
@@ -183,7 +184,7 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
           <Label required>Hidden Gem&apos;s Name</Label>
-          <input name="title" className={FIELD} placeholder="Enter the name of the place" />
+          <input name="title" maxLength={MAX_TITLE} className={FIELD} placeholder="Enter the name of the hidden gem" />
         </label>
 
         <label className="flex w-full max-w-[440px] flex-col items-center gap-2">
@@ -254,8 +255,8 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
                 Help us see your hidden gem. Upload an original photo or video, if available.
               </span>
               <span className="flex flex-col gap-0.5 font-ui text-[11px] font-bold uppercase text-slate/60">
-                <span>Photos: JPG, PNG or HEIC, up to 25 MB</span>
-                <span>Videos: MP4 or MOV, up to 7 MB</span>
+                <span>Photos: JPG, PNG or HEIC, up to {asMB(MAX_IMAGE_BYTES)}</span>
+                <span>Videos: MP4 or MOV, up to {asMB(MAX_VIDEO_BYTES)}</span>
               </span>
             </label>
           )}
@@ -328,7 +329,7 @@ export function SubmissionForm({ initialPhone = null }: { initialPhone?: string 
             {pending ? (
               <>
                 <ShipAnimation />
-                <span>Shipping…</span>
+                <span>Submitting…</span>
               </>
             ) : (
               "Submit your gem"

@@ -9,9 +9,23 @@ import "@fontsource/fira-sans/500.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Amar Para 2.0 — Many Gems. One Kolkata.",
+  metadataBase: new URL("https://amarpara.in"),
+  alternates: { canonical: "./" },
+  // `template` suffixes every child page's own title, so pages set only the
+  // part that is theirs. `default` is what the homepage itself gets.
+  title: {
+    default: "Amarpara Hidden Gems",
+    template: "%s | Amarpara Hidden Gems",
+  },
   description:
-    "A citizen-driven Times of India initiative mapping the hidden gems across Kolkata's paras: the food, the places, the traditions and the people.",
+    "A citizen-driven Times of India initiative mapping the hidden gems of Kolkata's paras: the food, the places, the traditions and the people that make each neighbourhood its own.",
+  openGraph: {
+    siteName: "Amarpara Hidden Gems",
+    type: "website",
+    locale: "en_IN",
+  },
+  // Meta Business domain verification — must be in the server HTML.
+  other: { "facebook-domain-verification": "upgb495byoyf7dbm2hl40iego15l9y" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

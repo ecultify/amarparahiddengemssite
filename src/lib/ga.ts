@@ -35,14 +35,23 @@ export const gaServiceAccountEmail = () => serviceAccount()?.client_email ?? nul
 const b64url = (input: string | Buffer) =>
   Buffer.from(input).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
-let token: { value: string; expiresAt: number } | null = null;
+const tokens = new Map<string, { value: string; expiresAt: number }>();
 
-async function accessToken(sa: ServiceAccount) {
+/** An access token for the service account, cached per scope until it is
+ *  about to expire. Shared with the Sheets sync, which uses the same key. */
+export async function googleAccessToken(scope: string) {
+  const sa = serviceAccount();
+  if (!sa) throw new Error("GA_SERVICE_ACCOUNT_KEY is not set");
+  return accessToken(sa, scope);
+}
+
+async function accessToken(sa: ServiceAccount, scope = SCOPE) {
+  const token = tokens.get(scope);
   if (token && token.expiresAt > Date.now() + 60_000) return token.value;
   const now = Math.floor(Date.now() / 1000);
   const header = b64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
   const claims = b64url(
-    JSON.stringify({ iss: sa.client_email, scope: SCOPE, aud: TOKEN_URL, iat: now, exp: now + 3600 }),
+    JSON.stringify({ iss: sa.client_email, scope, aud: TOKEN_URL, iat: now, exp: now + 3600 }),
   );
   const signature = b64url(createSign("RSA-SHA256").update(`${header}.${claims}`).sign(sa.private_key));
   const res = await fetch(TOKEN_URL, {
@@ -55,8 +64,8 @@ async function accessToken(sa: ServiceAccount) {
   });
   if (!res.ok) throw new Error(`Google token exchange failed (${res.status})`);
   const body = (await res.json()) as { access_token: string; expires_in: number };
-  token = { value: body.access_token, expiresAt: Date.now() + body.expires_in * 1000 };
-  return token.value;
+  tokens.set(scope, { value: body.access_token, expiresAt: Date.now() + body.expires_in * 1000 });
+  return body.access_token;
 }
 
 /* ---- Report shapes the Overview renders ---- */
@@ -139,7 +148,9 @@ async function load(propertyId: string, days: number): Promise<GaReport> {
   const sa = serviceAccount();
   if (!sa) throw new Error("GA_SERVICE_ACCOUNT_KEY is not set");
   const property = `properties/${propertyId}`;
-  const dateRanges = [{ startDate: `${days}daysAgo`, endDate: "today" }];
+  // Google's "Last N days" preset ends yesterday, so the tiles agree with the
+  // GA UI. Today is still visible in the realtime cards.
+  const dateRanges = [{ startDate: `${days}daysAgo`, endDate: "yesterday" }];
   const top = (dimension: string, metric = "activeUsers", limit = 10) => ({
     dimensions: [{ name: dimension }],
     metrics: [{ name: metric }],

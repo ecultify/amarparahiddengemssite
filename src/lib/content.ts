@@ -86,11 +86,11 @@ export const DEFAULT_CONTENT: SiteContent = {
     {
       question: "Park Street poster",
       image: "/images/quiz-park-street.jpg",
-      option1: "Sudder Street",
-      option2: "Park Street",
-      option3: "Bow Barracks",
-      option4: "Camac Street",
-      answer: "2",
+      option1: "Park Street",
+      option2: "Sudder Street",
+      option3: "Free School St",
+      option4: "New Market",
+      answer: "1",
     },
   ],
 };

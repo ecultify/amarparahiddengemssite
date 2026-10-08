@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MAX_IMAGE_BYTES, MAX_VIDEO_BYTES, asMB } from "@/lib/media-limits";
 import { uploadMedia } from "@/lib/upload-media";
 import { Loader2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ export function MediaField({ id, value, kind, onChange }: Props) {
       setError(
         uploadError instanceof Error && uploadError.message
           ? uploadError.message
-          : "Upload failed. Photos: JPG, PNG, WEBP or HEIC. Videos: MP4 or MOV, up to 7 MB.",
+          : `Upload failed. Photos: JPG, PNG, WEBP or HEIC, up to ${asMB(MAX_IMAGE_BYTES)}. Videos: MP4 or MOV, up to ${asMB(MAX_VIDEO_BYTES)}.`,
       );
     } finally {
       setBusy(false);

@@ -8,9 +8,9 @@ test("OTP message matches the DLT-approved template exactly", () => {
   const message = otpMessage("123456");
   assert.equal(
     message,
-    "Welcome to Amar Para Hidden Gems! Your OTP is 123456. Enter it to verify your mobile number and share your para's hidden gem. - ECLTFY",
+    "Welcome to TOI Kolkata - Amar Para Hidden Gems! Your OTP is 123456. Enter it to verify your mobile number and share your para's hidden gem. - ECLTFY",
   );
-  assert.equal(message.length, 134);
+  assert.equal(message.length, 148);
   assert.ok(message.includes("Enter it to verify"));
   assert.ok(message.includes("para's"), "apostrophe must be straight ASCII U+0027");
   assert.ok(!/[‘’]/.test(message), "no curly quotes");

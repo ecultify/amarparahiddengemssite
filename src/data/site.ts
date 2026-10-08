@@ -2,6 +2,7 @@ import articles from "@/data/articles.json";
 import gems from "@/data/gems.json";
 import stories from "@/data/stories.json";
 import streetStories from "@/data/street-stories.json";
+import discoveredPicks from "@/data/discovered-picks.json";
 
 export type Gem = {
   title: string;
@@ -20,39 +21,17 @@ export type Gem = {
 /** Explore the Gems carousel — homepage (Figma 49:1961). */
 export const GEMS: Gem[] = gems;
 
-/** Gems Already Discovered carousel — participate & submit pages (Figma 95:376). */
-export const DISCOVERED_GEMS: Gem[] = [
-  {
-    title: "Paramount Sherbets",
-    category: "Food",
-    location: "College Street",
-    image: "/images/gem-paramount.png",
-    description: "A century-old counter still pouring daab sherbet a few steps from the boi para.",
-    submittedBy: "Souvik Banerjee",
-  },
-  {
-    title: "Mallick Ghat Market",
-    category: "Places",
-    location: "Howrah Bridge",
-    image: "/images/gem-mallick-ghat-2.png",
-    submittedBy: "Sagnik D.",
-  },
-  {
-    title: "Kumartuli Idol Makers",
-    category: "Traditions",
-    location: "North Kolkata",
-    image: "/images/gem-kumartuli-2.png",
-    description: "Bamboo, straw and river clay turning into the goddess, lane by lane.",
-    submittedBy: "Rimi Sen",
-  },
-  {
-    title: "Heritage Library",
-    category: "Events",
-    location: "Shyambazar",
-    image: "/images/gem-heritage-library.png",
-    submittedBy: "Arpita B.",
-  },
-];
+/** Gems Already Discovered carousel — participate & submit pages (Figma 95:376).
+ *  Pulled straight from the gallery so the teaser shows real submissions:
+ *  photo stories and written tales interleaved, one para each. Tales carry no
+ *  photo, so their card drops the image strip. */
+export const DISCOVERED_GEMS: Gem[] = discoveredPicks.map((title) => {
+  const entry = [...gems, ...streetStories].find((e) => e.title === title);
+  // Rename an entry in the gallery and the build says so, rather than the
+  // carousel quietly losing a card.
+  if (!entry) throw new Error(`Discovered gem is not in the gallery: ${title}`);
+  return { image: "", ...entry };
+});
 
 export type Story = {
   name: string;
