@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState, useTransition } from "react";
+import { Fragment, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { ChevronRight, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -27,8 +27,10 @@ import {
 } from "@/components/ui/table";
 import { formatDate, STATUS_LABEL, STATUS_TONE } from "@/components/admin/format";
 import { Pager } from "@/components/admin/Pager";
+import { SearchInput } from "@/components/admin/SearchInput";
 import { paginate } from "@/lib/paginate";
 import { istDateLabel } from "@/lib/quiz";
+import { search } from "@/lib/search";
 import type { Submission } from "@/lib/submissions";
 import type { Guess } from "@/lib/users";
 import { removeUser } from "@/app/actions/submissions";
@@ -45,13 +47,40 @@ export type UserRow = {
  *  until the row is opened, so the table stays one line per person. */
 const PER_PAGE = 25;
 
-export function UsersTable({ rows }: { rows: UserRow[] }) {
+export function UsersTable({ rows: everyone }: { rows: UserRow[] }) {
   const [open, setOpen] = useState<string | null>(null);
   const [requested, setRequested] = useState(1);
+  const [query, setQuery] = useState("");
   const [pending, startTransition] = useTransition();
+  // A person is found by who they are or by anything they submitted, so a
+  // para name lists everyone who sent in a gem from there.
+  const rows = useMemo(
+    () =>
+      search(everyone, query, (user) => [
+        { text: user.name, weight: 3 },
+        { text: user.phone, phone: true },
+        ...user.gems.flatMap((gem) => [
+          { text: gem.para, weight: 2 },
+          { text: gem.location, weight: 2 },
+          { text: gem.title },
+          { text: gem.category },
+        ]),
+      ]),
+    [everyone, query],
+  );
   const { page, pageCount, slice } = paginate(rows, requested, PER_PAGE);
 
+  // A fragment: the page's flex column spaces the search box and the table.
   return (
+    <>
+    <SearchInput
+      placeholder="Search name, phone, or a para they submitted…"
+      onChange={(next) => {
+        setQuery(next);
+        setRequested(1);
+        setOpen(null);
+      }}
+    />
     <div className="overflow-x-auto rounded-lg border bg-card">
       <Table>
         <TableHeader>
@@ -65,6 +94,13 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
+          {rows.length === 0 ? (
+            <TableRow className="hover:bg-transparent">
+              <TableCell colSpan={6} className="py-8 text-center text-sm text-muted-foreground">
+                No one matches “{query.trim()}”.
+              </TableCell>
+            </TableRow>
+          ) : null}
           {slice.map((user) => {
             const isOpen = open === user.phone;
             return (
@@ -219,5 +255,6 @@ export function UsersTable({ rows }: { rows: UserRow[] }) {
         }}
       />
     </div>
+    </>
   );
 }

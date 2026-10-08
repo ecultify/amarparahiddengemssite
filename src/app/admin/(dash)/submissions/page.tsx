@@ -4,7 +4,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { listSubmissions, type SubmissionStatus } from "@/lib/submissions";
 import { SubmissionsTable } from "@/components/admin/SubmissionsTable";
 import { Pager } from "@/components/admin/Pager";
+import { SearchInput } from "@/components/admin/SearchInput";
+import { STATUS_LABEL } from "@/components/admin/format";
 import { paginate } from "@/lib/paginate";
+import { search } from "@/lib/search";
 
 const PER_PAGE = 25;
 
@@ -19,16 +22,33 @@ const FILTERS: { key: string; label: string }[] = [
 export default async function SubmissionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; page?: string }>;
+  searchParams: Promise<{ status?: string; page?: string; q?: string }>;
 }) {
-  const { status, page: pageParam } = await searchParams;
+  const { status, page: pageParam, q = "" } = await searchParams;
   const active = FILTERS.some((filter) => filter.key === status) ? status! : "all";
-  const all = await listSubmissions();
+  // The tab counts follow the search, so they say how many matches each holds.
+  const all = search(await listSubmissions(), q, (entry) => [
+    { text: entry.name, weight: 3 },
+    { text: entry.phone, phone: true },
+    { text: entry.para, weight: 2 },
+    { text: entry.location, weight: 2 },
+    { text: entry.title, weight: 2 },
+    { text: entry.category },
+    { text: STATUS_LABEL[entry.status] },
+    { text: entry.source },
+    { text: entry.description, weight: 0.5 },
+  ]);
   const rows = active === "all" ? all : all.filter((entry) => entry.status === active);
   const { page, pageCount, slice } = paginate(rows, Number(pageParam) || 1, PER_PAGE);
 
-  // The filter lives in the URL too, so the pager's links start from it.
-  const listHref = active === "all" ? "/admin/submissions" : `/admin/submissions?status=${active}`;
+  // The filter and search live in the URL too, so tab and pager links start from them.
+  const hrefFor = (key: string) => {
+    const query = new URLSearchParams();
+    if (key !== "all") query.set("status", key);
+    if (q) query.set("q", q);
+    return query.size ? `/admin/submissions?${query}` : "/admin/submissions";
+  };
+  const listHref = hrefFor(active);
 
   return (
     <div className="flex flex-col gap-4">
@@ -39,11 +59,13 @@ export default async function SubmissionsPage({
         </p>
       </header>
 
+      <SearchInput param="q" placeholder="Search name, phone, para, gem…" />
+
       <Tabs value={active}>
         <TabsList>
           {FILTERS.map((filter) => (
             <TabsTrigger key={filter.key} value={filter.key} asChild>
-              <Link href={filter.key === "all" ? "/admin/submissions" : `/admin/submissions?status=${filter.key}`}>
+              <Link href={hrefFor(filter.key)}>
                 {filter.label}
                 <span className="ml-1.5 tabular-nums text-muted-foreground">
                   {filter.key === "all"
@@ -61,7 +83,9 @@ export default async function SubmissionsPage({
           <Inbox className="size-5 text-muted-foreground" />
           <p className="text-sm font-medium">Nothing here</p>
           <p className="max-w-sm text-sm text-muted-foreground">
-            {active === "all"
+            {q
+              ? `No ${active === "all" ? "" : `${active} `}submissions match “${q}”.`
+              : active === "all"
               ? "When someone submits a gem at /submit, it shows up in this inbox with their upload."
               : `No ${active} submissions right now.`}
           </p>

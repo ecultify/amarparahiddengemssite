@@ -124,6 +124,11 @@ export function SubmissionsTable({ rows }: { rows: Submission[] }) {
                 <Link href={`/admin/submissions/${entry.id}`} className="block truncate" title={entry.title}>
                   {entry.title}
                 </Link>
+                {entry.name || entry.phone ? (
+                  <span className="block truncate text-xs font-normal text-muted-foreground">
+                    {[entry.name, entry.phone].filter(Boolean).join(" · ")}
+                  </span>
+                ) : null}
               </TableCell>
               <TableCell className="hidden sm:table-cell">
                 <Link href={`/admin/submissions/${entry.id}`} className="block max-w-[12rem] truncate text-muted-foreground" title={entry.para}>
